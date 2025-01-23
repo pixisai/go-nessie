@@ -1,0 +1,4949 @@
+openapi: 3.1.0
+info:
+  contact:
+    name: Project Nessie
+    url: https://projectnessie.org
+  description: |-
+    Transactional Catalog for Data Lakes
+
+    * Git-inspired data version control
+    * Cross-table transactions and visibility
+    * Works with Apache Iceberg tables
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Nessie API
+  version: 0.102.0
+servers:
+- description: Nessie REST API endpoint.
+  url: "{scheme}://{host}:{port}/{basePath}"
+  variables:
+    scheme:
+      default: http
+      description: "The scheme of the URI, either http or https."
+    host:
+      default: localhost
+      description: The host address for the specified server
+    port:
+      default: "19120"
+      description: The port used when addressing the host
+    basePath:
+      default: ""
+      description: |
+        Nessie Core API base path.
+        When using the Swagger UI from Quarkus from the `/q/swagger-ui` URL, leave the `basePath` value empty.
+        Otherwise use `/api/` for `basePath`.
+tags:
+- description: "End points from the legacy v1 API, deprecated"
+  name: v1
+- description: End points from the Nessie v2 API
+  name: v2
+paths:
+  /v1/trees:
+    get:
+      operationId: getAllReferences
+      parameters:
+      - description: |-
+          Specify how much information to be returned. Will fetch additional metadata for references if set to 'ALL'.
+
+          A returned Branch instance will have the following information:
+
+          - numCommitsAhead (number of commits ahead of the default branch)
+
+          - numCommitsBehind (number of commits behind the default branch)
+
+          - commitMetaOfHEAD (the commit metadata of the HEAD commit)
+
+          - commonAncestorHash (the hash of the common ancestor in relation to the default branch).
+
+          - numTotalCommits (the total number of commits in this reference).
+
+          A returned Tag instance will only contain the 'commitMetaOfHEAD' and 'numTotalCommits' fields.
+
+          Note that computing & fetching additional metadata might be computationally expensive on the server-side, so this flag should be used with care.
+        explode: true
+        in: query
+        name: fetch
+        required: false
+        schema:
+          enum:
+          - MINIMAL
+          - ALL
+          type: string
+        style: form
+      - description: |-
+          A Common Expression Language (CEL) expression. An intro to CEL can be found at https://github.com/google/cel-spec/blob/master/doc/intro.md.
+          Usable variables within the expression are:
+
+          - ref (Reference) describes the reference, with fields name (String), hash (String), metadata (ReferenceMetadata)
+
+          - metadata (ReferenceMetadata) shortcut to ref.metadata, never null, but possibly empty
+
+          - commit (CommitMeta) - shortcut to ref.metadata.commitMetaOfHEAD, never null, but possibly empty
+
+          - refType (String) - the reference type, either BRANCH or TAG
+
+          Note that the expression can only test attributes metadata and commit, if 'fetchOption' is set to 'ALL'.
+        examples:
+          expr_by_refType:
+            value: refType == 'BRANCH'
+          expr_by_ref_name:
+            value: ref.name == 'my-tag-or-branch'
+          expr_by_ref_commit:
+            value: commit.message == 'invent awesome things'
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "maximum number of entries to return, just a hint for the server"
+        explode: true
+        in: query
+        name: maxRecords
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - description: "paging continuation token, as returned in the previous value\
+          \ of the field 'token' in the corresponding 'EntriesResponse' or 'LogResponse'\
+          \ or 'ReferencesResponse' or 'RefLogResponse'."
+        explode: true
+        in: query
+        name: pageToken
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                referencesResponse:
+                  value:
+                    token: null
+                    hasMore: false
+                    references:
+                    - type: BRANCH
+                      hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+                      name: exampleBranch
+                    - type: TAG
+                      hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+                      name: exampleTag
+                    - type: BRANCH
+                      hash: "1122334455667788112233445566778811223344556677881122334455667788"
+                      name: main
+                referencesResponseWithMetadata:
+                  value:
+                    token: null
+                    hasMore: false
+                    references:
+                    - type: BRANCH
+                      hash: 84c57a20c5e956af4af40f3cc34ecc8a9028b9586da135c79011b1867aa3191d
+                      name: main
+                      metadata:
+                        commitMetaOfHEAD:
+                          hash: 84c57a20c5e956af4af40f3cc34ecc8a9028b9586da135c79011b1867aa3191d
+                          committer: ""
+                          author: nessie-author
+                          signedOffBy: null
+                          message: update table
+                          commitTime: 2021-11-26T08:01:13.855974Z
+                          authorTime: 2021-11-26T08:01:13.852826Z
+                          properties: {}
+                    - type: BRANCH
+                      hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+                      name: dev
+                      metadata:
+                        numCommitsAhead: 1
+                        numCommitsBehind: 2
+                        commonAncestorHash: "1122334455667788112233445566778811223344556677881122334455667788"
+                        numTotalCommits: 42
+                        commitMetaOfHEAD:
+                          hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+                          committer: ""
+                          author: nessie-author
+                          signedOffBy: null
+                          message: update table X
+                          commitTime: 2021-11-26T08:01:13.834397Z
+                          authorTime: 2021-11-26T08:01:13.831371Z
+                          properties: {}
+                    - type: BRANCH
+                      hash: "1122334455667788112233445566778811223344556677881122334455667788"
+                      name: dev2
+                      metadata:
+                        numCommitsAhead: 0
+                        numCommitsBehind: 2
+                        commonAncestorHash: "1122334455667788112233445566778811223344556677881122334455667788"
+                    - type: TAG
+                      hash: a682bfdcd5d357b5c964ef07e2eef61fabba42cb8effa8d62357df45a6cc0371
+                      name: testTag1
+                      metadata:
+                        numCommitsAhead: null
+                        numCommitsBehind: null
+                        commonAncestorHash: null
+                        numTotalCommits: 42
+                        commitMetaOfHEAD:
+                          hash: a682bfdcd5d357b5c964ef07e2eef61fabba42cb8effa8d62357df45a6cc0371
+                          committer: ""
+                          author: nessie-author
+                          signedOffBy: null
+                          message: update table Y
+                          commitTime: 2021-11-23T08:01:14.834397Z
+                          authorTime: 2021-11-23T08:01:14.831371Z
+                          properties: {}
+                    - type: TAG
+                      hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+                      name: testTag2
+                      metadata:
+                        numCommitsAhead: null
+                        numCommitsBehind: null
+                        commonAncestorHash: null
+                        numTotalCommits: 42
+                        commitMetaOfHEAD:
+                          hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+                          committer: ""
+                          author: nessie-author
+                          signedOffBy: null
+                          message: update table X
+                          commitTime: 2021-11-26T08:01:13.834397Z
+                          authorTime: 2021-11-26T08:01:13.831371Z
+                          properties: {}
+              schema:
+                $ref: '#/components/schemas/getAllReferences_200_response'
+          description: Returned references.
+        "401":
+          description: Invalid credentials provided
+      summary: Get all references
+      tags:
+      - v1
+  /v2/trees:
+    get:
+      operationId: getAllReferencesV2
+      parameters:
+      - description: |-
+          Specifies how much extra information is to be retrived from the server.
+
+          If the fetch option is set to 'ALL' the following addition information will be returned for each Branch object in the output:
+
+          - numCommitsAhead (number of commits ahead of the default branch)
+
+          - numCommitsBehind (number of commits behind the default branch)
+
+          - commitMetaOfHEAD (the commit metadata of the HEAD commit)
+
+          - commonAncestorHash (the hash of the common ancestor in relation to the default branch).
+
+          - numTotalCommits (the total number of commits from the root to the HEAD of the branch).
+
+          The returned Tag instances will only contain the 'commitMetaOfHEAD' and 'numTotalCommits' fields.
+
+          Note that computing & fetching additional metadata might be computationally expensive on the server-side, so this flag should be used with care.
+        explode: true
+        in: query
+        name: fetch
+        required: false
+        schema:
+          enum:
+          - MINIMAL
+          - ALL
+          type: string
+        style: form
+      - description: |-
+          A Common Expression Language (CEL) expression. An intro to CEL can be found at https://github.com/google/cel-spec/blob/master/doc/intro.md.
+          Usable variables within the expression are:
+
+          - ref (Reference) describes the reference, with fields name (String), hash (String), metadata (ReferenceMetadata)
+
+          - metadata (ReferenceMetadata) shortcut to ref.metadata, never null, but possibly empty
+
+          - commit (CommitMeta) - shortcut to ref.metadata.commitMetaOfHEAD, never null, but possibly empty
+
+          - refType (String) - the reference type, either BRANCH or TAG
+
+          Note that the expression can only test attributes metadata and commit, if 'fetchOption' is set to 'ALL'.
+        examples:
+          expr_by_refType:
+            value: refType == 'BRANCH'
+          expr_by_ref_name:
+            value: ref.name == 'my-tag-or-branch'
+          expr_by_ref_commit:
+            value: commit.message == 'invent awesome things'
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "maximum number of entries to return, just a hint for the server"
+        explode: true
+        in: query
+        name: max-records
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - description: "paging continuation token, as returned in the previous value\
+          \ of the field 'token' in the corresponding 'EntriesResponse' or 'LogResponse'\
+          \ or 'ReferencesResponse' or 'RefLogResponse'."
+        explode: true
+        in: query
+        name: page-token
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                referencesResponse:
+                  value:
+                    token: null
+                    hasMore: false
+                    references:
+                    - type: BRANCH
+                      hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+                      name: exampleBranch
+                    - type: TAG
+                      hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+                      name: exampleTag
+                    - type: BRANCH
+                      hash: "1122334455667788112233445566778811223344556677881122334455667788"
+                      name: main
+                referencesResponseWithMetadata:
+                  value:
+                    token: null
+                    hasMore: false
+                    references:
+                    - type: BRANCH
+                      hash: 84c57a20c5e956af4af40f3cc34ecc8a9028b9586da135c79011b1867aa3191d
+                      name: main
+                      metadata:
+                        commitMetaOfHEAD:
+                          hash: 84c57a20c5e956af4af40f3cc34ecc8a9028b9586da135c79011b1867aa3191d
+                          committer: ""
+                          author: nessie-author
+                          signedOffBy: null
+                          message: update table
+                          commitTime: 2021-11-26T08:01:13.855974Z
+                          authorTime: 2021-11-26T08:01:13.852826Z
+                          properties: {}
+                    - type: BRANCH
+                      hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+                      name: dev
+                      metadata:
+                        numCommitsAhead: 1
+                        numCommitsBehind: 2
+                        commonAncestorHash: "1122334455667788112233445566778811223344556677881122334455667788"
+                        numTotalCommits: 42
+                        commitMetaOfHEAD:
+                          hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+                          committer: ""
+                          author: nessie-author
+                          signedOffBy: null
+                          message: update table X
+                          commitTime: 2021-11-26T08:01:13.834397Z
+                          authorTime: 2021-11-26T08:01:13.831371Z
+                          properties: {}
+                    - type: BRANCH
+                      hash: "1122334455667788112233445566778811223344556677881122334455667788"
+                      name: dev2
+                      metadata:
+                        numCommitsAhead: 0
+                        numCommitsBehind: 2
+                        commonAncestorHash: "1122334455667788112233445566778811223344556677881122334455667788"
+                    - type: TAG
+                      hash: a682bfdcd5d357b5c964ef07e2eef61fabba42cb8effa8d62357df45a6cc0371
+                      name: testTag1
+                      metadata:
+                        numCommitsAhead: null
+                        numCommitsBehind: null
+                        commonAncestorHash: null
+                        numTotalCommits: 42
+                        commitMetaOfHEAD:
+                          hash: a682bfdcd5d357b5c964ef07e2eef61fabba42cb8effa8d62357df45a6cc0371
+                          committer: ""
+                          author: nessie-author
+                          signedOffBy: null
+                          message: update table Y
+                          commitTime: 2021-11-23T08:01:14.834397Z
+                          authorTime: 2021-11-23T08:01:14.831371Z
+                          properties: {}
+                    - type: TAG
+                      hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+                      name: testTag2
+                      metadata:
+                        numCommitsAhead: null
+                        numCommitsBehind: null
+                        commonAncestorHash: null
+                        numTotalCommits: 42
+                        commitMetaOfHEAD:
+                          hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+                          committer: ""
+                          author: nessie-author
+                          signedOffBy: null
+                          message: update table X
+                          commitTime: 2021-11-26T08:01:13.834397Z
+                          authorTime: 2021-11-26T08:01:13.831371Z
+                          properties: {}
+              schema:
+                $ref: '#/components/schemas/getAllReferencesV2_200_response'
+          description: Returned references.
+        "401":
+          description: Invalid credentials provided
+      summary: Get information about all branches and tags
+      tags:
+      - v2
+    post:
+      description: "The name and type query parameters define the kind of reference\
+        \ to be created. The payload object defines the new reference's origin in\
+        \ the commit history. \nOnly branches and tags can be created by this method,\
+        \ but the payload object may be any valid reference, including a detached\
+        \ commit.\nIf the payload reference object does not define a commit hash,\
+        \ the HEAD of that reference will be used."
+      operationId: createReferenceV2
+      parameters:
+      - description: |
+          A reference name.
+
+          Reference name must start with a letter, followed by letters, digits, one of the ./_- characters, not end with a slash or dot, not contain '..'
+        explode: true
+        in: query
+        name: name
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: Type of the reference to be created
+        examples:
+          referenceType:
+            value: branch
+        explode: true
+        in: query
+        name: type
+        required: true
+        schema:
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            examples:
+              refObjNew:
+                value:
+                  type: BRANCH
+                  hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+                  name: exampleBranch
+            schema:
+              $ref: '#/components/schemas/Reference_3'
+        description: Source reference data from which the new reference is to be created.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                singleReferenceResponse:
+                  value:
+                    reference:
+                      type: BRANCH
+                      hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+                      name: exampleBranch
+              schema:
+                $ref: '#/components/schemas/SingleReferenceResponse_1'
+          description: Created successfully.
+        "401":
+          description: Invalid credentials provided
+        "403":
+          description: Not allowed to create reference
+        "409":
+          description: Another reference with the same name already exists
+      summary: Create a new branch or tag
+      tags:
+      - v2
+components:
+  examples:
+    nessieConfigV1:
+      value:
+        defaultBranch: main
+        maxSupportedApiVersion: 2
+    nessieConfig:
+      value:
+        defaultBranch: main
+        minSupportedApiVersion: 1
+        maxSupportedApiVersion: 2
+        specVersion: 2.0.0
+    namespace:
+      value: a.b.c
+    ref:
+      value: main
+    refWithHash:
+      value: main@1122334455667788112233445566778811223344556677881122334455667788
+    refWithTimestampMillisSinceEpoch:
+      value: main*1685185847230
+    refWithTimestampInstant:
+      value: main*2021-04-07T14:42:25.534748Z
+    refWithNthPredecessor:
+      value: main~10
+    refWithMergeParent:
+      value: main@1122334455667788112233445566778811223344556677881122334455667788^2
+    refDefault:
+      value: "-"
+    refDetached:
+      value: '@1122334455667788112233445566778811223344556677881122334455667788'
+    refForDiffWithHash:
+      value: main@1122334455667788112233445566778811223344556677881122334455667788
+    referenceType:
+      value: branch
+    hash:
+      value: "1122334455667788112233445566778811223344556677881122334455667788"
+    nullHash: {}
+    refObj:
+      value:
+        type: BRANCH
+        hash: "1122334455667788112233445566778811223344556677881122334455667788"
+        name: main
+    refObjNew:
+      value:
+        type: BRANCH
+        hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+        name: exampleBranch
+    tagObj:
+      value:
+        type: TAG
+        hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+        name: exampleTag
+    ContentKeyGet:
+      value: example.key
+    ContentKey:
+      value:
+        elements:
+        - example
+        - key
+    namespaceName:
+      value: a.b.c
+    emptyNamespaceName: {}
+    namespacesResponse:
+      value:
+        namespaces:
+        - type: NAMESPACE
+          elements:
+          - a
+          - b.c
+          - d
+        - type: NAMESPACE
+          elements:
+          - a
+          - b
+          - d
+    namespaceUpdate:
+      value:
+        propertyUpdates:
+          key1: value1
+          key2: value2
+        propertyRemovals:
+        - key3
+        - key4
+    iceberg:
+      value:
+        type: ICEBERG_TABLE
+        id: b874b5d5-f926-4eed-9be7-b2380d9810c0
+        metadataLocation: /path/to/metadata/
+        snapshotId: 1
+        schemaId: 2
+        specId: 3
+        sortOrderId: 4
+    expr_by_namespace:
+      value: entry.namespace.startsWith('a.b.c')
+    expr_by_contentType:
+      value: "entry.contentType in ['ICEBERG_TABLE','DELTA_LAKE_TABLE']"
+    expr_by_namespace_and_contentType:
+      value: "entry.namespace.startsWith('some.name.space') && entry.contentType in\
+        \ ['ICEBERG_TABLE','DELTA_LAKE_TABLE']"
+    expr_by_commit_author:
+      value: commit.author=='nessie_author'
+    expr_by_commit_committer:
+      value: commit.committer=='nessie_committer'
+    expr_by_commitTime:
+      value: timestamp(commit.commitTime) > timestamp('2021-05-31T08:23:15Z')
+    expr_by_commit_operations_in_namespace:
+      value: "operations.exists(op, op.key.startsWith('some.name.space.'))"
+    expr_by_commit_operations_table_name:
+      value: "operations.exists(op, op.name == 'BaseTable')"
+    expr_by_commit_operations_type:
+      value: "operations.exists(op, op.type == 'PUT')"
+    expr_by_refType:
+      value: refType == 'BRANCH'
+    expr_by_ref_name:
+      value: ref.name == 'my-tag-or-branch'
+    expr_by_ref_commit:
+      value: commit.message == 'invent awesome things'
+    commitMessage:
+      value: Example Commit Message
+    multiGetResponse:
+      value:
+        contents:
+        - content:
+            type: ICEBERG_TABLE
+            id: b874b5d5-f926-4eed-9be7-b2380d9810c0
+            metadataLocation: /path/to/metadata/
+            snapshotId: 1
+            schemaId: 2
+            specId: 3
+            sortOrderId: 4
+          key:
+            elements:
+            - example
+            - key
+    multiGetRequest:
+      value:
+        requestedKeys:
+        - elements:
+          - example
+          - key
+    entriesResponse:
+      value:
+        token: null
+        hasMore: false
+        entries:
+        - name:
+            elements:
+            - example
+            - key
+          type: ICEBERG_TABLE
+    entriesResponseV2:
+      value:
+        token: xxx
+        hasMore: false
+        effectiveReference:
+          type: BRANCH
+          hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+          name: exampleBranch
+        entries:
+        - name:
+            elements:
+            - example
+            - key
+          type: ICEBERG_TABLE
+          contentId: f350b391-f492-41eb-9959-730a8c49f01e
+          content:
+            type: ICEBERG_TABLE
+            id: f350b391-f492-41eb-9959-730a8c49f01e
+            metadataLocation: /path/to/metadata/
+            snapshotId: 23
+            schemaId: 15
+            specId: 15
+            sortOrderId: 15
+    types:
+      value:
+      - ICEBERG_TABLE
+    merge:
+      value:
+        fromHash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+        fromRefName: source-ref-name
+        defaultKeyMergeMode: NORMAL
+        keyMergeModes:
+        - key:
+            elements:
+            - example
+            - key
+          mergeBehavior: FORCE
+        dryRun: false
+        fetchAdditionalInfo: false
+        returnConflictAsResult: true
+    transplant:
+      value:
+        hashesToTransplant:
+        - abcdef4242424242424242424242beef00dead42112233445566778899001122
+        fromRefName: source-ref-name
+        defaultKeyMergeMode: NORMAL
+        keyMergeModes:
+        - key:
+            elements:
+            - example
+            - key
+          mergeBehavior: FORCE
+        dryRun: false
+        fetchAdditionalInfo: false
+        returnConflictAsResult: true
+    mergeResponseSuccess:
+      value:
+        wasApplied: true
+        wasSuccessful: true
+        resultantTargetHash: 8a2f19888eb620c25b0d2cbcddfdf56fb2d3e9dd443c6d29e37c567493fc5d3b
+        commonAncestor: abcdef4242424242424242424242beef00dead42112233445566778899001122
+        targetBranch: main
+        effectiveTargetHash: e9058b675c519b3542cd8155aed42ecf1ddb4e55874e3eb241b30b96f861566a
+        expectedHash: "1122334455667788112233445566778811223344556677881122334455667788"
+        details:
+        - key:
+            elements:
+            - example
+            - key
+          mergeBehavior: NORMAL
+    mergeResponseFail:
+      value:
+        wasApplied: false
+        wasSuccessful: false
+        resultantTargetHash: 8a2f19888eb620c25b0d2cbcddfdf56fb2d3e9dd443c6d29e37c567493fc5d3b
+        commonAncestor: abcdef4242424242424242424242beef00dead42112233445566778899001122
+        targetBranch: main
+        effectiveTargetHash: 8a2f19888eb620c25b0d2cbcddfdf56fb2d3e9dd443c6d29e37c567493fc5d3b
+        expectedHash: "1122334455667788112233445566778811223344556677881122334455667788"
+        details:
+        - key:
+            elements:
+            - example
+            - key
+          mergeBehavior: NORMAL
+          conflict:
+            type: KEY_EXISTS
+            message: key 'example.key' already exists
+            key:
+              elements:
+              - example
+              - key
+    operations:
+      value:
+        commitMeta:
+          author: authorName <authorName@example.com>
+          authorTime: 2021-04-07T14:42:25.534748Z
+          message: Example Commit Message
+          properties:
+            additionalProp1: xxx
+            additionalProp2: yyy
+            additionalProp3: zzz
+          signedOffBy: signedOffByName <signedOffBy@example.com>
+        operations:
+        - type: PUT
+          key:
+            elements:
+            - table1
+          content:
+            type: ICEBERG_TABLE
+            metadataLocation: /path/to/metadata/
+            snapshotId: 1
+            schemaId: 2
+            specId: 3
+            sortOrderId: 4
+    logResponseAdditionalInfo:
+      value:
+        token: xxx
+        hasMore: false
+        logEntries:
+        - commitMeta:
+            author: authorName <authorName@example.com>
+            authorTime: 2021-04-07T14:42:25.534748Z
+            commitTime: 2021-04-07T14:42:25.534748Z
+            committer: committerName <committerName@example.com>
+            hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+            message: Example Commit Message
+            properties:
+              additionalProp1: xxx
+              additionalProp2: yyy
+              additionalProp3: zzz
+            signedOffBy: signedOffByName <signedOffBy@example.com>
+          parentCommitHash: "1122334455667788112233445566778811223344556677881122334455667788"
+          operations:
+          - type: DELETE
+            key:
+              elements:
+              - deleted
+              - table
+          - type: PUT
+            key:
+              elements:
+              - example
+              - key
+            content:
+              type: ICEBERG_TABLE
+              id: b874b5d5-f926-4eed-9be7-b2380d9810c0
+              metadataLocation: /path/to/metadata/
+              snapshotId: 1
+              schemaId: 2
+              specId: 3
+              sortOrderId: 4
+    logResponseSimple:
+      value:
+        token: xxx
+        hasMore: false
+        logEntries:
+        - commitMeta:
+            author: authorName <authorName@example.com>
+            authorTime: 2021-04-07T14:42:25.534748Z
+            commitTime: 2021-04-07T14:42:25.534748Z
+            committer: committerName <committerName@example.com>
+            hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+            message: Example Commit Message
+            properties:
+              additionalProp1: xxx
+              additionalProp2: yyy
+              additionalProp3: zzz
+            signedOffBy: signedOffByName <signedOffBy@example.com>
+    multipleContentsResponse:
+      value:
+        contents:
+        - content:
+            type: ICEBERG_TABLE
+            id: b874b5d5-f926-4eed-9be7-b2380d9810c0
+            metadataLocation: /path/to/metadata/
+            snapshotId: 1
+            schemaId: 2
+            specId: 3
+            sortOrderId: 4
+          key:
+            elements:
+            - example
+            - key
+        effectiveReference:
+          type: BRANCH
+          hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+          name: exampleBranch
+    commitResponse:
+      value:
+        targetBranch:
+          type: BRANCH
+          hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+          name: exampleBranch
+        addedContents:
+        - contentId: 7fe924d9-45af-574e-9bbc-51b48077017e
+          key:
+            elements:
+            - example
+            - key
+    contentResponseIceberg:
+      value:
+        content:
+          type: ICEBERG_TABLE
+          id: b874b5d5-f926-4eed-9be7-b2380d9810c0
+          metadataLocation: /path/to/metadata/
+          snapshotId: 1
+          schemaId: 2
+          specId: 3
+          sortOrderId: 4
+        effectiveReference:
+          type: BRANCH
+          hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+          name: exampleBranch
+    singleReferenceResponse:
+      value:
+        reference:
+          type: BRANCH
+          hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+          name: exampleBranch
+    singleReferenceResponseWithMetadata:
+      value:
+        reference:
+          type: BRANCH
+          hash: 84c57a20c5e956af4af40f3cc34ecc8a9028b9586da135c79011b1867aa3191d
+          name: main
+          metadata:
+            commitMetaOfHEAD:
+              hash: 84c57a20c5e956af4af40f3cc34ecc8a9028b9586da135c79011b1867aa3191d
+              committer: ""
+              author: nessie-author
+              signedOffBy: null
+              message: update table
+              commitTime: 2021-11-26T08:01:13.855974Z
+              authorTime: 2021-11-26T08:01:13.852826Z
+              properties: {}
+    referencesResponse:
+      value:
+        token: null
+        hasMore: false
+        references:
+        - type: BRANCH
+          hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+          name: exampleBranch
+        - type: TAG
+          hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+          name: exampleTag
+        - type: BRANCH
+          hash: "1122334455667788112233445566778811223344556677881122334455667788"
+          name: main
+    referenceHistoryResponse:
+      value:
+        reference:
+          type: BRANCH
+          hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+          name: exampleBranch
+        current:
+          pointer: abcdef4242424242424242424242beef00dead42112233445566778899001122
+          commitConsistency: COMMIT_CONSISTENT
+          meta:
+            hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+            committer: ""
+            author: nessie-author
+            signedOffBy: null
+            message: update table
+            commitTime: 2021-11-26T08:01:13.855974Z
+            authorTime: 2021-11-26T08:01:13.852826Z
+            properties: {}
+        previous:
+        - pointer: 84c57a20c5e956af4af40f3cc34ecc8a9028b9586da135c79011b1867aa3191d
+          commitConsistency: COMMIT_CONSISTENT
+          meta:
+            hash: 84c57a20c5e956af4af40f3cc34ecc8a9028b9586da135c79011b1867aa3191d
+            committer: ""
+            author: nessie-author
+            signedOffBy: null
+            message: add table
+            commitTime: 2021-11-26T07:01:13.855974Z
+            authorTime: 2021-11-26T07:01:13.852826Z
+            properties: {}
+        - pointer: "1122334455667788112233445566778811223344556677881122334455667788"
+          commitConsistency: COMMIT_CONSISTENT
+          meta:
+            hash: "1122334455667788112233445566778811223344556677881122334455667788"
+            committer: ""
+            author: nessie-author
+            signedOffBy: null
+            message: add table
+            commitTime: 2021-11-26T06:01:13.855974Z
+            authorTime: 2021-11-26T06:01:13.852826Z
+            properties: {}
+        commitLogConsistency: NOT_CHECKED
+    referencesResponseWithMetadata:
+      value:
+        token: null
+        hasMore: false
+        references:
+        - type: BRANCH
+          hash: 84c57a20c5e956af4af40f3cc34ecc8a9028b9586da135c79011b1867aa3191d
+          name: main
+          metadata:
+            commitMetaOfHEAD:
+              hash: 84c57a20c5e956af4af40f3cc34ecc8a9028b9586da135c79011b1867aa3191d
+              committer: ""
+              author: nessie-author
+              signedOffBy: null
+              message: update table
+              commitTime: 2021-11-26T08:01:13.855974Z
+              authorTime: 2021-11-26T08:01:13.852826Z
+              properties: {}
+        - type: BRANCH
+          hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+          name: dev
+          metadata:
+            numCommitsAhead: 1
+            numCommitsBehind: 2
+            commonAncestorHash: "1122334455667788112233445566778811223344556677881122334455667788"
+            numTotalCommits: 42
+            commitMetaOfHEAD:
+              hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+              committer: ""
+              author: nessie-author
+              signedOffBy: null
+              message: update table X
+              commitTime: 2021-11-26T08:01:13.834397Z
+              authorTime: 2021-11-26T08:01:13.831371Z
+              properties: {}
+        - type: BRANCH
+          hash: "1122334455667788112233445566778811223344556677881122334455667788"
+          name: dev2
+          metadata:
+            numCommitsAhead: 0
+            numCommitsBehind: 2
+            commonAncestorHash: "1122334455667788112233445566778811223344556677881122334455667788"
+        - type: TAG
+          hash: a682bfdcd5d357b5c964ef07e2eef61fabba42cb8effa8d62357df45a6cc0371
+          name: testTag1
+          metadata:
+            numCommitsAhead: null
+            numCommitsBehind: null
+            commonAncestorHash: null
+            numTotalCommits: 42
+            commitMetaOfHEAD:
+              hash: a682bfdcd5d357b5c964ef07e2eef61fabba42cb8effa8d62357df45a6cc0371
+              committer: ""
+              author: nessie-author
+              signedOffBy: null
+              message: update table Y
+              commitTime: 2021-11-23T08:01:14.834397Z
+              authorTime: 2021-11-23T08:01:14.831371Z
+              properties: {}
+        - type: TAG
+          hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+          name: testTag2
+          metadata:
+            numCommitsAhead: null
+            numCommitsBehind: null
+            commonAncestorHash: null
+            numTotalCommits: 42
+            commitMetaOfHEAD:
+              hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+              committer: ""
+              author: nessie-author
+              signedOffBy: null
+              message: update table X
+              commitTime: 2021-11-26T08:01:13.834397Z
+              authorTime: 2021-11-26T08:01:13.831371Z
+              properties: {}
+    diffResponse:
+      value:
+        diffs:
+        - key:
+            elements:
+            - example
+            - key
+          from:
+            type: ICEBERG_TABLE
+            id: f350b391-f492-41eb-9959-730a8c49f01e
+            metadataLocation: /path/to/metadata/
+            snapshotId: 23
+            schemaId: 15
+            specId: 15
+            sortOrderId: 15
+          to:
+            type: ICEBERG_TABLE
+            id: dec31d0a-7d4b-4534-8c24-24f08eda33b2
+            metadataLocation: /path/to/metadata/
+            snapshotId: 24
+            schemaId: 16
+            specId: 16
+            sortOrderId: 16
+    diffResponseWithRef:
+      value:
+        hasMore: false
+        token: null
+        diffs:
+        - key:
+            elements:
+            - example
+            - key
+          from:
+            type: ICEBERG_TABLE
+            id: f350b391-f492-41eb-9959-730a8c49f01e
+            metadataLocation: /path/to/metadata/
+            snapshotId: 23
+            schemaId: 15
+            specId: 15
+            sortOrderId: 15
+          to:
+            type: ICEBERG_TABLE
+            id: dec31d0a-7d4b-4534-8c24-24f08eda33b2
+            metadataLocation: /path/to/metadata/
+            snapshotId: 24
+            schemaId: 16
+            specId: 16
+            sortOrderId: 16
+        effectiveFromReference:
+          type: BRANCH
+          hash: da086850076827d2989c8ee1d7fd22f152f525d46a0441f2b22ad8119c0bbbe5
+          name: dev
+        effectiveToReference:
+          type: BRANCH
+          hash: abcdef4242424242424242424242beef00dead42112233445566778899001122
+          name: exampleBranch
+  schemas:
+    AddedContent:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+    AddedContent_V2:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+    Branch:
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_3'
+        hash:
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+      required:
+      - name
+      title: Branch
+    Branch_V1:
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_1'
+        hash:
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+      required:
+      - name
+      title: Branch
+    Branch_V2:
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_2'
+        hash:
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+      required:
+      - name
+      title: Branch
+    CommitConsistency:
+      enum:
+      - NOT_CHECKED
+      - COMMIT_CONSISTENT
+      - COMMIT_CONTENT_INCONSISTENT
+      - COMMIT_INCONSISTENT
+      type: string
+    CommitConsistency_V2:
+      enum:
+      - NOT_CHECKED
+      - COMMIT_CONSISTENT
+      - COMMIT_CONTENT_INCONSISTENT
+      - COMMIT_INCONSISTENT
+      type: string
+    CommitMeta:
+      properties:
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        committer:
+          type: string
+        author:
+          type: string
+        authors:
+          items:
+            type: string
+          type: array
+        signedOffBy:
+          type: string
+        allSignedOffBy:
+          items:
+            type: string
+          type: array
+        message:
+          pattern: \S
+          type: string
+        commitTime:
+          format: date-time
+          type: string
+        authorTime:
+          format: date-time
+          type: string
+        properties:
+          additionalProperties:
+            type: string
+        allProperties:
+          additionalProperties:
+            items:
+              type: string
+        parentCommitHashes:
+          items:
+            type: string
+          type: array
+      required:
+      - allProperties
+      - allSignedOffBy
+      - authors
+      - message
+      - parentCommitHashes
+      - properties
+      title: CommitMeta
+    CommitMeta_V1:
+      properties:
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        committer:
+          type: string
+        author:
+          type: string
+        signedOffBy:
+          type: string
+        message:
+          pattern: \S
+          type: string
+        commitTime:
+          format: date-time
+          type: string
+        authorTime:
+          format: date-time
+          type: string
+        properties:
+          additionalProperties:
+            type: string
+      required:
+      - message
+      - properties
+      title: CommitMeta
+    CommitMeta_V2:
+      properties:
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        committer:
+          type: string
+        authors:
+          items:
+            type: string
+          type: array
+        allSignedOffBy:
+          items:
+            type: string
+          type: array
+        message:
+          pattern: \S
+          type: string
+        commitTime:
+          format: date-time
+          type: string
+        authorTime:
+          format: date-time
+          type: string
+        allProperties:
+          additionalProperties:
+            items:
+              type: string
+        parentCommitHashes:
+          items:
+            type: string
+          type: array
+      required:
+      - allProperties
+      - allSignedOffBy
+      - authors
+      - message
+      - parentCommitHashes
+      title: CommitMeta
+    CommitResponse:
+      properties:
+        targetBranch:
+          $ref: '#/components/schemas/Branch_3'
+        addedContents:
+          items:
+            $ref: '#/components/schemas/CommitResponse_addedContents_inner'
+          type: array
+      required:
+      - targetBranch
+      title: Commit Response
+    CommitResponse_V2:
+      properties:
+        targetBranch:
+          $ref: '#/components/schemas/Branch_2'
+        addedContents:
+          items:
+            $ref: '#/components/schemas/CommitResponse_addedContents_inner'
+          type: array
+      required:
+      - targetBranch
+      title: Commit Response
+    Conflict:
+      properties:
+        conflictType: {}
+        key: {}
+        message: {}
+      title: Per Content Key conflict details
+    Conflict_V2:
+      properties:
+        conflictType: {}
+        key: {}
+        message: {}
+      title: Per Content Key conflict details
+    Content:
+      anyOf:
+      - $ref: '#/components/schemas/Iceberg_table_state'
+      - $ref: '#/components/schemas/Content_anyOf'
+      - $ref: '#/components/schemas/Content_anyOf_1'
+      - $ref: '#/components/schemas/Content_anyOf_2'
+      - $ref: '#/components/schemas/Content_anyOf_3'
+      - type: object
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView'
+          NAMESPACE: '#/components/schemas/Namespace'
+          UDF: '#/components/schemas/UDF'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    ContentKey:
+      properties:
+        elements:
+          items:
+            type: string
+          type: array
+      required:
+      - elements
+    ContentKeyDetails:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        mergeBehavior:
+          enum:
+          - NORMAL
+          - FORCE
+          - DROP
+          type: string
+        conflict:
+          $ref: '#/components/schemas/Per_Content_Key_conflict_details'
+      title: Merge Per-Content-Key details
+    ContentKeyDetails_V1:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        mergeBehavior:
+          enum:
+          - NORMAL
+          - FORCE
+          - DROP
+          type: string
+      title: Merge Per-Content-Key details
+    ContentKeyDetails_V2:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        mergeBehavior:
+          enum:
+          - NORMAL
+          - FORCE
+          - DROP
+          type: string
+        conflict:
+          $ref: '#/components/schemas/Per_Content_Key_conflict_details'
+      title: Merge Per-Content-Key details
+    ContentKey_V1:
+      properties:
+        elements:
+          items:
+            type: string
+          type: array
+      required:
+      - elements
+    ContentKey_V2:
+      properties:
+        elements:
+          items:
+            type: string
+          type: array
+      required:
+      - elements
+    ContentMetadata:
+      discriminator:
+        propertyName: variant
+      properties:
+        variant:
+          minLength: 1
+          type: string
+      required:
+      - variant
+      title: ContentMetadata
+    ContentMetadata_V2:
+      discriminator:
+        propertyName: variant
+      properties:
+        variant:
+          minLength: 1
+          type: string
+      required:
+      - variant
+      title: ContentMetadata
+    ContentResponse_V2:
+      properties:
+        content:
+          $ref: '#/components/schemas/Content_1'
+        effectiveReference:
+          $ref: '#/components/schemas/Reference_2'
+        documentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+      required:
+      - content
+      - effectiveReference
+    ContentWithKey:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_2'
+        documentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+      required:
+      - content
+      - key
+    ContentWithKey_V1:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_3'
+      required:
+      - content
+      - key
+    ContentWithKey_V2:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_1'
+        documentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+      required:
+      - content
+      - key
+    Content_V1:
+      anyOf:
+      - $ref: '#/components/schemas/Iceberg_table_state'
+      - $ref: '#/components/schemas/Content_anyOf'
+      - $ref: '#/components/schemas/Content_anyOf_1'
+      - $ref: '#/components/schemas/Content_anyOf_2'
+      - $ref: '#/components/schemas/Content_anyOf_3'
+      - type: object
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable_V1'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable_V1'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView_V1'
+          NAMESPACE: '#/components/schemas/Namespace_V1'
+          UDF: '#/components/schemas/UDF_V1'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    Content_V2:
+      anyOf:
+      - $ref: '#/components/schemas/Iceberg_table_state_1'
+      - $ref: '#/components/schemas/Content_anyOf'
+      - $ref: '#/components/schemas/Content_1_anyOf'
+      - $ref: '#/components/schemas/Content_anyOf_2'
+      - $ref: '#/components/schemas/Content_anyOf_3'
+      - type: object
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable_V2'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable_V2'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView_V2'
+          NAMESPACE: '#/components/schemas/Namespace_V2'
+          UDF: '#/components/schemas/UDF_V2'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    Delete:
+      description: |-
+        Used to delete an existing content key.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the current `Content` in the the `value` field. See `Put` operation.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+      title: Delete-'Content'-operation for a 'ContentKey'.
+    Delete_V1:
+      description: |-
+        Used to delete an existing content key.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the current `Content` in the the `value` field. See `Put` operation.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+      title: Delete-'Content'-operation for a 'ContentKey'.
+    Delete_V2:
+      description: |-
+        Used to delete an existing content key.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the current `Content` in the the `value` field. See `Put` operation.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+      title: Delete-'Content'-operation for a 'ContentKey'.
+    DeltaLakeTable:
+      properties:
+        id:
+          type: string
+        metadataLocationHistory:
+          items:
+            type: string
+          type: array
+        checkpointLocationHistory:
+          items:
+            type: string
+          type: array
+        lastCheckpoint:
+          type: string
+      required:
+      - checkpointLocationHistory
+      - metadataLocationHistory
+    DeltaLakeTable_V1:
+      properties:
+        id:
+          type: string
+        metadataLocationHistory:
+          items:
+            type: string
+          type: array
+        checkpointLocationHistory:
+          items:
+            type: string
+          type: array
+        lastCheckpoint:
+          type: string
+      required:
+      - checkpointLocationHistory
+      - metadataLocationHistory
+    DeltaLakeTable_V2:
+      properties:
+        id:
+          type: string
+        metadataLocationHistory:
+          items:
+            type: string
+          type: array
+        checkpointLocationHistory:
+          items:
+            type: string
+          type: array
+        lastCheckpoint:
+          type: string
+      required:
+      - checkpointLocationHistory
+      - metadataLocationHistory
+    Detached:
+      properties:
+        hash:
+          minLength: 1
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_3'
+      required:
+      - hash
+      title: Detached commit hash
+    Detached_V1:
+      properties:
+        hash:
+          minLength: 1
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_1'
+      required:
+      - hash
+      title: Detached commit hash
+    Detached_V2:
+      properties:
+        hash:
+          minLength: 1
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_2'
+      required:
+      - hash
+      title: Detached commit hash
+    DiffEntry:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        from:
+          $ref: '#/components/schemas/Content_2'
+        to:
+          $ref: '#/components/schemas/Content_2'
+    DiffEntry_V1:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        from:
+          $ref: '#/components/schemas/Content_3'
+        to:
+          $ref: '#/components/schemas/Content_3'
+    DiffEntry_V2:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        from:
+          $ref: '#/components/schemas/Content_1'
+        to:
+          $ref: '#/components/schemas/Content_1'
+    DiffResponse:
+      properties:
+        hasMore:
+          type: boolean
+        token:
+          type: string
+        diffs:
+          items:
+            $ref: '#/components/schemas/DiffResponse_diffs_inner'
+          type: array
+        effectiveFromReference:
+          $ref: '#/components/schemas/Reference_3'
+        effectiveToReference:
+          $ref: '#/components/schemas/Reference_3'
+      title: DiffResponse
+    DiffResponse_V1:
+      properties:
+        hasMore:
+          type: boolean
+        token:
+          type: string
+        diffs:
+          items:
+            $ref: '#/components/schemas/DiffResponse_V1_diffs_inner'
+          type: array
+      title: DiffResponse
+    DiffResponse_V2:
+      properties:
+        hasMore:
+          type: boolean
+        token:
+          type: string
+        diffs:
+          items:
+            $ref: '#/components/schemas/DiffResponse_V2_diffs_inner'
+          type: array
+        effectiveFromReference:
+          $ref: '#/components/schemas/Reference_2'
+        effectiveToReference:
+          $ref: '#/components/schemas/Reference_2'
+      title: DiffResponse
+    Documentation:
+      properties:
+        mimeType:
+          type: string
+        text:
+          type: string
+      required:
+      - mimeType
+      - text
+    Documentation_V2:
+      properties:
+        mimeType:
+          type: string
+        text:
+          type: string
+      required:
+      - mimeType
+      - text
+    EntriesResponse_V1:
+      properties:
+        hasMore:
+          type: boolean
+        token:
+          type: string
+        entries:
+          items:
+            $ref: '#/components/schemas/EntriesResponse_V1_entries_inner'
+          type: array
+      required:
+      - entries
+    EntriesResponse_V2:
+      properties:
+        hasMore:
+          type: boolean
+        token:
+          type: string
+        entries:
+          items:
+            $ref: '#/components/schemas/EntriesResponse_V2_entries_inner'
+          type: array
+        effectiveReference:
+          $ref: '#/components/schemas/Reference_2'
+      required:
+      - entries
+    Entry_V1:
+      properties:
+        type:
+          description: "Declares the type of a Nessie content object, which is currently\
+            \ one of ICEBERG_TABLE, DELTA_LAKE_TABLE, ICEBERG_VIEW, NAMESPACE or UDF,\
+            \ which are the discriminator mapping values of the 'Content' type."
+          type: string
+        name:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - name
+    Entry_V2:
+      properties:
+        type:
+          description: "Declares the type of a Nessie content object, which is currently\
+            \ one of ICEBERG_TABLE, DELTA_LAKE_TABLE, ICEBERG_VIEW, NAMESPACE or UDF,\
+            \ which are the discriminator mapping values of the 'Content' type."
+          type: string
+        name:
+          $ref: '#/components/schemas/AddedContent_key'
+        contentId:
+          type: string
+        content:
+          $ref: '#/components/schemas/Content_1'
+      required:
+      - name
+    FetchOption:
+      enum:
+      - MINIMAL
+      - ALL
+      type: string
+    GarbageCollectorConfig:
+      properties:
+        defaultCutoffPolicy:
+          description: |-
+            The default cutoff policy.
+            Policies can be one of: - number of commits as an integer value - a duration (see java.time.Duration) - an ISO instant - 'NONE', means everything's considered as live
+          pattern: "NONE|^[1-9]\\d{0,10}|([-+]?)P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?|^(?:[1-9]\\\
+            d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\\\
+            d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\\\
+            d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d{1,9})?(?:Z|[+-][01]\\d:[0-5]\\d)$"
+          type: string
+        perRefCutoffPolicies:
+          items:
+            $ref: '#/components/schemas/References_cutoff_policy'
+          type: array
+        newFilesGracePeriod:
+          description: Files that have been created after 'gc-start-time - new-files-grace-period'
+            are not being deleted.
+          format: duration
+          title: Grace period for files created concurrent to GC runs.
+          type: string
+        expectedFileCountPerContent:
+          format: int32
+          title: The total number of expected live files for a single content.
+          type: integer
+      title: Garbage collector config object
+    GarbageCollectorConfig_V2:
+      properties:
+        defaultCutoffPolicy:
+          description: |-
+            The default cutoff policy.
+            Policies can be one of: - number of commits as an integer value - a duration (see java.time.Duration) - an ISO instant - 'NONE', means everything's considered as live
+          pattern: "NONE|^[1-9]\\d{0,10}|([-+]?)P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?|^(?:[1-9]\\\
+            d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\\\
+            d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\\\
+            d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d{1,9})?(?:Z|[+-][01]\\d:[0-5]\\d)$"
+          type: string
+        perRefCutoffPolicies:
+          items:
+            $ref: '#/components/schemas/References_cutoff_policy'
+          type: array
+        newFilesGracePeriod:
+          description: Files that have been created after 'gc-start-time - new-files-grace-period'
+            are not being deleted.
+          format: duration
+          title: Grace period for files created concurrent to GC runs.
+          type: string
+        expectedFileCountPerContent:
+          format: int32
+          title: The total number of expected live files for a single content.
+          type: integer
+      title: Garbage collector config object
+    GetMultipleContentsRequest:
+      properties:
+        requestedKeys:
+          items:
+            $ref: '#/components/schemas/AddedContent_key'
+          type: array
+      required:
+      - requestedKeys
+      title: GetMultipleContentsRequest
+    GetMultipleContentsResponse:
+      properties:
+        contents:
+          items:
+            $ref: '#/components/schemas/GetMultipleContentsResponse_contents_inner'
+          type: array
+        effectiveReference:
+          $ref: '#/components/schemas/Reference_3'
+      required:
+      - contents
+      title: GetMultipleContentsResponse
+    GetMultipleContentsResponse_V1:
+      properties:
+        contents:
+          items:
+            $ref: '#/components/schemas/GetMultipleContentsResponse_V1_contents_inner'
+          type: array
+      required:
+      - contents
+      title: GetMultipleContentsResponse
+    GetMultipleContentsResponse_V2:
+      properties:
+        contents:
+          items:
+            $ref: '#/components/schemas/GetMultipleContentsResponse_V2_contents_inner'
+          type: array
+        effectiveReference:
+          $ref: '#/components/schemas/Reference_2'
+      required:
+      - contents
+      title: GetMultipleContentsResponse
+    GetNamespacesResponse_V1:
+      properties:
+        namespaces:
+          items:
+            $ref: '#/components/schemas/Content_anyOf_2'
+          type: array
+      required:
+      - namespaces
+    IcebergTable:
+      description: |-
+        Represents the state of an Iceberg table in Nessie. An Iceberg table is globally identified via its unique 'Content.id'.
+
+        A Nessie commit-operation, performed via 'TreeApi.commitMultipleOperations',for Iceberg consists of a 'Operation.Put' with an 'IcebergTable' as in the 'content' field and the previous value of 'IcebergTable' in the 'expectedContent' field.
+      properties:
+        id:
+          type: string
+        metadataLocation:
+          pattern: \S
+          type: string
+        snapshotId:
+          format: int64
+          type: integer
+        schemaId:
+          format: int32
+          type: integer
+        specId:
+          format: int32
+          type: integer
+        sortOrderId:
+          format: int32
+          type: integer
+        metadata:
+          additionalProperties: {}
+          deprecated: true
+      required:
+      - metadataLocation
+      title: Iceberg table state
+    IcebergTable_V1:
+      description: |-
+        Represents the state of an Iceberg table in Nessie. An Iceberg table is globally identified via its unique 'Content.id'.
+
+        A Nessie commit-operation, performed via 'TreeApi.commitMultipleOperations',for Iceberg consists of a 'Operation.Put' with an 'IcebergTable' as in the 'content' field and the previous value of 'IcebergTable' in the 'expectedContent' field.
+      properties:
+        id:
+          type: string
+        metadataLocation:
+          pattern: \S
+          type: string
+        snapshotId:
+          format: int64
+          type: integer
+        schemaId:
+          format: int32
+          type: integer
+        specId:
+          format: int32
+          type: integer
+        sortOrderId:
+          format: int32
+          type: integer
+        metadata:
+          additionalProperties: {}
+          deprecated: true
+      required:
+      - metadataLocation
+      title: Iceberg table state
+    IcebergTable_V2:
+      description: |-
+        Represents the state of an Iceberg table in Nessie. An Iceberg table is globally identified via its unique 'Content.id'.
+
+        A Nessie commit-operation, performed via 'TreeApi.commitMultipleOperations',for Iceberg consists of a 'Operation.Put' with an 'IcebergTable' as in the 'content' field and the previous value of 'IcebergTable' in the 'expectedContent' field.
+      properties:
+        id:
+          type: string
+        metadataLocation:
+          pattern: \S
+          type: string
+        snapshotId:
+          format: int64
+          type: integer
+        schemaId:
+          format: int32
+          type: integer
+        specId:
+          format: int32
+          type: integer
+        sortOrderId:
+          format: int32
+          type: integer
+      required:
+      - metadataLocation
+      title: Iceberg table state
+    IcebergView:
+      properties:
+        id:
+          type: string
+        metadataLocation:
+          pattern: \S
+          type: string
+        versionId:
+          format: int64
+          type: integer
+        schemaId:
+          format: int32
+          type: integer
+        sqlText:
+          deprecated: true
+          pattern: \S
+          type: string
+        dialect:
+          deprecated: true
+          type: string
+        metadata:
+          additionalProperties: {}
+          deprecated: true
+      required:
+      - metadataLocation
+      - sqlText
+    IcebergView_V1:
+      properties:
+        id:
+          type: string
+        metadataLocation:
+          pattern: \S
+          type: string
+        versionId:
+          format: int64
+          type: integer
+        schemaId:
+          format: int32
+          type: integer
+        sqlText:
+          deprecated: true
+          pattern: \S
+          type: string
+        dialect:
+          deprecated: true
+          type: string
+        metadata:
+          additionalProperties: {}
+          deprecated: true
+      required:
+      - metadataLocation
+      - sqlText
+    IcebergView_V2:
+      properties:
+        id:
+          type: string
+        metadataLocation:
+          pattern: \S
+          type: string
+        versionId:
+          format: int64
+          type: integer
+        schemaId:
+          format: int32
+          type: integer
+        sqlText:
+          deprecated: true
+          pattern: \S
+          type: string
+        dialect:
+          deprecated: true
+          type: string
+      required:
+      - metadataLocation
+      - sqlText
+    LogEntry:
+      properties:
+        commitMeta:
+          $ref: '#/components/schemas/CommitMeta_3'
+        additionalParents:
+          items:
+            type: string
+          type: array
+        parentCommitHash:
+          type: string
+        operations:
+          items:
+            $ref: '#/components/schemas/Operation_1'
+          type: array
+      required:
+      - commitMeta
+      title: LogEntry
+    LogEntry_V1:
+      properties:
+        commitMeta:
+          $ref: '#/components/schemas/CommitMeta_1'
+        additionalParents:
+          items:
+            type: string
+          type: array
+        parentCommitHash:
+          type: string
+        operations:
+          items:
+            $ref: '#/components/schemas/Operation_2'
+          type: array
+      required:
+      - commitMeta
+      title: LogEntry
+    LogEntry_V2:
+      properties:
+        commitMeta:
+          $ref: '#/components/schemas/CommitMeta_2'
+        parentCommitHash:
+          type: string
+        operations:
+          items:
+            $ref: '#/components/schemas/Operation_3'
+          type: array
+      required:
+      - commitMeta
+      title: LogEntry
+    LogResponse:
+      properties:
+        hasMore:
+          type: boolean
+        token:
+          type: string
+        logEntries:
+          items:
+            $ref: '#/components/schemas/LogEntry_1'
+          type: array
+      required:
+      - logEntries
+      title: LogResponse
+    LogResponse_V1:
+      properties:
+        hasMore:
+          type: boolean
+        token:
+          type: string
+        logEntries:
+          items:
+            $ref: '#/components/schemas/LogEntry_2'
+          type: array
+      required:
+      - logEntries
+      title: LogResponse
+    LogResponse_V2:
+      properties:
+        hasMore:
+          type: boolean
+        token:
+          type: string
+        logEntries:
+          items:
+            $ref: '#/components/schemas/LogEntry_3'
+          type: array
+      required:
+      - logEntries
+      title: LogResponse
+    Merge:
+      properties:
+        fromRefName:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        fromHash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        keyMergeModes:
+          items:
+            $ref: '#/components/schemas/Merge_keyMergeModes_inner'
+          type: array
+        defaultKeyMergeMode:
+          enum:
+          - NORMAL
+          - FORCE
+          - DROP
+          type: string
+        dryRun:
+          type: boolean
+        fetchAdditionalInfo:
+          type: boolean
+        returnConflictAsResult:
+          type: boolean
+      required:
+      - fromHash
+      - fromRefName
+      title: Merge Operation
+    Merge1:
+      properties:
+        message:
+          deprecated: true
+          description: "Optional commit message for this merge request\n\nIf not set,\
+            \ the server will generate a commit message automatically using metadata\
+            \ from the \nmerged commits."
+          type: string
+        fromHash:
+          description: |-
+            The hash of the last commit to merge.
+
+            This commit must be present in the history on 'fromRefName' before the first common parent with respect to the target branch.
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        fromRefName:
+          description: |
+            The name of the reference that contains the 'source' commits for the requested merge or transplant operation.
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        keyMergeModes:
+          description: |
+            Specific merge behaviour requests by content key.
+
+            The default is set by the `defaultKeyMergeMode` parameter.
+          items:
+            $ref: '#/components/schemas/Merge_keyMergeModes_inner'
+          type: array
+        defaultKeyMergeMode:
+          description: |
+            The default merge mode. If not set, `NORMAL` is assumed.
+
+            This settings applies to key thaWhen set to 'true' instructs the server to validate the request
+            but to avoid committing any changes.t are not explicitly mentioned in the `keyMergeModes` property.
+          enum:
+          - NORMAL
+          - FORCE
+          - DROP
+          type: string
+        dryRun:
+          description: |
+            When set to 'true' instructs the server to validate the request but to avoid committing any changes.
+          type: boolean
+        fetchAdditionalInfo:
+          description: |
+            Whether to provide optional response data.
+          type: boolean
+        returnConflictAsResult:
+          description: When set to 'true' instructs the server to produce normal (non-error)
+            responses in case a conflict is detected and report conflict details in
+            the response payload.
+          type: boolean
+        commitMeta:
+          $ref: '#/components/schemas/CommitMeta_3'
+      required:
+      - fromRefName
+      title: Merge Operation
+    MergeBehavior:
+      enum:
+      - NORMAL
+      - FORCE
+      - DROP
+      type: string
+    MergeBehavior_V1:
+      enum:
+      - NORMAL
+      - FORCE
+      - DROP
+      type: string
+    MergeBehavior_V2:
+      enum:
+      - NORMAL
+      - FORCE
+      - DROP
+      type: string
+    MergeKeyBehavior:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        mergeBehavior:
+          enum:
+          - NORMAL
+          - FORCE
+          - DROP
+          type: string
+        expectedTargetContent:
+          $ref: '#/components/schemas/Content_2'
+        resolvedContent:
+          $ref: '#/components/schemas/Content_2'
+        expectedTargetDocumentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+        resolvedDocumentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+        metadata:
+          items:
+            $ref: '#/components/schemas/ContentMetadata_1'
+          type: array
+    MergeResponse:
+      properties:
+        resultantTargetHash:
+          type: string
+        commonAncestor:
+          type: string
+        targetBranch:
+          type: string
+        effectiveTargetHash:
+          type: string
+        expectedHash:
+          type: string
+        details:
+          items:
+            $ref: '#/components/schemas/Merge_Per_Content_Key_details'
+          type: array
+      title: Merge Response
+    MergeResponse_V1:
+      properties:
+        resultantTargetHash:
+          type: string
+        commonAncestor:
+          type: string
+        targetBranch:
+          type: string
+        effectiveTargetHash:
+          type: string
+        expectedHash:
+          type: string
+        details:
+          items:
+            $ref: '#/components/schemas/Merge_Per_Content_Key_details_1'
+          type: array
+      title: Merge Response
+    MergeResponse_V2:
+      properties:
+        resultantTargetHash:
+          type: string
+        commonAncestor:
+          type: string
+        targetBranch:
+          type: string
+        effectiveTargetHash:
+          type: string
+        expectedHash:
+          type: string
+        details:
+          items:
+            $ref: '#/components/schemas/Merge_Per_Content_Key_details'
+          type: array
+      title: Merge Response
+    Namespace:
+      properties:
+        id:
+          type: string
+        elements:
+          items:
+            type: string
+          type: array
+        properties:
+          additionalProperties:
+            type: string
+      required:
+      - elements
+      - properties
+    NamespaceUpdate:
+      properties:
+        propertyUpdates:
+          additionalProperties:
+            type: string
+        propertyRemovals:
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+    Namespace_V1:
+      properties:
+        id:
+          type: string
+        elements:
+          items:
+            type: string
+          type: array
+        properties:
+          additionalProperties:
+            type: string
+      required:
+      - elements
+      - properties
+    Namespace_V2:
+      properties:
+        id:
+          type: string
+        elements:
+          items:
+            type: string
+          type: array
+        properties:
+          additionalProperties:
+            type: string
+      required:
+      - elements
+      - properties
+    NessieConfiguration:
+      description: Configuration object to tell a client how a server is configured.
+      properties:
+        defaultBranch:
+          type: string
+        minSupportedApiVersion:
+          format: int32
+          type: integer
+        maxSupportedApiVersion:
+          format: int32
+          type: integer
+        actualApiVersion:
+          format: int32
+          type: integer
+        specVersion:
+          description: |-
+            Semver version representing the behavior of the Nessie server.
+
+            Additional functionality might be added to Nessie servers within a "spec major version" in a non-breaking way. Clients are encouraged to check the spec version when using such added functionality.
+          type: string
+        noAncestorHash:
+          type: string
+        repositoryCreationTimestamp:
+          format: date-time
+          type: string
+        oldestPossibleCommitTimestamp:
+          format: date-time
+          type: string
+        additionalProperties:
+          additionalProperties:
+            type: string
+      title: NessieConfiguration
+    NessieConfiguration_V1:
+      description: Configuration object to tell a client how a server is configured.
+      properties:
+        defaultBranch:
+          type: string
+        maxSupportedApiVersion:
+          format: int32
+          type: integer
+      title: NessieConfiguration
+    NessieConfiguration_V2:
+      description: Configuration object to tell a client how a server is configured.
+      properties:
+        defaultBranch:
+          type: string
+        minSupportedApiVersion:
+          format: int32
+          type: integer
+        maxSupportedApiVersion:
+          format: int32
+          type: integer
+        actualApiVersion:
+          format: int32
+          type: integer
+        specVersion:
+          description: |-
+            Semver version representing the behavior of the Nessie server.
+
+            Additional functionality might be added to Nessie servers within a "spec major version" in a non-breaking way. Clients are encouraged to check the spec version when using such added functionality.
+          type: string
+        noAncestorHash:
+          type: string
+        repositoryCreationTimestamp:
+          format: date-time
+          type: string
+        oldestPossibleCommitTimestamp:
+          format: date-time
+          type: string
+        additionalProperties:
+          additionalProperties:
+            type: string
+      title: NessieConfiguration
+    Operation:
+      description: |-
+        Describes an operation to be performed against one content object.
+
+        The Nessie backend will validate the correctness of the operations.
+      discriminator:
+        mapping:
+          PUT: '#/components/schemas/Put'
+          UNCHANGED: '#/components/schemas/Unchanged'
+          DELETE: '#/components/schemas/Delete'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/Put__Content__operation_for_a__ContentKey___3'
+      - $ref: '#/components/schemas/CommitResponse_addedContents_inner'
+      - $ref: '#/components/schemas/Delete__Content__operation_for_a__ContentKey__'
+      properties:
+        key:
+          properties:
+            elements:
+              items:
+                type: string
+              type: array
+          required:
+          - elements
+      required:
+      - key
+      title: Operation
+    Operation_V1:
+      description: |-
+        Describes an operation to be performed against one content object.
+
+        The Nessie backend will validate the correctness of the operations.
+      discriminator:
+        mapping:
+          PUT: '#/components/schemas/Put_V1'
+          UNCHANGED: '#/components/schemas/Unchanged_V1'
+          DELETE: '#/components/schemas/Delete_V1'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/Put__Content__operation_for_a__ContentKey___4'
+      - $ref: '#/components/schemas/CommitResponse_addedContents_inner'
+      - $ref: '#/components/schemas/Delete__Content__operation_for_a__ContentKey__'
+      properties:
+        key:
+          properties:
+            elements:
+              items:
+                type: string
+              type: array
+          required:
+          - elements
+      required:
+      - key
+      title: Operation
+    Operation_V2:
+      description: |-
+        Describes an operation to be performed against one content object.
+
+        The Nessie backend will validate the correctness of the operations.
+      discriminator:
+        mapping:
+          PUT: '#/components/schemas/Put_V2'
+          UNCHANGED: '#/components/schemas/Unchanged_V2'
+          DELETE: '#/components/schemas/Delete_V2'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/Put__Content__operation_for_a__ContentKey___5'
+      - $ref: '#/components/schemas/CommitResponse_addedContents_inner'
+      - $ref: '#/components/schemas/Delete__Content__operation_for_a__ContentKey__'
+      properties:
+        key:
+          properties:
+            elements:
+              items:
+                type: string
+              type: array
+          required:
+          - elements
+      required:
+      - key
+      title: Operation
+    Operations:
+      properties:
+        commitMeta:
+          $ref: '#/components/schemas/CommitMeta_3'
+        operations:
+          items:
+            $ref: '#/components/schemas/Operation_1'
+          type: array
+      required:
+      - commitMeta
+      - operations
+      title: Operations
+    Put:
+      description: |-
+        Used to add new content or to update existing content.
+
+        A new content object is created by populating the `value` field, the content-id in the content object must not be present (null).
+
+        A content object is updated by populating the `value` containing the correct content-id.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the `value` having the correct content-id. Both operations must happen in the same commit.
+
+        A content object can be replaced (think: `DROP TABLE xyz` + `CREATE TABLE xyz`) with a `Delete` operation and a `Put` operation for a content using a `value`representing a new content object, so without a content-id, in the same commit.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_2'
+        expectedContent:
+          $ref: '#/components/schemas/Content_4'
+        metadata:
+          items:
+            $ref: '#/components/schemas/ContentMetadata_1'
+          type: array
+        documentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+      required:
+      - content
+      - key
+      title: Put-'Content'-operation for a 'ContentKey'.
+    Put_V1:
+      description: |-
+        Used to add new content or to update existing content.
+
+        A new content object is created by populating the `value` field, the content-id in the content object must not be present (null).
+
+        A content object is updated by populating the `value` containing the correct content-id.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the `value` having the correct content-id. Both operations must happen in the same commit.
+
+        A content object can be replaced (think: `DROP TABLE xyz` + `CREATE TABLE xyz`) with a `Delete` operation and a `Put` operation for a content using a `value`representing a new content object, so without a content-id, in the same commit.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_3'
+        expectedContent:
+          $ref: '#/components/schemas/Content_5'
+      required:
+      - content
+      - key
+      title: Put-'Content'-operation for a 'ContentKey'.
+    Put_V2:
+      description: |-
+        Used to add new content or to update existing content.
+
+        A new content object is created by populating the `value` field, the content-id in the content object must not be present (null).
+
+        A content object is updated by populating the `value` containing the correct content-id.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the `value` having the correct content-id. Both operations must happen in the same commit.
+
+        A content object can be replaced (think: `DROP TABLE xyz` + `CREATE TABLE xyz`) with a `Delete` operation and a `Put` operation for a content using a `value`representing a new content object, so without a content-id, in the same commit.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_1'
+        metadata:
+          items:
+            $ref: '#/components/schemas/ContentMetadata_1'
+          type: array
+        documentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+      required:
+      - content
+      - key
+      title: Put-'Content'-operation for a 'ContentKey'.
+    Reference:
+      discriminator:
+        mapping:
+          TAG: '#/components/schemas/Tag'
+          BRANCH: '#/components/schemas/Branch'
+          DETACHED: '#/components/schemas/Detached'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/Branch_3'
+      - $ref: '#/components/schemas/Tag_3'
+      - $ref: '#/components/schemas/Detached_commit_hash_2'
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        metadata:
+          description: |
+            Only returned by the server when explicitly requested by the client and contains the following information:
+
+            - numCommitsAhead (number of commits ahead of the default branch)
+
+            - numCommitsBehind (number of commits behind the default branch)
+
+            - commitMetaOfHEAD (the commit metadata of the HEAD commit)
+
+            - commonAncestorHash (the hash of the common ancestor in relation to the default branch).
+
+            - numTotalCommits (the total number of commits in this reference).
+          properties:
+            numCommitsAhead:
+              format: int32
+              type: integer
+            numCommitsBehind:
+              format: int32
+              type: integer
+            commitMetaOfHEAD:
+              properties:
+                hash:
+                  pattern: "^[0-9a-fA-F]{8,64}$"
+                  type: string
+                committer:
+                  type: string
+                author:
+                  type: string
+                authors:
+                  items:
+                    type: string
+                  type: array
+                signedOffBy:
+                  type: string
+                allSignedOffBy:
+                  items:
+                    type: string
+                  type: array
+                message:
+                  pattern: \S
+                  type: string
+                commitTime:
+                  format: date-time
+                  type: string
+                authorTime:
+                  format: date-time
+                  type: string
+                properties:
+                  additionalProperties:
+                    type: string
+                allProperties:
+                  additionalProperties:
+                    items:
+                      type: string
+                parentCommitHashes:
+                  items:
+                    type: string
+                  type: array
+              required:
+              - allProperties
+              - allSignedOffBy
+              - authors
+              - message
+              - parentCommitHashes
+              - properties
+              title: CommitMeta
+            commonAncestorHash:
+              type: string
+            numTotalCommits:
+              format: int64
+              type: integer
+          title: ReferenceMetadata
+      required:
+      - name
+      title: Reference
+    ReferenceCutoffPolicy:
+      description: Cutoff policies per reference names. Supplied as a ref-name-pattern=policy
+        tuple. Reference name patterns are regular expressions.
+      properties:
+        referenceNamePattern:
+          description: Reference name patterns as a regular expressions.
+          type: string
+        policy:
+          description: "Policies can be one of: - number of commits as an integer\
+            \ value - a duration (see java.time.Duration) - an ISO instant - 'NONE',\
+            \ means everything's considered as live"
+          type: string
+      title: References cutoff policy
+    ReferenceCutoffPolicy_V2:
+      description: Cutoff policies per reference names. Supplied as a ref-name-pattern=policy
+        tuple. Reference name patterns are regular expressions.
+      properties:
+        referenceNamePattern:
+          description: Reference name patterns as a regular expressions.
+          type: string
+        policy:
+          description: "Policies can be one of: - number of commits as an integer\
+            \ value - a duration (see java.time.Duration) - an ISO instant - 'NONE',\
+            \ means everything's considered as live"
+          type: string
+      title: References cutoff policy
+    ReferenceHistoryResponse:
+      description: |-
+        Describes the consistency status of a named reference.
+
+        Possible values of the `CommitConsistency` enum:
+        - `NOT_CHECKED` means: Consistency was not checked.
+        - `COMMIT_CONSISTENT` means: The commit object, its index information and all reachable content is present.
+        - `COMMIT_CONTENT_INCONSISTENT` means: The commit object is present and its index is accessible, but some content reachable from the commit is not present.
+        - `COMMIT_INCONSISTENT` means: The commit is inconsistent in a way that makes it impossible to access the commit, for example if the commit object itself or its index information is missing.
+      properties:
+        reference:
+          $ref: '#/components/schemas/Reference_3'
+        current:
+          $ref: '#/components/schemas/ReferenceHistoryState_1'
+        previous:
+          description: "Consistency status of the recorded recent HEADs of the reference,\
+            \ including re-assign operations."
+          items:
+            $ref: '#/components/schemas/ReferenceHistoryState_2'
+          type: array
+        commitLogConsistency:
+          description: "Combined consistency status of the commit-log of the reference,\
+            \ if requested by the client."
+          enum:
+          - NOT_CHECKED
+          - COMMIT_CONSISTENT
+          - COMMIT_CONTENT_INCONSISTENT
+          - COMMIT_INCONSISTENT
+          type: string
+      required:
+      - commitLogConsistency
+      - current
+      - previous
+      - reference
+      title: ReferenceHistoryResponse
+    ReferenceHistoryResponse_V2:
+      description: |-
+        Describes the consistency status of a named reference.
+
+        Possible values of the `CommitConsistency` enum:
+        - `NOT_CHECKED` means: Consistency was not checked.
+        - `COMMIT_CONSISTENT` means: The commit object, its index information and all reachable content is present.
+        - `COMMIT_CONTENT_INCONSISTENT` means: The commit object is present and its index is accessible, but some content reachable from the commit is not present.
+        - `COMMIT_INCONSISTENT` means: The commit is inconsistent in a way that makes it impossible to access the commit, for example if the commit object itself or its index information is missing.
+      properties:
+        reference:
+          $ref: '#/components/schemas/Reference_2'
+        current:
+          $ref: '#/components/schemas/ReferenceHistoryState_3'
+        previous:
+          description: "Consistency status of the recorded recent HEADs of the reference,\
+            \ including re-assign operations."
+          items:
+            $ref: '#/components/schemas/ReferenceHistoryState_4'
+          type: array
+        commitLogConsistency:
+          description: "Combined consistency status of the commit-log of the reference,\
+            \ if requested by the client."
+          enum:
+          - NOT_CHECKED
+          - COMMIT_CONSISTENT
+          - COMMIT_CONTENT_INCONSISTENT
+          - COMMIT_INCONSISTENT
+          type: string
+      required:
+      - commitLogConsistency
+      - current
+      - previous
+      - reference
+      title: ReferenceHistoryResponse
+    ReferenceHistoryState:
+      description: |-
+        Describes the consistency status of a commit within a `ReferenceHistoryResponse` object.
+
+        Possible values of the `CommitConsistency` enum:
+        - `NOT_CHECKED` means: Consistency was not checked.
+        - `COMMIT_CONSISTENT` means: The commit object, its index information and all reachable content is present.
+        - `COMMIT_CONTENT_INCONSISTENT` means: The commit object is present and its index is accessible, but some content reachable from the commit is not present.
+        - `COMMIT_INCONSISTENT` means: The commit is inconsistent in a way that makes it impossible to access the commit, for example if the commit object itself or its index information is missing.
+      properties:
+        commitHash:
+          description: Nessie commit ID.
+          type: string
+        commitConsistency:
+          description: Consistency status of the commit.
+          enum:
+          - NOT_CHECKED
+          - COMMIT_CONSISTENT
+          - COMMIT_CONTENT_INCONSISTENT
+          - COMMIT_INCONSISTENT
+          type: string
+        meta:
+          $ref: '#/components/schemas/CommitMeta_4'
+      title: ReferenceHistoryState
+    ReferenceHistoryState_V2:
+      description: |-
+        Describes the consistency status of a commit within a `ReferenceHistoryResponse` object.
+
+        Possible values of the `CommitConsistency` enum:
+        - `NOT_CHECKED` means: Consistency was not checked.
+        - `COMMIT_CONSISTENT` means: The commit object, its index information and all reachable content is present.
+        - `COMMIT_CONTENT_INCONSISTENT` means: The commit object is present and its index is accessible, but some content reachable from the commit is not present.
+        - `COMMIT_INCONSISTENT` means: The commit is inconsistent in a way that makes it impossible to access the commit, for example if the commit object itself or its index information is missing.
+      properties:
+        commitHash:
+          description: Nessie commit ID.
+          type: string
+        commitConsistency:
+          description: Consistency status of the commit.
+          enum:
+          - NOT_CHECKED
+          - COMMIT_CONSISTENT
+          - COMMIT_CONTENT_INCONSISTENT
+          - COMMIT_INCONSISTENT
+          type: string
+        meta:
+          $ref: '#/components/schemas/CommitMeta_5'
+      title: ReferenceHistoryState
+    ReferenceMetadata:
+      description: |
+        Only returned by the server when explicitly requested by the client and contains the following information:
+
+        - numCommitsAhead (number of commits ahead of the default branch)
+
+        - numCommitsBehind (number of commits behind the default branch)
+
+        - commitMetaOfHEAD (the commit metadata of the HEAD commit)
+
+        - commonAncestorHash (the hash of the common ancestor in relation to the default branch).
+
+        - numTotalCommits (the total number of commits in this reference).
+      properties:
+        numCommitsAhead:
+          format: int32
+          type: integer
+        numCommitsBehind:
+          format: int32
+          type: integer
+        commitMetaOfHEAD:
+          $ref: '#/components/schemas/CommitMeta_3'
+        commonAncestorHash:
+          type: string
+        numTotalCommits:
+          format: int64
+          type: integer
+      title: ReferenceMetadata
+    ReferenceMetadata_V1:
+      description: |
+        Only returned by the server when explicitly requested by the client and contains the following information:
+
+        - numCommitsAhead (number of commits ahead of the default branch)
+
+        - numCommitsBehind (number of commits behind the default branch)
+
+        - commitMetaOfHEAD (the commit metadata of the HEAD commit)
+
+        - commonAncestorHash (the hash of the common ancestor in relation to the default branch).
+
+        - numTotalCommits (the total number of commits in this reference).
+      properties:
+        numCommitsAhead:
+          format: int32
+          type: integer
+        numCommitsBehind:
+          format: int32
+          type: integer
+        commitMetaOfHEAD:
+          $ref: '#/components/schemas/CommitMeta_1'
+        commonAncestorHash:
+          type: string
+        numTotalCommits:
+          format: int64
+          type: integer
+      title: ReferenceMetadata
+    ReferenceMetadata_V2:
+      description: |
+        Only returned by the server when explicitly requested by the client and contains the following information:
+
+        - numCommitsAhead (number of commits ahead of the default branch)
+
+        - numCommitsBehind (number of commits behind the default branch)
+
+        - commitMetaOfHEAD (the commit metadata of the HEAD commit)
+
+        - commonAncestorHash (the hash of the common ancestor in relation to the default branch).
+
+        - numTotalCommits (the total number of commits in this reference).
+      properties:
+        numCommitsAhead:
+          format: int32
+          type: integer
+        numCommitsBehind:
+          format: int32
+          type: integer
+        commitMetaOfHEAD:
+          $ref: '#/components/schemas/CommitMeta_2'
+        commonAncestorHash:
+          type: string
+        numTotalCommits:
+          format: int64
+          type: integer
+      title: ReferenceMetadata
+    ReferenceType:
+      enum:
+      - branch
+      - tag
+      type: string
+    Reference_V1:
+      discriminator:
+        mapping:
+          TAG: '#/components/schemas/Tag_V1'
+          BRANCH: '#/components/schemas/Branch_V1'
+          DETACHED: '#/components/schemas/Detached_V1'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/Branch_1'
+      - $ref: '#/components/schemas/Tag_1'
+      - $ref: '#/components/schemas/Detached_commit_hash'
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        metadata:
+          description: |
+            Only returned by the server when explicitly requested by the client and contains the following information:
+
+            - numCommitsAhead (number of commits ahead of the default branch)
+
+            - numCommitsBehind (number of commits behind the default branch)
+
+            - commitMetaOfHEAD (the commit metadata of the HEAD commit)
+
+            - commonAncestorHash (the hash of the common ancestor in relation to the default branch).
+
+            - numTotalCommits (the total number of commits in this reference).
+          properties:
+            numCommitsAhead:
+              format: int32
+              type: integer
+            numCommitsBehind:
+              format: int32
+              type: integer
+            commitMetaOfHEAD:
+              properties:
+                hash:
+                  pattern: "^[0-9a-fA-F]{8,64}$"
+                  type: string
+                committer:
+                  type: string
+                author:
+                  type: string
+                signedOffBy:
+                  type: string
+                message:
+                  pattern: \S
+                  type: string
+                commitTime:
+                  format: date-time
+                  type: string
+                authorTime:
+                  format: date-time
+                  type: string
+                properties:
+                  additionalProperties:
+                    type: string
+              required:
+              - message
+              - properties
+              title: CommitMeta
+            commonAncestorHash:
+              type: string
+            numTotalCommits:
+              format: int64
+              type: integer
+          title: ReferenceMetadata
+      required:
+      - name
+      title: Reference
+    Reference_V2:
+      discriminator:
+        mapping:
+          TAG: '#/components/schemas/Tag_V2'
+          BRANCH: '#/components/schemas/Branch_V2'
+          DETACHED: '#/components/schemas/Detached_V2'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/Branch_2'
+      - $ref: '#/components/schemas/Tag_2'
+      - $ref: '#/components/schemas/Detached_commit_hash_1'
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        metadata:
+          description: |
+            Only returned by the server when explicitly requested by the client and contains the following information:
+
+            - numCommitsAhead (number of commits ahead of the default branch)
+
+            - numCommitsBehind (number of commits behind the default branch)
+
+            - commitMetaOfHEAD (the commit metadata of the HEAD commit)
+
+            - commonAncestorHash (the hash of the common ancestor in relation to the default branch).
+
+            - numTotalCommits (the total number of commits in this reference).
+          properties:
+            numCommitsAhead:
+              format: int32
+              type: integer
+            numCommitsBehind:
+              format: int32
+              type: integer
+            commitMetaOfHEAD:
+              properties:
+                hash:
+                  pattern: "^[0-9a-fA-F]{8,64}$"
+                  type: string
+                committer:
+                  type: string
+                authors:
+                  items:
+                    type: string
+                  type: array
+                allSignedOffBy:
+                  items:
+                    type: string
+                  type: array
+                message:
+                  pattern: \S
+                  type: string
+                commitTime:
+                  format: date-time
+                  type: string
+                authorTime:
+                  format: date-time
+                  type: string
+                allProperties:
+                  additionalProperties:
+                    items:
+                      type: string
+                parentCommitHashes:
+                  items:
+                    type: string
+                  type: array
+              required:
+              - allProperties
+              - allSignedOffBy
+              - authors
+              - message
+              - parentCommitHashes
+              title: CommitMeta
+            commonAncestorHash:
+              type: string
+            numTotalCommits:
+              format: int64
+              type: integer
+          title: ReferenceMetadata
+      required:
+      - name
+      title: Reference
+    ReferencesResponse_V1:
+      properties:
+        hasMore:
+          type: boolean
+        token:
+          type: string
+        references:
+          items:
+            $ref: '#/components/schemas/Reference_1'
+          type: array
+      required:
+      - references
+    ReferencesResponse_V2:
+      properties:
+        hasMore:
+          type: boolean
+        token:
+          type: string
+        references:
+          items:
+            $ref: '#/components/schemas/Reference_2'
+          type: array
+      required:
+      - references
+    RepositoryConfig:
+      properties:
+        defaultCutoffPolicy:
+          description: |-
+            The default cutoff policy.
+            Policies can be one of: - number of commits as an integer value - a duration (see java.time.Duration) - an ISO instant - 'NONE', means everything's considered as live
+          pattern: "NONE|^[1-9]\\d{0,10}|([-+]?)P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?|^(?:[1-9]\\\
+            d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\\\
+            d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\\\
+            d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d{1,9})?(?:Z|[+-][01]\\d:[0-5]\\d)$"
+          type: string
+        perRefCutoffPolicies:
+          items:
+            $ref: '#/components/schemas/References_cutoff_policy'
+          type: array
+        newFilesGracePeriod:
+          description: Files that have been created after 'gc-start-time - new-files-grace-period'
+            are not being deleted.
+          format: duration
+          title: Grace period for files created concurrent to GC runs.
+          type: string
+        expectedFileCountPerContent:
+          format: int32
+          title: The total number of expected live files for a single content.
+          type: integer
+      title: Garbage collector config object
+    RepositoryConfigResponse:
+      properties:
+        configs:
+          description: The existing configuration objects for the requested types
+            will be returned. Non-existing config objects will not be returned.
+          items:
+            $ref: '#/components/schemas/Garbage_collector_config_object'
+          type: array
+      title: RepositoryConfigResponse
+    RepositoryConfigResponse_V2:
+      description: The existing configuration objects for the requested types will
+        be returned. Non-existing config objects will not be returned.
+      properties:
+        configs:
+          description: The existing configuration objects for the requested types
+            will be returned. Non-existing config objects will not be returned.
+          items:
+            $ref: '#/components/schemas/Garbage_collector_config_object'
+          type: array
+      title: Repository configuration objects for the requested types.
+    RepositoryConfigType:
+      description: "Declares the type of a Nessie repository config object, which\
+        \ is currently only GARBAGE_COLLECTOR, which is the discriminator mapping\
+        \ value of the 'RepositoryConfig' type."
+      type: string
+    RepositoryConfig_V2:
+      properties:
+        defaultCutoffPolicy:
+          description: |-
+            The default cutoff policy.
+            Policies can be one of: - number of commits as an integer value - a duration (see java.time.Duration) - an ISO instant - 'NONE', means everything's considered as live
+          pattern: "NONE|^[1-9]\\d{0,10}|([-+]?)P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?|^(?:[1-9]\\\
+            d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\\\
+            d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\\\
+            d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d{1,9})?(?:Z|[+-][01]\\d:[0-5]\\d)$"
+          type: string
+        perRefCutoffPolicies:
+          items:
+            $ref: '#/components/schemas/References_cutoff_policy'
+          type: array
+        newFilesGracePeriod:
+          description: Files that have been created after 'gc-start-time - new-files-grace-period'
+            are not being deleted.
+          format: duration
+          title: Grace period for files created concurrent to GC runs.
+          type: string
+        expectedFileCountPerContent:
+          format: int32
+          title: The total number of expected live files for a single content.
+          type: integer
+      title: Garbage collector config object
+    SingleReferenceResponse:
+      properties:
+        reference:
+          $ref: '#/components/schemas/Reference_3'
+      required:
+      - reference
+      title: SingleReferenceResponse
+    SingleReferenceResponse_V2:
+      properties:
+        reference:
+          $ref: '#/components/schemas/Reference_2'
+      required:
+      - reference
+      title: SingleReferenceResponse
+    Tag:
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_3'
+        hash:
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+      required:
+      - name
+      title: Tag
+    Tag_V1:
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_1'
+        hash:
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+      required:
+      - name
+      title: Tag
+    Tag_V2:
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_2'
+        hash:
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+      required:
+      - name
+      title: Tag
+    Transplant:
+      properties:
+        fromRefName:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        hashesToTransplant:
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        keyMergeModes:
+          items:
+            $ref: '#/components/schemas/Merge_keyMergeModes_inner'
+          type: array
+        defaultKeyMergeMode:
+          enum:
+          - NORMAL
+          - FORCE
+          - DROP
+          type: string
+        dryRun:
+          type: boolean
+        fetchAdditionalInfo:
+          type: boolean
+        returnConflictAsResult:
+          type: boolean
+      required:
+      - fromRefName
+      - hashesToTransplant
+      title: Transplant
+    Transplant1:
+      properties:
+        message:
+          description: Commit message for this transplant request.
+          type: string
+        hashesToTransplant:
+          description: Lists the hashes of commits that should be transplanted into
+            the target branch.
+          items:
+            pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+            type: string
+          type: array
+          uniqueItems: true
+        fromRefName:
+          description: |
+            The name of the reference that contains the 'source' commits for the requested merge or transplant operation.
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        keyMergeModes:
+          description: |
+            Specific merge behaviour requests by content key.
+
+            The default is set by the `defaultKeyMergeMode` parameter.
+          items:
+            $ref: '#/components/schemas/Merge_keyMergeModes_inner'
+          type: array
+        defaultKeyMergeMode:
+          description: |
+            The default merge mode. If not set, `NORMAL` is assumed.
+
+            This settings applies to key thaWhen set to 'true' instructs the server to validate the request
+            but to avoid committing any changes.t are not explicitly mentioned in the `keyMergeModes` property.
+          enum:
+          - NORMAL
+          - FORCE
+          - DROP
+          type: string
+        dryRun:
+          description: |
+            When set to 'true' instructs the server to validate the request but to avoid committing any changes.
+          type: boolean
+        fetchAdditionalInfo:
+          description: |
+            Whether to provide optional response data.
+          type: boolean
+        returnConflictAsResult:
+          description: When set to 'true' instructs the server to produce normal (non-error)
+            responses in case a conflict is detected and report conflict details in
+            the response payload.
+          type: boolean
+      required:
+      - fromRefName
+      - hashesToTransplant
+      title: Transplant
+    Type:
+      description: "Declares the type of a Nessie content object, which is currently\
+        \ one of ICEBERG_TABLE, DELTA_LAKE_TABLE, ICEBERG_VIEW, NAMESPACE or UDF,\
+        \ which are the discriminator mapping values of the 'Content' type."
+      type: string
+    UDF:
+      properties:
+        id:
+          type: string
+        sqlText:
+          deprecated: true
+          pattern: \S
+          type: string
+        dialect:
+          deprecated: true
+          type: string
+        versionId:
+          type: string
+        signatureId:
+          type: string
+        metadataLocation:
+          type: string
+      required:
+      - sqlText
+    UDF_V1:
+      properties:
+        id:
+          type: string
+        sqlText:
+          deprecated: true
+          pattern: \S
+          type: string
+        dialect:
+          deprecated: true
+          type: string
+        versionId:
+          type: string
+        signatureId:
+          type: string
+        metadataLocation:
+          type: string
+      required:
+      - sqlText
+    UDF_V2:
+      properties:
+        id:
+          type: string
+        sqlText:
+          deprecated: true
+          pattern: \S
+          type: string
+        dialect:
+          deprecated: true
+          type: string
+        versionId:
+          type: string
+        signatureId:
+          type: string
+        metadataLocation:
+          type: string
+      required:
+      - sqlText
+    Unchanged:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+    Unchanged_V1:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+    Unchanged_V2:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+    UpdateRepositoryConfigRequest:
+      properties:
+        config:
+          $ref: '#/components/schemas/Garbage_collector_config_object'
+      title: UpdateRepositoryConfigRequest
+    UpdateRepositoryConfigResponse:
+      properties:
+        previous:
+          $ref: '#/components/schemas/Garbage_collector_config_object'
+      title: UpdateRepositoryConfigResponse
+    UpdateRepositoryConfigResponse_V2:
+      description: "When a repository configuration for the same type as in the request\
+        \ object did not exist, the response object will be null. Otherwise, if the\
+        \ configuration was updated, the old value will be returned."
+      properties:
+        previous:
+          $ref: '#/components/schemas/Garbage_collector_config_object'
+      title: The previous state of the repository configuration object.
+    CommitMeta_1:
+      example:
+        signedOffBy: signedOffBy
+        committer: committer
+        commitTime: 2000-01-23T04:56:07.000+00:00
+        author: author
+        authorTime: 2000-01-23T04:56:07.000+00:00
+        message: message
+        hash: hash
+        properties:
+          key: properties
+      properties:
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        committer:
+          type: string
+        author:
+          type: string
+        signedOffBy:
+          type: string
+        message:
+          pattern: \S
+          type: string
+        commitTime:
+          format: date-time
+          type: string
+        authorTime:
+          format: date-time
+          type: string
+        properties:
+          additionalProperties:
+            type: string
+      required:
+      - message
+      - properties
+      title: CommitMeta
+    ReferenceMetadata_1:
+      description: |
+        Only returned by the server when explicitly requested by the client and contains the following information:
+
+        - numCommitsAhead (number of commits ahead of the default branch)
+
+        - numCommitsBehind (number of commits behind the default branch)
+
+        - commitMetaOfHEAD (the commit metadata of the HEAD commit)
+
+        - commonAncestorHash (the hash of the common ancestor in relation to the default branch).
+
+        - numTotalCommits (the total number of commits in this reference).
+      example:
+        numCommitsBehind: 6
+        numCommitsAhead: 0
+        commitMetaOfHEAD:
+          signedOffBy: signedOffBy
+          committer: committer
+          commitTime: 2000-01-23T04:56:07.000+00:00
+          author: author
+          authorTime: 2000-01-23T04:56:07.000+00:00
+          message: message
+          hash: hash
+          properties:
+            key: properties
+        numTotalCommits: 1
+        commonAncestorHash: commonAncestorHash
+      properties:
+        numCommitsAhead:
+          format: int32
+          type: integer
+        numCommitsBehind:
+          format: int32
+          type: integer
+        commitMetaOfHEAD:
+          $ref: '#/components/schemas/CommitMeta_1'
+        commonAncestorHash:
+          type: string
+        numTotalCommits:
+          format: int64
+          type: integer
+      title: ReferenceMetadata
+    Branch_1:
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_1'
+        hash:
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+      required:
+      - name
+      title: Branch
+    Tag_1:
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_1'
+        hash:
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+      required:
+      - name
+      title: Tag
+    Detached_commit_hash:
+      properties:
+        hash:
+          minLength: 1
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_1'
+      required:
+      - hash
+      title: Detached commit hash
+    Reference_1:
+      discriminator:
+        mapping:
+          TAG: '#/components/schemas/Tag_V1'
+          BRANCH: '#/components/schemas/Branch_V1'
+          DETACHED: '#/components/schemas/Detached_V1'
+        propertyName: type
+      example:
+        metadata:
+          numCommitsBehind: 6
+          numCommitsAhead: 0
+          commitMetaOfHEAD:
+            signedOffBy: signedOffBy
+            committer: committer
+            commitTime: 2000-01-23T04:56:07.000+00:00
+            author: author
+            authorTime: 2000-01-23T04:56:07.000+00:00
+            message: message
+            hash: hash
+            properties:
+              key: properties
+          numTotalCommits: 1
+          commonAncestorHash: commonAncestorHash
+        name: name
+        hash: hash
+      oneOf:
+      - $ref: '#/components/schemas/Branch_1'
+      - $ref: '#/components/schemas/Tag_1'
+      - $ref: '#/components/schemas/Detached_commit_hash'
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_1'
+      required:
+      - name
+      title: Reference
+    getAllReferences_200_response:
+      example:
+        references:
+        - metadata:
+            numCommitsBehind: 6
+            numCommitsAhead: 0
+            commitMetaOfHEAD:
+              signedOffBy: signedOffBy
+              committer: committer
+              commitTime: 2000-01-23T04:56:07.000+00:00
+              author: author
+              authorTime: 2000-01-23T04:56:07.000+00:00
+              message: message
+              hash: hash
+              properties:
+                key: properties
+            numTotalCommits: 1
+            commonAncestorHash: commonAncestorHash
+          name: name
+          hash: hash
+        - metadata:
+            numCommitsBehind: 6
+            numCommitsAhead: 0
+            commitMetaOfHEAD:
+              signedOffBy: signedOffBy
+              committer: committer
+              commitTime: 2000-01-23T04:56:07.000+00:00
+              author: author
+              authorTime: 2000-01-23T04:56:07.000+00:00
+              message: message
+              hash: hash
+              properties:
+                key: properties
+            numTotalCommits: 1
+            commonAncestorHash: commonAncestorHash
+          name: name
+          hash: hash
+        hasMore: true
+        token: token
+      properties:
+        hasMore:
+          type: boolean
+        token:
+          type: string
+        references:
+          items:
+            $ref: '#/components/schemas/Reference_1'
+          type: array
+      required:
+      - references
+    CommitMeta_2:
+      example:
+        committer: committer
+        parentCommitHashes:
+        - parentCommitHashes
+        - parentCommitHashes
+        commitTime: 2000-01-23T04:56:07.000+00:00
+        allProperties:
+          key:
+          - allProperties
+          - allProperties
+        authorTime: 2000-01-23T04:56:07.000+00:00
+        message: message
+        allSignedOffBy:
+        - allSignedOffBy
+        - allSignedOffBy
+        hash: hash
+        authors:
+        - authors
+        - authors
+      properties:
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        committer:
+          type: string
+        authors:
+          items:
+            type: string
+          type: array
+        allSignedOffBy:
+          items:
+            type: string
+          type: array
+        message:
+          pattern: \S
+          type: string
+        commitTime:
+          format: date-time
+          type: string
+        authorTime:
+          format: date-time
+          type: string
+        allProperties:
+          additionalProperties:
+            items:
+              type: string
+        parentCommitHashes:
+          items:
+            type: string
+          type: array
+      required:
+      - allProperties
+      - allSignedOffBy
+      - authors
+      - message
+      - parentCommitHashes
+      title: CommitMeta
+    ReferenceMetadata_2:
+      description: |
+        Only returned by the server when explicitly requested by the client and contains the following information:
+
+        - numCommitsAhead (number of commits ahead of the default branch)
+
+        - numCommitsBehind (number of commits behind the default branch)
+
+        - commitMetaOfHEAD (the commit metadata of the HEAD commit)
+
+        - commonAncestorHash (the hash of the common ancestor in relation to the default branch).
+
+        - numTotalCommits (the total number of commits in this reference).
+      example:
+        numCommitsBehind: 6
+        numCommitsAhead: 0
+        commitMetaOfHEAD:
+          committer: committer
+          parentCommitHashes:
+          - parentCommitHashes
+          - parentCommitHashes
+          commitTime: 2000-01-23T04:56:07.000+00:00
+          allProperties:
+            key:
+            - allProperties
+            - allProperties
+          authorTime: 2000-01-23T04:56:07.000+00:00
+          message: message
+          allSignedOffBy:
+          - allSignedOffBy
+          - allSignedOffBy
+          hash: hash
+          authors:
+          - authors
+          - authors
+        numTotalCommits: 1
+        commonAncestorHash: commonAncestorHash
+      properties:
+        numCommitsAhead:
+          format: int32
+          type: integer
+        numCommitsBehind:
+          format: int32
+          type: integer
+        commitMetaOfHEAD:
+          $ref: '#/components/schemas/CommitMeta_2'
+        commonAncestorHash:
+          type: string
+        numTotalCommits:
+          format: int64
+          type: integer
+      title: ReferenceMetadata
+    Branch_2:
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_2'
+        hash:
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+      required:
+      - name
+      title: Branch
+    Tag_2:
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_2'
+        hash:
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+      required:
+      - name
+      title: Tag
+    Detached_commit_hash_1:
+      properties:
+        hash:
+          minLength: 1
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_2'
+      required:
+      - hash
+      title: Detached commit hash
+    Reference_2:
+      discriminator:
+        mapping:
+          TAG: '#/components/schemas/Tag_V2'
+          BRANCH: '#/components/schemas/Branch_V2'
+          DETACHED: '#/components/schemas/Detached_V2'
+        propertyName: type
+      example:
+        metadata:
+          numCommitsBehind: 6
+          numCommitsAhead: 0
+          commitMetaOfHEAD:
+            committer: committer
+            parentCommitHashes:
+            - parentCommitHashes
+            - parentCommitHashes
+            commitTime: 2000-01-23T04:56:07.000+00:00
+            allProperties:
+              key:
+              - allProperties
+              - allProperties
+            authorTime: 2000-01-23T04:56:07.000+00:00
+            message: message
+            allSignedOffBy:
+            - allSignedOffBy
+            - allSignedOffBy
+            hash: hash
+            authors:
+            - authors
+            - authors
+          numTotalCommits: 1
+          commonAncestorHash: commonAncestorHash
+        name: name
+        hash: hash
+      oneOf:
+      - $ref: '#/components/schemas/Branch_2'
+      - $ref: '#/components/schemas/Tag_2'
+      - $ref: '#/components/schemas/Detached_commit_hash_1'
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_2'
+      required:
+      - name
+      title: Reference
+    getAllReferencesV2_200_response:
+      example:
+        references:
+        - metadata:
+            numCommitsBehind: 6
+            numCommitsAhead: 0
+            commitMetaOfHEAD:
+              committer: committer
+              parentCommitHashes:
+              - parentCommitHashes
+              - parentCommitHashes
+              commitTime: 2000-01-23T04:56:07.000+00:00
+              allProperties:
+                key:
+                - allProperties
+                - allProperties
+              authorTime: 2000-01-23T04:56:07.000+00:00
+              message: message
+              allSignedOffBy:
+              - allSignedOffBy
+              - allSignedOffBy
+              hash: hash
+              authors:
+              - authors
+              - authors
+            numTotalCommits: 1
+            commonAncestorHash: commonAncestorHash
+          name: name
+          hash: hash
+        - metadata:
+            numCommitsBehind: 6
+            numCommitsAhead: 0
+            commitMetaOfHEAD:
+              committer: committer
+              parentCommitHashes:
+              - parentCommitHashes
+              - parentCommitHashes
+              commitTime: 2000-01-23T04:56:07.000+00:00
+              allProperties:
+                key:
+                - allProperties
+                - allProperties
+              authorTime: 2000-01-23T04:56:07.000+00:00
+              message: message
+              allSignedOffBy:
+              - allSignedOffBy
+              - allSignedOffBy
+              hash: hash
+              authors:
+              - authors
+              - authors
+            numTotalCommits: 1
+            commonAncestorHash: commonAncestorHash
+          name: name
+          hash: hash
+        hasMore: true
+        token: token
+      properties:
+        hasMore:
+          type: boolean
+        token:
+          type: string
+        references:
+          items:
+            $ref: '#/components/schemas/Reference_2'
+          type: array
+      required:
+      - references
+    CommitMeta_3:
+      properties:
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        committer:
+          type: string
+        author:
+          type: string
+        authors:
+          items:
+            type: string
+          type: array
+        signedOffBy:
+          type: string
+        allSignedOffBy:
+          items:
+            type: string
+          type: array
+        message:
+          pattern: \S
+          type: string
+        commitTime:
+          format: date-time
+          type: string
+        authorTime:
+          format: date-time
+          type: string
+        properties:
+          additionalProperties:
+            type: string
+        allProperties:
+          additionalProperties:
+            items:
+              type: string
+        parentCommitHashes:
+          items:
+            type: string
+          type: array
+      required:
+      - allProperties
+      - allSignedOffBy
+      - authors
+      - message
+      - parentCommitHashes
+      - properties
+      title: CommitMeta
+    ReferenceMetadata_3:
+      description: |
+        Only returned by the server when explicitly requested by the client and contains the following information:
+
+        - numCommitsAhead (number of commits ahead of the default branch)
+
+        - numCommitsBehind (number of commits behind the default branch)
+
+        - commitMetaOfHEAD (the commit metadata of the HEAD commit)
+
+        - commonAncestorHash (the hash of the common ancestor in relation to the default branch).
+
+        - numTotalCommits (the total number of commits in this reference).
+      properties:
+        numCommitsAhead:
+          format: int32
+          type: integer
+        numCommitsBehind:
+          format: int32
+          type: integer
+        commitMetaOfHEAD:
+          $ref: '#/components/schemas/CommitMeta_3'
+        commonAncestorHash:
+          type: string
+        numTotalCommits:
+          format: int64
+          type: integer
+      title: ReferenceMetadata
+    Branch_3:
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_3'
+        hash:
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+      required:
+      - name
+      title: Branch
+    Tag_3:
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_3'
+        hash:
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+      required:
+      - name
+      title: Tag
+    Detached_commit_hash_2:
+      properties:
+        hash:
+          minLength: 1
+          pattern: "^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_3'
+      required:
+      - hash
+      title: Detached commit hash
+    Reference_3:
+      discriminator:
+        mapping:
+          TAG: '#/components/schemas/Tag'
+          BRANCH: '#/components/schemas/Branch'
+          DETACHED: '#/components/schemas/Detached'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/Branch_3'
+      - $ref: '#/components/schemas/Tag_3'
+      - $ref: '#/components/schemas/Detached_commit_hash_2'
+      properties:
+        name:
+          pattern: "^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9./_-])*[A-Za-z0-9_-])?)|-$"
+          type: string
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ReferenceMetadata_3'
+      required:
+      - name
+      title: Reference
+    SingleReferenceResponse_1:
+      example:
+        reference:
+          metadata:
+            numCommitsBehind: 6
+            numCommitsAhead: 0
+            commitMetaOfHEAD:
+              committer: committer
+              parentCommitHashes:
+              - parentCommitHashes
+              - parentCommitHashes
+              commitTime: 2000-01-23T04:56:07.000+00:00
+              allProperties:
+                key:
+                - allProperties
+                - allProperties
+              authorTime: 2000-01-23T04:56:07.000+00:00
+              message: message
+              allSignedOffBy:
+              - allSignedOffBy
+              - allSignedOffBy
+              hash: hash
+              authors:
+              - authors
+              - authors
+            numTotalCommits: 1
+            commonAncestorHash: commonAncestorHash
+          name: name
+          hash: hash
+      properties:
+        reference:
+          $ref: '#/components/schemas/Reference_2'
+      required:
+      - reference
+      title: SingleReferenceResponse
+    AddedContent_key:
+      properties:
+        elements:
+          items:
+            type: string
+          type: array
+      required:
+      - elements
+    CommitResponse_addedContents_inner:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+    Iceberg_table_state:
+      description: |-
+        Represents the state of an Iceberg table in Nessie. An Iceberg table is globally identified via its unique 'Content.id'.
+
+        A Nessie commit-operation, performed via 'TreeApi.commitMultipleOperations',for Iceberg consists of a 'Operation.Put' with an 'IcebergTable' as in the 'content' field and the previous value of 'IcebergTable' in the 'expectedContent' field.
+      properties:
+        id:
+          type: string
+        metadataLocation:
+          pattern: \S
+          type: string
+        snapshotId:
+          format: int64
+          type: integer
+        schemaId:
+          format: int32
+          type: integer
+        specId:
+          format: int32
+          type: integer
+        sortOrderId:
+          format: int32
+          type: integer
+        metadata:
+          additionalProperties: {}
+          deprecated: true
+      required:
+      - metadataLocation
+      title: Iceberg table state
+    Content_anyOf:
+      properties:
+        id:
+          type: string
+        metadataLocationHistory:
+          items:
+            type: string
+          type: array
+        checkpointLocationHistory:
+          items:
+            type: string
+          type: array
+        lastCheckpoint:
+          type: string
+      required:
+      - checkpointLocationHistory
+      - metadataLocationHistory
+    Content_anyOf_1:
+      properties:
+        id:
+          type: string
+        metadataLocation:
+          pattern: \S
+          type: string
+        versionId:
+          format: int64
+          type: integer
+        schemaId:
+          format: int32
+          type: integer
+        sqlText:
+          deprecated: true
+          pattern: \S
+          type: string
+        dialect:
+          deprecated: true
+          type: string
+        metadata:
+          additionalProperties: {}
+          deprecated: true
+      required:
+      - metadataLocation
+      - sqlText
+    Content_anyOf_2:
+      properties:
+        id:
+          type: string
+        elements:
+          items:
+            type: string
+          type: array
+        properties:
+          additionalProperties:
+            type: string
+      required:
+      - elements
+      - properties
+    Content_anyOf_3:
+      properties:
+        id:
+          type: string
+        sqlText:
+          deprecated: true
+          pattern: \S
+          type: string
+        dialect:
+          deprecated: true
+          type: string
+        versionId:
+          type: string
+        signatureId:
+          type: string
+        metadataLocation:
+          type: string
+      required:
+      - sqlText
+    Per_Content_Key_conflict_details:
+      properties:
+        conflictType: {}
+        key: {}
+        message: {}
+      title: Per Content Key conflict details
+    Iceberg_table_state_1:
+      description: |-
+        Represents the state of an Iceberg table in Nessie. An Iceberg table is globally identified via its unique 'Content.id'.
+
+        A Nessie commit-operation, performed via 'TreeApi.commitMultipleOperations',for Iceberg consists of a 'Operation.Put' with an 'IcebergTable' as in the 'content' field and the previous value of 'IcebergTable' in the 'expectedContent' field.
+      properties:
+        id:
+          type: string
+        metadataLocation:
+          pattern: \S
+          type: string
+        snapshotId:
+          format: int64
+          type: integer
+        schemaId:
+          format: int32
+          type: integer
+        specId:
+          format: int32
+          type: integer
+        sortOrderId:
+          format: int32
+          type: integer
+      required:
+      - metadataLocation
+      title: Iceberg table state
+    Content_1_anyOf:
+      properties:
+        id:
+          type: string
+        metadataLocation:
+          pattern: \S
+          type: string
+        versionId:
+          format: int64
+          type: integer
+        schemaId:
+          format: int32
+          type: integer
+        sqlText:
+          deprecated: true
+          pattern: \S
+          type: string
+        dialect:
+          deprecated: true
+          type: string
+      required:
+      - metadataLocation
+      - sqlText
+    Content_1:
+      anyOf:
+      - $ref: '#/components/schemas/Iceberg_table_state_1'
+      - $ref: '#/components/schemas/Content_anyOf'
+      - $ref: '#/components/schemas/Content_1_anyOf'
+      - $ref: '#/components/schemas/Content_anyOf_2'
+      - $ref: '#/components/schemas/Content_anyOf_3'
+      - type: object
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable_V2'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable_V2'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView_V2'
+          NAMESPACE: '#/components/schemas/Namespace_V2'
+          UDF: '#/components/schemas/UDF_V2'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    ContentResponse_V2_documentation:
+      properties:
+        mimeType:
+          type: string
+        text:
+          type: string
+      required:
+      - mimeType
+      - text
+    Content_2:
+      anyOf:
+      - $ref: '#/components/schemas/Iceberg_table_state'
+      - $ref: '#/components/schemas/Content_anyOf'
+      - $ref: '#/components/schemas/Content_anyOf_1'
+      - $ref: '#/components/schemas/Content_anyOf_2'
+      - $ref: '#/components/schemas/Content_anyOf_3'
+      - type: object
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView'
+          NAMESPACE: '#/components/schemas/Namespace'
+          UDF: '#/components/schemas/UDF'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    Content_3:
+      anyOf:
+      - $ref: '#/components/schemas/Iceberg_table_state'
+      - $ref: '#/components/schemas/Content_anyOf'
+      - $ref: '#/components/schemas/Content_anyOf_1'
+      - $ref: '#/components/schemas/Content_anyOf_2'
+      - $ref: '#/components/schemas/Content_anyOf_3'
+      - type: object
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable_V1'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable_V1'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView_V1'
+          NAMESPACE: '#/components/schemas/Namespace_V1'
+          UDF: '#/components/schemas/UDF_V1'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    DiffResponse_diffs_inner:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        from:
+          $ref: '#/components/schemas/Content_2'
+        to:
+          $ref: '#/components/schemas/Content_2'
+    DiffResponse_V1_diffs_inner:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        from:
+          $ref: '#/components/schemas/Content_3'
+        to:
+          $ref: '#/components/schemas/Content_3'
+    DiffResponse_V2_diffs_inner:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        from:
+          $ref: '#/components/schemas/Content_1'
+        to:
+          $ref: '#/components/schemas/Content_1'
+    EntriesResponse_V1_entries_inner:
+      properties:
+        type:
+          description: "Declares the type of a Nessie content object, which is currently\
+            \ one of ICEBERG_TABLE, DELTA_LAKE_TABLE, ICEBERG_VIEW, NAMESPACE or UDF,\
+            \ which are the discriminator mapping values of the 'Content' type."
+          type: string
+        name:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - name
+    EntriesResponse_V2_entries_inner:
+      properties:
+        type:
+          description: "Declares the type of a Nessie content object, which is currently\
+            \ one of ICEBERG_TABLE, DELTA_LAKE_TABLE, ICEBERG_VIEW, NAMESPACE or UDF,\
+            \ which are the discriminator mapping values of the 'Content' type."
+          type: string
+        name:
+          $ref: '#/components/schemas/AddedContent_key'
+        contentId:
+          type: string
+        content:
+          $ref: '#/components/schemas/Content_1'
+      required:
+      - name
+    References_cutoff_policy:
+      description: Cutoff policies per reference names. Supplied as a ref-name-pattern=policy
+        tuple. Reference name patterns are regular expressions.
+      properties:
+        referenceNamePattern:
+          description: Reference name patterns as a regular expressions.
+          type: string
+        policy:
+          description: "Policies can be one of: - number of commits as an integer\
+            \ value - a duration (see java.time.Duration) - an ISO instant - 'NONE',\
+            \ means everything's considered as live"
+          type: string
+      title: References cutoff policy
+    GetMultipleContentsResponse_contents_inner:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_2'
+        documentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+      required:
+      - content
+      - key
+    GetMultipleContentsResponse_V1_contents_inner:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_3'
+      required:
+      - content
+      - key
+    GetMultipleContentsResponse_V2_contents_inner:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_1'
+        documentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+      required:
+      - content
+      - key
+    Content_4:
+      anyOf:
+      - $ref: '#/components/schemas/Iceberg_table_state'
+      - $ref: '#/components/schemas/Content_anyOf'
+      - $ref: '#/components/schemas/Content_anyOf_1'
+      - $ref: '#/components/schemas/Content_anyOf_2'
+      - $ref: '#/components/schemas/Content_anyOf_3'
+      - type: object
+      deprecated: true
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView'
+          NAMESPACE: '#/components/schemas/Namespace'
+          UDF: '#/components/schemas/UDF'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    ContentMetadata_1:
+      discriminator:
+        propertyName: variant
+      properties:
+        variant:
+          minLength: 1
+          type: string
+      required:
+      - variant
+      title: ContentMetadata
+    Put__Content__operation_for_a__ContentKey__:
+      description: |-
+        Used to add new content or to update existing content.
+
+        A new content object is created by populating the `value` field, the content-id in the content object must not be present (null).
+
+        A content object is updated by populating the `value` containing the correct content-id.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the `value` having the correct content-id. Both operations must happen in the same commit.
+
+        A content object can be replaced (think: `DROP TABLE xyz` + `CREATE TABLE xyz`) with a `Delete` operation and a `Put` operation for a content using a `value`representing a new content object, so without a content-id, in the same commit.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_2'
+        expectedContent:
+          $ref: '#/components/schemas/Content_4'
+        metadata:
+          items:
+            $ref: '#/components/schemas/ContentMetadata_1'
+          type: array
+        documentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+      required:
+      - content
+      - key
+      title: Put-'Content'-operation for a 'ContentKey'.
+    Delete__Content__operation_for_a__ContentKey__:
+      description: |-
+        Used to delete an existing content key.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the current `Content` in the the `value` field. See `Put` operation.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+      title: Delete-'Content'-operation for a 'ContentKey'.
+    Operation_1:
+      description: |-
+        Describes an operation to be performed against one content object.
+
+        The Nessie backend will validate the correctness of the operations.
+      discriminator:
+        mapping:
+          PUT: '#/components/schemas/Put'
+          UNCHANGED: '#/components/schemas/Unchanged'
+          DELETE: '#/components/schemas/Delete'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/Put__Content__operation_for_a__ContentKey__'
+      - $ref: '#/components/schemas/CommitResponse_addedContents_inner'
+      - $ref: '#/components/schemas/Delete__Content__operation_for_a__ContentKey__'
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+      title: Operation
+    Content_5:
+      anyOf:
+      - $ref: '#/components/schemas/Iceberg_table_state'
+      - $ref: '#/components/schemas/Content_anyOf'
+      - $ref: '#/components/schemas/Content_anyOf_1'
+      - $ref: '#/components/schemas/Content_anyOf_2'
+      - $ref: '#/components/schemas/Content_anyOf_3'
+      - type: object
+      deprecated: true
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable_V1'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable_V1'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView_V1'
+          NAMESPACE: '#/components/schemas/Namespace_V1'
+          UDF: '#/components/schemas/UDF_V1'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    Put__Content__operation_for_a__ContentKey___1:
+      description: |-
+        Used to add new content or to update existing content.
+
+        A new content object is created by populating the `value` field, the content-id in the content object must not be present (null).
+
+        A content object is updated by populating the `value` containing the correct content-id.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the `value` having the correct content-id. Both operations must happen in the same commit.
+
+        A content object can be replaced (think: `DROP TABLE xyz` + `CREATE TABLE xyz`) with a `Delete` operation and a `Put` operation for a content using a `value`representing a new content object, so without a content-id, in the same commit.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_3'
+        expectedContent:
+          $ref: '#/components/schemas/Content_5'
+      required:
+      - content
+      - key
+      title: Put-'Content'-operation for a 'ContentKey'.
+    Operation_2:
+      description: |-
+        Describes an operation to be performed against one content object.
+
+        The Nessie backend will validate the correctness of the operations.
+      discriminator:
+        mapping:
+          PUT: '#/components/schemas/Put_V1'
+          UNCHANGED: '#/components/schemas/Unchanged_V1'
+          DELETE: '#/components/schemas/Delete_V1'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/Put__Content__operation_for_a__ContentKey___1'
+      - $ref: '#/components/schemas/CommitResponse_addedContents_inner'
+      - $ref: '#/components/schemas/Delete__Content__operation_for_a__ContentKey__'
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+      title: Operation
+    Put__Content__operation_for_a__ContentKey___2:
+      description: |-
+        Used to add new content or to update existing content.
+
+        A new content object is created by populating the `value` field, the content-id in the content object must not be present (null).
+
+        A content object is updated by populating the `value` containing the correct content-id.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the `value` having the correct content-id. Both operations must happen in the same commit.
+
+        A content object can be replaced (think: `DROP TABLE xyz` + `CREATE TABLE xyz`) with a `Delete` operation and a `Put` operation for a content using a `value`representing a new content object, so without a content-id, in the same commit.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_1'
+        metadata:
+          items:
+            $ref: '#/components/schemas/ContentMetadata_1'
+          type: array
+        documentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+      required:
+      - content
+      - key
+      title: Put-'Content'-operation for a 'ContentKey'.
+    Operation_3:
+      description: |-
+        Describes an operation to be performed against one content object.
+
+        The Nessie backend will validate the correctness of the operations.
+      discriminator:
+        mapping:
+          PUT: '#/components/schemas/Put_V2'
+          UNCHANGED: '#/components/schemas/Unchanged_V2'
+          DELETE: '#/components/schemas/Delete_V2'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/Put__Content__operation_for_a__ContentKey___2'
+      - $ref: '#/components/schemas/CommitResponse_addedContents_inner'
+      - $ref: '#/components/schemas/Delete__Content__operation_for_a__ContentKey__'
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+      required:
+      - key
+      title: Operation
+    LogEntry_1:
+      properties:
+        commitMeta:
+          $ref: '#/components/schemas/CommitMeta_3'
+        additionalParents:
+          items:
+            type: string
+          type: array
+        parentCommitHash:
+          type: string
+        operations:
+          items:
+            $ref: '#/components/schemas/Operation_1'
+          type: array
+      required:
+      - commitMeta
+      title: LogEntry
+    LogEntry_2:
+      properties:
+        commitMeta:
+          $ref: '#/components/schemas/CommitMeta_1'
+        additionalParents:
+          items:
+            type: string
+          type: array
+        parentCommitHash:
+          type: string
+        operations:
+          items:
+            $ref: '#/components/schemas/Operation_2'
+          type: array
+      required:
+      - commitMeta
+      title: LogEntry
+    LogEntry_3:
+      properties:
+        commitMeta:
+          $ref: '#/components/schemas/CommitMeta_2'
+        parentCommitHash:
+          type: string
+        operations:
+          items:
+            $ref: '#/components/schemas/Operation_3'
+          type: array
+      required:
+      - commitMeta
+      title: LogEntry
+    Merge_keyMergeModes_inner:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        mergeBehavior:
+          enum:
+          - NORMAL
+          - FORCE
+          - DROP
+          type: string
+        expectedTargetContent:
+          $ref: '#/components/schemas/Content_2'
+        resolvedContent:
+          $ref: '#/components/schemas/Content_2'
+        expectedTargetDocumentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+        resolvedDocumentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+        metadata:
+          items:
+            $ref: '#/components/schemas/ContentMetadata_1'
+          type: array
+    Merge_Per_Content_Key_details:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        mergeBehavior:
+          enum:
+          - NORMAL
+          - FORCE
+          - DROP
+          type: string
+        conflict:
+          $ref: '#/components/schemas/Per_Content_Key_conflict_details'
+      title: Merge Per-Content-Key details
+    Merge_Per_Content_Key_details_1:
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        mergeBehavior:
+          enum:
+          - NORMAL
+          - FORCE
+          - DROP
+          type: string
+      title: Merge Per-Content-Key details
+    Content_6:
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView'
+          NAMESPACE: '#/components/schemas/Namespace'
+          UDF: '#/components/schemas/UDF'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    Content_7:
+      deprecated: true
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView'
+          NAMESPACE: '#/components/schemas/Namespace'
+          UDF: '#/components/schemas/UDF'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    Put__Content__operation_for_a__ContentKey___3:
+      description: |-
+        Used to add new content or to update existing content.
+
+        A new content object is created by populating the `value` field, the content-id in the content object must not be present (null).
+
+        A content object is updated by populating the `value` containing the correct content-id.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the `value` having the correct content-id. Both operations must happen in the same commit.
+
+        A content object can be replaced (think: `DROP TABLE xyz` + `CREATE TABLE xyz`) with a `Delete` operation and a `Put` operation for a content using a `value`representing a new content object, so without a content-id, in the same commit.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_6'
+        expectedContent:
+          $ref: '#/components/schemas/Content_7'
+        metadata:
+          items:
+            $ref: '#/components/schemas/ContentMetadata_1'
+          type: array
+        documentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+      required:
+      - content
+      - key
+      title: Put-'Content'-operation for a 'ContentKey'.
+    Content_8:
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable_V1'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable_V1'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView_V1'
+          NAMESPACE: '#/components/schemas/Namespace_V1'
+          UDF: '#/components/schemas/UDF_V1'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    Content_9:
+      deprecated: true
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable_V1'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable_V1'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView_V1'
+          NAMESPACE: '#/components/schemas/Namespace_V1'
+          UDF: '#/components/schemas/UDF_V1'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    Put__Content__operation_for_a__ContentKey___4:
+      description: |-
+        Used to add new content or to update existing content.
+
+        A new content object is created by populating the `value` field, the content-id in the content object must not be present (null).
+
+        A content object is updated by populating the `value` containing the correct content-id.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the `value` having the correct content-id. Both operations must happen in the same commit.
+
+        A content object can be replaced (think: `DROP TABLE xyz` + `CREATE TABLE xyz`) with a `Delete` operation and a `Put` operation for a content using a `value`representing a new content object, so without a content-id, in the same commit.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_8'
+        expectedContent:
+          $ref: '#/components/schemas/Content_9'
+      required:
+      - content
+      - key
+      title: Put-'Content'-operation for a 'ContentKey'.
+    Content_10:
+      discriminator:
+        mapping:
+          ICEBERG_TABLE: '#/components/schemas/IcebergTable_V2'
+          DELTA_LAKE_TABLE: '#/components/schemas/DeltaLakeTable_V2'
+          ICEBERG_VIEW: '#/components/schemas/IcebergView_V2'
+          NAMESPACE: '#/components/schemas/Namespace_V2'
+          UDF: '#/components/schemas/UDF_V2'
+        propertyName: type
+      properties:
+        id:
+          type: string
+      title: Content
+    Put__Content__operation_for_a__ContentKey___5:
+      description: |-
+        Used to add new content or to update existing content.
+
+        A new content object is created by populating the `value` field, the content-id in the content object must not be present (null).
+
+        A content object is updated by populating the `value` containing the correct content-id.
+
+        If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the `value` having the correct content-id. Both operations must happen in the same commit.
+
+        A content object can be replaced (think: `DROP TABLE xyz` + `CREATE TABLE xyz`) with a `Delete` operation and a `Put` operation for a content using a `value`representing a new content object, so without a content-id, in the same commit.
+      properties:
+        key:
+          $ref: '#/components/schemas/AddedContent_key'
+        content:
+          $ref: '#/components/schemas/Content_10'
+        metadata:
+          items:
+            $ref: '#/components/schemas/ContentMetadata_1'
+          type: array
+        documentation:
+          $ref: '#/components/schemas/ContentResponse_V2_documentation'
+      required:
+      - content
+      - key
+      title: Put-'Content'-operation for a 'ContentKey'.
+    CommitMeta_4:
+      description: "Meta information from the commit, if available."
+      properties:
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        committer:
+          type: string
+        author:
+          type: string
+        authors:
+          items:
+            type: string
+          type: array
+        signedOffBy:
+          type: string
+        allSignedOffBy:
+          items:
+            type: string
+          type: array
+        message:
+          pattern: \S
+          type: string
+        commitTime:
+          format: date-time
+          type: string
+        authorTime:
+          format: date-time
+          type: string
+        properties:
+          additionalProperties:
+            type: string
+        allProperties:
+          additionalProperties:
+            items:
+              type: string
+        parentCommitHashes:
+          items:
+            type: string
+          type: array
+      required:
+      - allProperties
+      - allSignedOffBy
+      - authors
+      - message
+      - parentCommitHashes
+      - properties
+      title: CommitMeta
+    ReferenceHistoryState_1:
+      description: Consistency status of the current HEAD commit.
+      properties:
+        commitHash:
+          description: Nessie commit ID.
+          type: string
+        commitConsistency:
+          description: Consistency status of the commit.
+          enum:
+          - NOT_CHECKED
+          - COMMIT_CONSISTENT
+          - COMMIT_CONTENT_INCONSISTENT
+          - COMMIT_INCONSISTENT
+          type: string
+        meta:
+          $ref: '#/components/schemas/CommitMeta_4'
+      title: ReferenceHistoryState
+    ReferenceHistoryState_2:
+      description: |-
+        Describes the consistency status of a commit within a `ReferenceHistoryResponse` object.
+
+        Possible values of the `CommitConsistency` enum:
+        - `NOT_CHECKED` means: Consistency was not checked.
+        - `COMMIT_CONSISTENT` means: The commit object, its index information and all reachable content is present.
+        - `COMMIT_CONTENT_INCONSISTENT` means: The commit object is present and its index is accessible, but some content reachable from the commit is not present.
+        - `COMMIT_INCONSISTENT` means: The commit is inconsistent in a way that makes it impossible to access the commit, for example if the commit object itself or its index information is missing.
+      properties:
+        commitHash:
+          description: Nessie commit ID.
+          type: string
+        commitConsistency:
+          description: Consistency status of the commit.
+          enum:
+          - NOT_CHECKED
+          - COMMIT_CONSISTENT
+          - COMMIT_CONTENT_INCONSISTENT
+          - COMMIT_INCONSISTENT
+          type: string
+        meta:
+          $ref: '#/components/schemas/CommitMeta_4'
+      title: ReferenceHistoryState
+    CommitMeta_5:
+      description: "Meta information from the commit, if available."
+      properties:
+        hash:
+          pattern: "^[0-9a-fA-F]{8,64}$"
+          type: string
+        committer:
+          type: string
+        authors:
+          items:
+            type: string
+          type: array
+        allSignedOffBy:
+          items:
+            type: string
+          type: array
+        message:
+          pattern: \S
+          type: string
+        commitTime:
+          format: date-time
+          type: string
+        authorTime:
+          format: date-time
+          type: string
+        allProperties:
+          additionalProperties:
+            items:
+              type: string
+        parentCommitHashes:
+          items:
+            type: string
+          type: array
+      required:
+      - allProperties
+      - allSignedOffBy
+      - authors
+      - message
+      - parentCommitHashes
+      title: CommitMeta
+    ReferenceHistoryState_3:
+      description: Consistency status of the current HEAD commit.
+      properties:
+        commitHash:
+          description: Nessie commit ID.
+          type: string
+        commitConsistency:
+          description: Consistency status of the commit.
+          enum:
+          - NOT_CHECKED
+          - COMMIT_CONSISTENT
+          - COMMIT_CONTENT_INCONSISTENT
+          - COMMIT_INCONSISTENT
+          type: string
+        meta:
+          $ref: '#/components/schemas/CommitMeta_5'
+      title: ReferenceHistoryState
+    ReferenceHistoryState_4:
+      description: |-
+        Describes the consistency status of a commit within a `ReferenceHistoryResponse` object.
+
+        Possible values of the `CommitConsistency` enum:
+        - `NOT_CHECKED` means: Consistency was not checked.
+        - `COMMIT_CONSISTENT` means: The commit object, its index information and all reachable content is present.
+        - `COMMIT_CONTENT_INCONSISTENT` means: The commit object is present and its index is accessible, but some content reachable from the commit is not present.
+        - `COMMIT_INCONSISTENT` means: The commit is inconsistent in a way that makes it impossible to access the commit, for example if the commit object itself or its index information is missing.
+      properties:
+        commitHash:
+          description: Nessie commit ID.
+          type: string
+        commitConsistency:
+          description: Consistency status of the commit.
+          enum:
+          - NOT_CHECKED
+          - COMMIT_CONSISTENT
+          - COMMIT_CONTENT_INCONSISTENT
+          - COMMIT_INCONSISTENT
+          type: string
+        meta:
+          $ref: '#/components/schemas/CommitMeta_5'
+      title: ReferenceHistoryState
+    Garbage_collector_config_object:
+      properties:
+        defaultCutoffPolicy:
+          description: |-
+            The default cutoff policy.
+            Policies can be one of: - number of commits as an integer value - a duration (see java.time.Duration) - an ISO instant - 'NONE', means everything's considered as live
+          pattern: "NONE|^[1-9]\\d{0,10}|([-+]?)P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?|^(?:[1-9]\\\
+            d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\\\
+            d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\\\
+            d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d{1,9})?(?:Z|[+-][01]\\d:[0-5]\\d)$"
+          type: string
+        perRefCutoffPolicies:
+          items:
+            $ref: '#/components/schemas/References_cutoff_policy'
+          type: array
+        newFilesGracePeriod:
+          description: Files that have been created after 'gc-start-time - new-files-grace-period'
+            are not being deleted.
+          format: duration
+          title: Grace period for files created concurrent to GC runs.
+          type: string
+        expectedFileCountPerContent:
+          format: int32
+          title: The total number of expected live files for a single content.
+          type: integer
+      title: Garbage collector config object

@@ -1,4 +1,4 @@
-module github.com/shubham-pixis/920620315
+module github.com/pixisai/go-nessie
 
 go 1.18
 

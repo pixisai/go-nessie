@@ -20,13 +20,19 @@ var _ MappedNullable = &Content{}
 
 // Content struct for Content
 type Content struct {
-	ContentAnyOf *ContentAnyOf
-	ContentAnyOf1 *ContentAnyOf1
-	ContentAnyOf2 *ContentAnyOf2
-	ContentAnyOf3 *ContentAnyOf3
-	IcebergTableState *IcebergTableState
-	MapmapOfStringAny *map[string]interface{}
+    ContentAnyOf      *ContentAnyOf
+    ContentAnyOf1     *ContentAnyOf1
+    ContentAnyOf2     *ContentAnyOf2
+    ContentAnyOf3     *ContentAnyOf3
+    IcebergTableState *IcebergTableState
+    DeltaLakeTable    *DeltaLakeTable // Add this field
+    IcebergTable      *IcebergTable   // Add this field
+    IcebergView       *IcebergView    // Add this field
+    UDF               *UDF            // Add this field
+    Namespace         *Namespace      // Add this field
+    MapmapOfStringAny *map[string]interface{}
 }
+
 
 // Unmarshal JSON data into any of the pointers in the struct
 func (dst *Content) UnmarshalJSON(data []byte) error {
@@ -199,20 +205,20 @@ func (dst *Content) UnmarshalJSON(data []byte) error {
 	}
 
 	// check if the discriminator value is ''
-	if jsonDict["type"] == "" {
-		// try to unmarshal JSON data into ERRORUNKNOWN
-		err = json.Unmarshal(data, &dst.ERRORUNKNOWN);
-		if err == nil {
-			jsonERRORUNKNOWN, _ := json.Marshal(dst.ERRORUNKNOWN)
-			if string(jsonERRORUNKNOWN) == "{}" { // empty struct
-				dst.ERRORUNKNOWN = nil
-			} else {
-				return nil // data stored in dst.ERRORUNKNOWN, return on the first match
-			}
-		} else {
-			dst.ERRORUNKNOWN = nil
-		}
-	}
+	// if jsonDict["type"] == "" {
+	// 	// try to unmarshal JSON data into ERRORUNKNOWN
+	// 	err = json.Unmarshal(data, &dst.ERRORUNKNOWN);
+	// 	if err == nil {
+	// 		jsonERRORUNKNOWN, _ := json.Marshal(dst.ERRORUNKNOWN)
+	// 		if string(jsonERRORUNKNOWN) == "{}" { // empty struct
+	// 			dst.ERRORUNKNOWN = nil
+	// 		} else {
+	// 			return nil // data stored in dst.ERRORUNKNOWN, return on the first match
+	// 		}
+	// 	} else {
+	// 		dst.ERRORUNKNOWN = nil
+	// 	}
+	// }
 
 	// try to unmarshal JSON data into ContentAnyOf
 	err = json.Unmarshal(data, &dst.ContentAnyOf);
@@ -345,9 +351,9 @@ func (src Content) ToMap() (map[string]interface{}, error) {
 		return src.IcebergTableState.ToMap()
 	}
 
-	if src.MapmapOfStringAny != nil {
-		return src.MapmapOfStringAny.ToMap()
-	}
+	// if src.MapmapOfStringAny != nil {
+	// 	return src.MapmapOfStringAny.ToMap()
+	// }
 
     return nil, nil // no data in anyOf schemas
 }

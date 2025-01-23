@@ -20,10 +20,16 @@ var _ MappedNullable = &ContentV2{}
 
 // ContentV2 struct for ContentV2
 type ContentV2 struct {
-	Content1AnyOf *Content1AnyOf
-	ContentAnyOf *ContentAnyOf
-	ContentAnyOf2 *ContentAnyOf2
-	ContentAnyOf3 *ContentAnyOf3
+	Content1AnyOf     *Content1AnyOf
+	ContentAnyOf      *ContentAnyOf
+	ContentAnyOf2     *ContentAnyOf2
+	ContentAnyOf3     *ContentAnyOf3
+	IcebergTableState *IcebergTableState
+    DeltaLakeTableV2    *DeltaLakeTableV2 // Add this field
+    IcebergTableV2      *IcebergTableV2   // Add this field
+    IcebergViewV2       *IcebergViewV2    // Add this field
+    UDFV2               *UDFV2            // Add this field
+    NamespaceV2         *NamespaceV2      // Add this field
 	IcebergTableState1 *IcebergTableState1
 	MapmapOfStringAny *map[string]interface{}
 }
@@ -199,20 +205,20 @@ func (dst *ContentV2) UnmarshalJSON(data []byte) error {
 	}
 
 	// check if the discriminator value is ''
-	if jsonDict["type"] == "" {
-		// try to unmarshal JSON data into ERRORUNKNOWN
-		err = json.Unmarshal(data, &dst.ERRORUNKNOWN);
-		if err == nil {
-			jsonERRORUNKNOWN, _ := json.Marshal(dst.ERRORUNKNOWN)
-			if string(jsonERRORUNKNOWN) == "{}" { // empty struct
-				dst.ERRORUNKNOWN = nil
-			} else {
-				return nil // data stored in dst.ERRORUNKNOWN, return on the first match
-			}
-		} else {
-			dst.ERRORUNKNOWN = nil
-		}
-	}
+	// if jsonDict["type"] == "" {
+	// 	// try to unmarshal JSON data into ERRORUNKNOWN
+	// 	err = json.Unmarshal(data, &dst.ERRORUNKNOWN);
+	// 	if err == nil {
+	// 		jsonERRORUNKNOWN, _ := json.Marshal(dst.ERRORUNKNOWN)
+	// 		if string(jsonERRORUNKNOWN) == "{}" { // empty struct
+	// 			dst.ERRORUNKNOWN = nil
+	// 		} else {
+	// 			return nil // data stored in dst.ERRORUNKNOWN, return on the first match
+	// 		}
+	// 	} else {
+	// 		dst.ERRORUNKNOWN = nil
+	// 	}
+	// }
 
 	// try to unmarshal JSON data into Content1AnyOf
 	err = json.Unmarshal(data, &dst.Content1AnyOf);
@@ -345,9 +351,9 @@ func (src ContentV2) ToMap() (map[string]interface{}, error) {
 		return src.IcebergTableState1.ToMap()
 	}
 
-	if src.MapmapOfStringAny != nil {
-		return src.MapmapOfStringAny.ToMap()
-	}
+	// if src.MapmapOfStringAny != nil {
+	// 	return src.MapmapOfStringAny.ToMap()
+	// }
 
     return nil, nil // no data in anyOf schemas
 }

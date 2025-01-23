@@ -19,12 +19,6 @@ import (
 type CommitConsistencyV2 string
 
 // List of CommitConsistency_V2
-const (
-	NOT_CHECKED CommitConsistencyV2 = "NOT_CHECKED"
-	COMMIT_CONSISTENT CommitConsistencyV2 = "COMMIT_CONSISTENT"
-	COMMIT_CONTENT_INCONSISTENT CommitConsistencyV2 = "COMMIT_CONTENT_INCONSISTENT"
-	COMMIT_INCONSISTENT CommitConsistencyV2 = "COMMIT_INCONSISTENT"
-)
 
 // All allowed values of CommitConsistencyV2 enum
 var AllowedCommitConsistencyV2EnumValues = []CommitConsistencyV2{

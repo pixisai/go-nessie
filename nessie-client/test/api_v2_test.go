@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/shubham-pixis/920620315"
+	openapiclient "github.com/pixisai/go-nessie"
 )
 
 func Test_openapi_V2APIService(t *testing.T) {

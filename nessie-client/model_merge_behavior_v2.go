@@ -19,11 +19,6 @@ import (
 type MergeBehaviorV2 string
 
 // List of MergeBehavior_V2
-const (
-	NORMAL MergeBehaviorV2 = "NORMAL"
-	FORCE MergeBehaviorV2 = "FORCE"
-	DROP MergeBehaviorV2 = "DROP"
-)
 
 // All allowed values of MergeBehaviorV2 enum
 var AllowedMergeBehaviorV2EnumValues = []MergeBehaviorV2{

@@ -4,17 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | [**AddedContentKey**](AddedContentKey.md) |  | 
+**Key** | [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | 
 **Content** | [**Content2**](Content2.md) |  | 
-**ExpectedContent** | Pointer to [**Content4**](Content4.md) |  | [optional] 
+**ExpectedContent** | Pointer to [**Content3**](Content3.md) |  | [optional] 
 **Metadata** | Pointer to [**[]ContentMetadata1**](ContentMetadata1.md) |  | [optional] 
-**Documentation** | Pointer to [**ContentResponseV2Documentation**](ContentResponseV2Documentation.md) |  | [optional] 
+**Documentation** | Pointer to [**PutContentOperationForAContentKeyDocumentation**](PutContentOperationForAContentKeyDocumentation.md) |  | [optional] 
 
 ## Methods
 
 ### NewPutContentOperationForAContentKey
 
-`func NewPutContentOperationForAContentKey(key AddedContentKey, content Content2, ) *PutContentOperationForAContentKey`
+`func NewPutContentOperationForAContentKey(key GetMultipleContentsRequest1RequestedKeysInner, content Content2, ) *PutContentOperationForAContentKey`
 
 NewPutContentOperationForAContentKey instantiates a new PutContentOperationForAContentKey object
 This constructor will assign default values to properties that have it defined,
@@ -31,20 +31,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKey
 
-`func (o *PutContentOperationForAContentKey) GetKey() AddedContentKey`
+`func (o *PutContentOperationForAContentKey) GetKey() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetKey returns the Key field if non-nil, zero value otherwise.
 
 ### GetKeyOk
 
-`func (o *PutContentOperationForAContentKey) GetKeyOk() (*AddedContentKey, bool)`
+`func (o *PutContentOperationForAContentKey) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetKeyOk returns a tuple with the Key field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKey
 
-`func (o *PutContentOperationForAContentKey) SetKey(v AddedContentKey)`
+`func (o *PutContentOperationForAContentKey) SetKey(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetKey sets Key field to given value.
 
@@ -71,20 +71,20 @@ SetContent sets Content field to given value.
 
 ### GetExpectedContent
 
-`func (o *PutContentOperationForAContentKey) GetExpectedContent() Content4`
+`func (o *PutContentOperationForAContentKey) GetExpectedContent() Content3`
 
 GetExpectedContent returns the ExpectedContent field if non-nil, zero value otherwise.
 
 ### GetExpectedContentOk
 
-`func (o *PutContentOperationForAContentKey) GetExpectedContentOk() (*Content4, bool)`
+`func (o *PutContentOperationForAContentKey) GetExpectedContentOk() (*Content3, bool)`
 
 GetExpectedContentOk returns a tuple with the ExpectedContent field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExpectedContent
 
-`func (o *PutContentOperationForAContentKey) SetExpectedContent(v Content4)`
+`func (o *PutContentOperationForAContentKey) SetExpectedContent(v Content3)`
 
 SetExpectedContent sets ExpectedContent field to given value.
 
@@ -121,20 +121,20 @@ HasMetadata returns a boolean if a field has been set.
 
 ### GetDocumentation
 
-`func (o *PutContentOperationForAContentKey) GetDocumentation() ContentResponseV2Documentation`
+`func (o *PutContentOperationForAContentKey) GetDocumentation() PutContentOperationForAContentKeyDocumentation`
 
 GetDocumentation returns the Documentation field if non-nil, zero value otherwise.
 
 ### GetDocumentationOk
 
-`func (o *PutContentOperationForAContentKey) GetDocumentationOk() (*ContentResponseV2Documentation, bool)`
+`func (o *PutContentOperationForAContentKey) GetDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool)`
 
 GetDocumentationOk returns a tuple with the Documentation field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDocumentation
 
-`func (o *PutContentOperationForAContentKey) SetDocumentation(v ContentResponseV2Documentation)`
+`func (o *PutContentOperationForAContentKey) SetDocumentation(v PutContentOperationForAContentKeyDocumentation)`
 
 SetDocumentation sets Documentation field to given value.
 

@@ -23,7 +23,7 @@ var _ MappedNullable = &EntriesResponseV1{}
 type EntriesResponseV1 struct {
 	HasMore *bool `json:"hasMore,omitempty"`
 	Token *string `json:"token,omitempty"`
-	Entries []EntriesResponseV1EntriesInner `json:"entries"`
+	Entries []GetEntries200ResponseEntriesInner `json:"entries"`
 }
 
 type _EntriesResponseV1 EntriesResponseV1
@@ -32,7 +32,7 @@ type _EntriesResponseV1 EntriesResponseV1
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEntriesResponseV1(entries []EntriesResponseV1EntriesInner) *EntriesResponseV1 {
+func NewEntriesResponseV1(entries []GetEntries200ResponseEntriesInner) *EntriesResponseV1 {
 	this := EntriesResponseV1{}
 	this.Entries = entries
 	return &this
@@ -111,9 +111,9 @@ func (o *EntriesResponseV1) SetToken(v string) {
 }
 
 // GetEntries returns the Entries field value
-func (o *EntriesResponseV1) GetEntries() []EntriesResponseV1EntriesInner {
+func (o *EntriesResponseV1) GetEntries() []GetEntries200ResponseEntriesInner {
 	if o == nil {
-		var ret []EntriesResponseV1EntriesInner
+		var ret []GetEntries200ResponseEntriesInner
 		return ret
 	}
 
@@ -122,7 +122,7 @@ func (o *EntriesResponseV1) GetEntries() []EntriesResponseV1EntriesInner {
 
 // GetEntriesOk returns a tuple with the Entries field value
 // and a boolean to check if the value has been set.
-func (o *EntriesResponseV1) GetEntriesOk() ([]EntriesResponseV1EntriesInner, bool) {
+func (o *EntriesResponseV1) GetEntriesOk() ([]GetEntries200ResponseEntriesInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -130,7 +130,7 @@ func (o *EntriesResponseV1) GetEntriesOk() ([]EntriesResponseV1EntriesInner, boo
 }
 
 // SetEntries sets field value
-func (o *EntriesResponseV1) SetEntries(v []EntriesResponseV1EntriesInner) {
+func (o *EntriesResponseV1) SetEntries(v []GetEntries200ResponseEntriesInner) {
 	o.Entries = v
 }
 

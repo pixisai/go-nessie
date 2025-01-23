@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | [**AddedContentKey**](AddedContentKey.md) |  | 
+**Key** | [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | 
 **Content** | [**Content8**](Content8.md) |  | 
 **ExpectedContent** | Pointer to [**Content9**](Content9.md) |  | [optional] 
 
@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 
 ### NewPutContentOperationForAContentKey4
 
-`func NewPutContentOperationForAContentKey4(key AddedContentKey, content Content8, ) *PutContentOperationForAContentKey4`
+`func NewPutContentOperationForAContentKey4(key GetMultipleContentsRequest1RequestedKeysInner, content Content8, ) *PutContentOperationForAContentKey4`
 
 NewPutContentOperationForAContentKey4 instantiates a new PutContentOperationForAContentKey4 object
 This constructor will assign default values to properties that have it defined,
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKey
 
-`func (o *PutContentOperationForAContentKey4) GetKey() AddedContentKey`
+`func (o *PutContentOperationForAContentKey4) GetKey() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetKey returns the Key field if non-nil, zero value otherwise.
 
 ### GetKeyOk
 
-`func (o *PutContentOperationForAContentKey4) GetKeyOk() (*AddedContentKey, bool)`
+`func (o *PutContentOperationForAContentKey4) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetKeyOk returns a tuple with the Key field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKey
 
-`func (o *PutContentOperationForAContentKey4) SetKey(v AddedContentKey)`
+`func (o *PutContentOperationForAContentKey4) SetKey(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetKey sets Key field to given value.
 

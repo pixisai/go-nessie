@@ -4,9 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | Pointer to [**AddedContentKey**](AddedContentKey.md) |  | [optional] 
+**Key** | Pointer to [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | [optional] 
 **MergeBehavior** | Pointer to **string** |  | [optional] 
-**Conflict** | Pointer to [**PerContentKeyConflictDetails**](PerContentKeyConflictDetails.md) |  | [optional] 
 
 ## Methods
 
@@ -29,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKey
 
-`func (o *MergePerContentKeyDetails) GetKey() AddedContentKey`
+`func (o *MergePerContentKeyDetails) GetKey() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetKey returns the Key field if non-nil, zero value otherwise.
 
 ### GetKeyOk
 
-`func (o *MergePerContentKeyDetails) GetKeyOk() (*AddedContentKey, bool)`
+`func (o *MergePerContentKeyDetails) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetKeyOk returns a tuple with the Key field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKey
 
-`func (o *MergePerContentKeyDetails) SetKey(v AddedContentKey)`
+`func (o *MergePerContentKeyDetails) SetKey(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetKey sets Key field to given value.
 
@@ -76,31 +75,6 @@ SetMergeBehavior sets MergeBehavior field to given value.
 `func (o *MergePerContentKeyDetails) HasMergeBehavior() bool`
 
 HasMergeBehavior returns a boolean if a field has been set.
-
-### GetConflict
-
-`func (o *MergePerContentKeyDetails) GetConflict() PerContentKeyConflictDetails`
-
-GetConflict returns the Conflict field if non-nil, zero value otherwise.
-
-### GetConflictOk
-
-`func (o *MergePerContentKeyDetails) GetConflictOk() (*PerContentKeyConflictDetails, bool)`
-
-GetConflictOk returns a tuple with the Conflict field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetConflict
-
-`func (o *MergePerContentKeyDetails) SetConflict(v PerContentKeyConflictDetails)`
-
-SetConflict sets Conflict field to given value.
-
-### HasConflict
-
-`func (o *MergePerContentKeyDetails) HasConflict() bool`
-
-HasConflict returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

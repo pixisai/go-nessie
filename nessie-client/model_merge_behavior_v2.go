@@ -18,7 +18,6 @@ import (
 // MergeBehaviorV2 the model 'MergeBehaviorV2'
 type MergeBehaviorV2 string
 
-// List of MergeBehavior_V2
 
 // All allowed values of MergeBehaviorV2 enum
 var AllowedMergeBehaviorV2EnumValues = []MergeBehaviorV2{

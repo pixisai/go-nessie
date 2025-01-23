@@ -21,8 +21,8 @@ var _ MappedNullable = &CommitResponseV2{}
 
 // CommitResponseV2 struct for CommitResponseV2
 type CommitResponseV2 struct {
-	TargetBranch Branch2 `json:"targetBranch"`
-	AddedContents []CommitResponseAddedContentsInner `json:"addedContents,omitempty"`
+	TargetBranch Branch3 `json:"targetBranch"`
+	AddedContents []Operation1OneOf `json:"addedContents,omitempty"`
 }
 
 type _CommitResponseV2 CommitResponseV2
@@ -31,7 +31,7 @@ type _CommitResponseV2 CommitResponseV2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCommitResponseV2(targetBranch Branch2) *CommitResponseV2 {
+func NewCommitResponseV2(targetBranch Branch3) *CommitResponseV2 {
 	this := CommitResponseV2{}
 	this.TargetBranch = targetBranch
 	return &this
@@ -46,9 +46,9 @@ func NewCommitResponseV2WithDefaults() *CommitResponseV2 {
 }
 
 // GetTargetBranch returns the TargetBranch field value
-func (o *CommitResponseV2) GetTargetBranch() Branch2 {
+func (o *CommitResponseV2) GetTargetBranch() Branch3 {
 	if o == nil {
-		var ret Branch2
+		var ret Branch3
 		return ret
 	}
 
@@ -57,7 +57,7 @@ func (o *CommitResponseV2) GetTargetBranch() Branch2 {
 
 // GetTargetBranchOk returns a tuple with the TargetBranch field value
 // and a boolean to check if the value has been set.
-func (o *CommitResponseV2) GetTargetBranchOk() (*Branch2, bool) {
+func (o *CommitResponseV2) GetTargetBranchOk() (*Branch3, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -65,14 +65,14 @@ func (o *CommitResponseV2) GetTargetBranchOk() (*Branch2, bool) {
 }
 
 // SetTargetBranch sets field value
-func (o *CommitResponseV2) SetTargetBranch(v Branch2) {
+func (o *CommitResponseV2) SetTargetBranch(v Branch3) {
 	o.TargetBranch = v
 }
 
 // GetAddedContents returns the AddedContents field value if set, zero value otherwise.
-func (o *CommitResponseV2) GetAddedContents() []CommitResponseAddedContentsInner {
+func (o *CommitResponseV2) GetAddedContents() []Operation1OneOf {
 	if o == nil || IsNil(o.AddedContents) {
-		var ret []CommitResponseAddedContentsInner
+		var ret []Operation1OneOf
 		return ret
 	}
 	return o.AddedContents
@@ -80,7 +80,7 @@ func (o *CommitResponseV2) GetAddedContents() []CommitResponseAddedContentsInner
 
 // GetAddedContentsOk returns a tuple with the AddedContents field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CommitResponseV2) GetAddedContentsOk() ([]CommitResponseAddedContentsInner, bool) {
+func (o *CommitResponseV2) GetAddedContentsOk() ([]Operation1OneOf, bool) {
 	if o == nil || IsNil(o.AddedContents) {
 		return nil, false
 	}
@@ -96,8 +96,8 @@ func (o *CommitResponseV2) HasAddedContents() bool {
 	return false
 }
 
-// SetAddedContents gets a reference to the given []CommitResponseAddedContentsInner and assigns it to the AddedContents field.
-func (o *CommitResponseV2) SetAddedContents(v []CommitResponseAddedContentsInner) {
+// SetAddedContents gets a reference to the given []Operation1OneOf and assigns it to the AddedContents field.
+func (o *CommitResponseV2) SetAddedContents(v []Operation1OneOf) {
 	o.AddedContents = v
 }
 

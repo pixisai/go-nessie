@@ -21,12 +21,12 @@ var _ MappedNullable = &PutContentOperationForAContentKey3{}
 
 // PutContentOperationForAContentKey3 Used to add new content or to update existing content.  A new content object is created by populating the `value` field, the content-id in the content object must not be present (null).  A content object is updated by populating the `value` containing the correct content-id.  If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the `value` having the correct content-id. Both operations must happen in the same commit.  A content object can be replaced (think: `DROP TABLE xyz` + `CREATE TABLE xyz`) with a `Delete` operation and a `Put` operation for a content using a `value`representing a new content object, so without a content-id, in the same commit.
 type PutContentOperationForAContentKey3 struct {
-	Key AddedContentKey `json:"key"`
+	Key GetMultipleContentsRequest1RequestedKeysInner `json:"key"`
 	Content Content6 `json:"content"`
 	// Deprecated
 	ExpectedContent *Content7 `json:"expectedContent,omitempty"`
 	Metadata []ContentMetadata1 `json:"metadata,omitempty"`
-	Documentation *ContentResponseV2Documentation `json:"documentation,omitempty"`
+	Documentation *PutContentOperationForAContentKeyDocumentation `json:"documentation,omitempty"`
 }
 
 type _PutContentOperationForAContentKey3 PutContentOperationForAContentKey3
@@ -35,7 +35,7 @@ type _PutContentOperationForAContentKey3 PutContentOperationForAContentKey3
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPutContentOperationForAContentKey3(key AddedContentKey, content Content6) *PutContentOperationForAContentKey3 {
+func NewPutContentOperationForAContentKey3(key GetMultipleContentsRequest1RequestedKeysInner, content Content6) *PutContentOperationForAContentKey3 {
 	this := PutContentOperationForAContentKey3{}
 	this.Key = key
 	this.Content = content
@@ -51,9 +51,9 @@ func NewPutContentOperationForAContentKey3WithDefaults() *PutContentOperationFor
 }
 
 // GetKey returns the Key field value
-func (o *PutContentOperationForAContentKey3) GetKey() AddedContentKey {
+func (o *PutContentOperationForAContentKey3) GetKey() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 
@@ -62,7 +62,7 @@ func (o *PutContentOperationForAContentKey3) GetKey() AddedContentKey {
 
 // GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
-func (o *PutContentOperationForAContentKey3) GetKeyOk() (*AddedContentKey, bool) {
+func (o *PutContentOperationForAContentKey3) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -70,7 +70,7 @@ func (o *PutContentOperationForAContentKey3) GetKeyOk() (*AddedContentKey, bool)
 }
 
 // SetKey sets field value
-func (o *PutContentOperationForAContentKey3) SetKey(v AddedContentKey) {
+func (o *PutContentOperationForAContentKey3) SetKey(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Key = v
 }
 
@@ -166,9 +166,9 @@ func (o *PutContentOperationForAContentKey3) SetMetadata(v []ContentMetadata1) {
 }
 
 // GetDocumentation returns the Documentation field value if set, zero value otherwise.
-func (o *PutContentOperationForAContentKey3) GetDocumentation() ContentResponseV2Documentation {
+func (o *PutContentOperationForAContentKey3) GetDocumentation() PutContentOperationForAContentKeyDocumentation {
 	if o == nil || IsNil(o.Documentation) {
-		var ret ContentResponseV2Documentation
+		var ret PutContentOperationForAContentKeyDocumentation
 		return ret
 	}
 	return *o.Documentation
@@ -176,7 +176,7 @@ func (o *PutContentOperationForAContentKey3) GetDocumentation() ContentResponseV
 
 // GetDocumentationOk returns a tuple with the Documentation field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PutContentOperationForAContentKey3) GetDocumentationOk() (*ContentResponseV2Documentation, bool) {
+func (o *PutContentOperationForAContentKey3) GetDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool) {
 	if o == nil || IsNil(o.Documentation) {
 		return nil, false
 	}
@@ -192,8 +192,8 @@ func (o *PutContentOperationForAContentKey3) HasDocumentation() bool {
 	return false
 }
 
-// SetDocumentation gets a reference to the given ContentResponseV2Documentation and assigns it to the Documentation field.
-func (o *PutContentOperationForAContentKey3) SetDocumentation(v ContentResponseV2Documentation) {
+// SetDocumentation gets a reference to the given PutContentOperationForAContentKeyDocumentation and assigns it to the Documentation field.
+func (o *PutContentOperationForAContentKey3) SetDocumentation(v PutContentOperationForAContentKeyDocumentation) {
 	o.Documentation = &v
 }
 

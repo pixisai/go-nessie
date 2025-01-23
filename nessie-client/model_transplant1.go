@@ -21,21 +21,12 @@ var _ MappedNullable = &Transplant1{}
 
 // Transplant1 struct for Transplant1
 type Transplant1 struct {
-	// Commit message for this transplant request.
-	Message *string `json:"message,omitempty"`
-	// Lists the hashes of commits that should be transplanted into the target branch.
-	HashesToTransplant []string `json:"hashesToTransplant"`
-	// The name of the reference that contains the 'source' commits for the requested merge or transplant operation. 
 	FromRefName string `json:"fromRefName" validate:"regexp=^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9.\\/_-])*[A-Za-z0-9_-])?)|-$"`
-	// Specific merge behaviour requests by content key.  The default is set by the `defaultKeyMergeMode` parameter. 
-	KeyMergeModes []MergeKeyMergeModesInner `json:"keyMergeModes,omitempty"`
-	// The default merge mode. If not set, `NORMAL` is assumed.  This settings applies to key thaWhen set to 'true' instructs the server to validate the request but to avoid committing any changes.t are not explicitly mentioned in the `keyMergeModes` property. 
+	HashesToTransplant []string `json:"hashesToTransplant"`
+	KeyMergeModes []MergeOperationKeyMergeModesInner `json:"keyMergeModes,omitempty"`
 	DefaultKeyMergeMode *string `json:"defaultKeyMergeMode,omitempty"`
-	// When set to 'true' instructs the server to validate the request but to avoid committing any changes. 
 	DryRun *bool `json:"dryRun,omitempty"`
-	// Whether to provide optional response data. 
 	FetchAdditionalInfo *bool `json:"fetchAdditionalInfo,omitempty"`
-	// When set to 'true' instructs the server to produce normal (non-error) responses in case a conflict is detected and report conflict details in the response payload.
 	ReturnConflictAsResult *bool `json:"returnConflictAsResult,omitempty"`
 }
 
@@ -45,10 +36,10 @@ type _Transplant1 Transplant1
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTransplant1(hashesToTransplant []string, fromRefName string) *Transplant1 {
+func NewTransplant1(fromRefName string, hashesToTransplant []string) *Transplant1 {
 	this := Transplant1{}
-	this.HashesToTransplant = hashesToTransplant
 	this.FromRefName = fromRefName
+	this.HashesToTransplant = hashesToTransplant
 	return &this
 }
 
@@ -58,62 +49,6 @@ func NewTransplant1(hashesToTransplant []string, fromRefName string) *Transplant
 func NewTransplant1WithDefaults() *Transplant1 {
 	this := Transplant1{}
 	return &this
-}
-
-// GetMessage returns the Message field value if set, zero value otherwise.
-func (o *Transplant1) GetMessage() string {
-	if o == nil || IsNil(o.Message) {
-		var ret string
-		return ret
-	}
-	return *o.Message
-}
-
-// GetMessageOk returns a tuple with the Message field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Transplant1) GetMessageOk() (*string, bool) {
-	if o == nil || IsNil(o.Message) {
-		return nil, false
-	}
-	return o.Message, true
-}
-
-// HasMessage returns a boolean if a field has been set.
-func (o *Transplant1) HasMessage() bool {
-	if o != nil && !IsNil(o.Message) {
-		return true
-	}
-
-	return false
-}
-
-// SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *Transplant1) SetMessage(v string) {
-	o.Message = &v
-}
-
-// GetHashesToTransplant returns the HashesToTransplant field value
-func (o *Transplant1) GetHashesToTransplant() []string {
-	if o == nil {
-		var ret []string
-		return ret
-	}
-
-	return o.HashesToTransplant
-}
-
-// GetHashesToTransplantOk returns a tuple with the HashesToTransplant field value
-// and a boolean to check if the value has been set.
-func (o *Transplant1) GetHashesToTransplantOk() ([]string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.HashesToTransplant, true
-}
-
-// SetHashesToTransplant sets field value
-func (o *Transplant1) SetHashesToTransplant(v []string) {
-	o.HashesToTransplant = v
 }
 
 // GetFromRefName returns the FromRefName field value
@@ -140,10 +75,34 @@ func (o *Transplant1) SetFromRefName(v string) {
 	o.FromRefName = v
 }
 
+// GetHashesToTransplant returns the HashesToTransplant field value
+func (o *Transplant1) GetHashesToTransplant() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.HashesToTransplant
+}
+
+// GetHashesToTransplantOk returns a tuple with the HashesToTransplant field value
+// and a boolean to check if the value has been set.
+func (o *Transplant1) GetHashesToTransplantOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.HashesToTransplant, true
+}
+
+// SetHashesToTransplant sets field value
+func (o *Transplant1) SetHashesToTransplant(v []string) {
+	o.HashesToTransplant = v
+}
+
 // GetKeyMergeModes returns the KeyMergeModes field value if set, zero value otherwise.
-func (o *Transplant1) GetKeyMergeModes() []MergeKeyMergeModesInner {
+func (o *Transplant1) GetKeyMergeModes() []MergeOperationKeyMergeModesInner {
 	if o == nil || IsNil(o.KeyMergeModes) {
-		var ret []MergeKeyMergeModesInner
+		var ret []MergeOperationKeyMergeModesInner
 		return ret
 	}
 	return o.KeyMergeModes
@@ -151,7 +110,7 @@ func (o *Transplant1) GetKeyMergeModes() []MergeKeyMergeModesInner {
 
 // GetKeyMergeModesOk returns a tuple with the KeyMergeModes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Transplant1) GetKeyMergeModesOk() ([]MergeKeyMergeModesInner, bool) {
+func (o *Transplant1) GetKeyMergeModesOk() ([]MergeOperationKeyMergeModesInner, bool) {
 	if o == nil || IsNil(o.KeyMergeModes) {
 		return nil, false
 	}
@@ -167,8 +126,8 @@ func (o *Transplant1) HasKeyMergeModes() bool {
 	return false
 }
 
-// SetKeyMergeModes gets a reference to the given []MergeKeyMergeModesInner and assigns it to the KeyMergeModes field.
-func (o *Transplant1) SetKeyMergeModes(v []MergeKeyMergeModesInner) {
+// SetKeyMergeModes gets a reference to the given []MergeOperationKeyMergeModesInner and assigns it to the KeyMergeModes field.
+func (o *Transplant1) SetKeyMergeModes(v []MergeOperationKeyMergeModesInner) {
 	o.KeyMergeModes = v
 }
 
@@ -310,11 +269,8 @@ func (o Transplant1) MarshalJSON() ([]byte, error) {
 
 func (o Transplant1) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Message) {
-		toSerialize["message"] = o.Message
-	}
-	toSerialize["hashesToTransplant"] = o.HashesToTransplant
 	toSerialize["fromRefName"] = o.FromRefName
+	toSerialize["hashesToTransplant"] = o.HashesToTransplant
 	if !IsNil(o.KeyMergeModes) {
 		toSerialize["keyMergeModes"] = o.KeyMergeModes
 	}
@@ -338,8 +294,8 @@ func (o *Transplant1) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"hashesToTransplant",
 		"fromRefName",
+		"hashesToTransplant",
 	}
 
 	allProperties := make(map[string]interface{})

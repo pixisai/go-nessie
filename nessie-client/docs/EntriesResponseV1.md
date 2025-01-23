@@ -6,13 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **HasMore** | Pointer to **bool** |  | [optional] 
 **Token** | Pointer to **string** |  | [optional] 
-**Entries** | [**[]EntriesResponseV1EntriesInner**](EntriesResponseV1EntriesInner.md) |  | 
+**Entries** | [**[]GetEntries200ResponseEntriesInner**](GetEntries200ResponseEntriesInner.md) |  | 
 
 ## Methods
 
 ### NewEntriesResponseV1
 
-`func NewEntriesResponseV1(entries []EntriesResponseV1EntriesInner, ) *EntriesResponseV1`
+`func NewEntriesResponseV1(entries []GetEntries200ResponseEntriesInner, ) *EntriesResponseV1`
 
 NewEntriesResponseV1 instantiates a new EntriesResponseV1 object
 This constructor will assign default values to properties that have it defined,
@@ -79,20 +79,20 @@ HasToken returns a boolean if a field has been set.
 
 ### GetEntries
 
-`func (o *EntriesResponseV1) GetEntries() []EntriesResponseV1EntriesInner`
+`func (o *EntriesResponseV1) GetEntries() []GetEntries200ResponseEntriesInner`
 
 GetEntries returns the Entries field if non-nil, zero value otherwise.
 
 ### GetEntriesOk
 
-`func (o *EntriesResponseV1) GetEntriesOk() (*[]EntriesResponseV1EntriesInner, bool)`
+`func (o *EntriesResponseV1) GetEntriesOk() (*[]GetEntries200ResponseEntriesInner, bool)`
 
 GetEntriesOk returns a tuple with the Entries field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEntries
 
-`func (o *EntriesResponseV1) SetEntries(v []EntriesResponseV1EntriesInner)`
+`func (o *EntriesResponseV1) SetEntries(v []GetEntries200ResponseEntriesInner)`
 
 SetEntries sets Entries field to given value.
 

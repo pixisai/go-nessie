@@ -4,16 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CommitMeta** | [**CommitMeta1**](CommitMeta1.md) |  | 
-**AdditionalParents** | Pointer to **[]string** |  | [optional] 
+**CommitMeta** | [**CommitMeta3**](CommitMeta3.md) |  | 
 **ParentCommitHash** | Pointer to **string** |  | [optional] 
-**Operations** | Pointer to [**[]Operation2**](Operation2.md) |  | [optional] 
+**Operations** | Pointer to [**[]Operation3**](Operation3.md) |  | [optional] 
 
 ## Methods
 
 ### NewLogEntry2
 
-`func NewLogEntry2(commitMeta CommitMeta1, ) *LogEntry2`
+`func NewLogEntry2(commitMeta CommitMeta3, ) *LogEntry2`
 
 NewLogEntry2 instantiates a new LogEntry2 object
 This constructor will assign default values to properties that have it defined,
@@ -30,48 +29,23 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetCommitMeta
 
-`func (o *LogEntry2) GetCommitMeta() CommitMeta1`
+`func (o *LogEntry2) GetCommitMeta() CommitMeta3`
 
 GetCommitMeta returns the CommitMeta field if non-nil, zero value otherwise.
 
 ### GetCommitMetaOk
 
-`func (o *LogEntry2) GetCommitMetaOk() (*CommitMeta1, bool)`
+`func (o *LogEntry2) GetCommitMetaOk() (*CommitMeta3, bool)`
 
 GetCommitMetaOk returns a tuple with the CommitMeta field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCommitMeta
 
-`func (o *LogEntry2) SetCommitMeta(v CommitMeta1)`
+`func (o *LogEntry2) SetCommitMeta(v CommitMeta3)`
 
 SetCommitMeta sets CommitMeta field to given value.
 
-
-### GetAdditionalParents
-
-`func (o *LogEntry2) GetAdditionalParents() []string`
-
-GetAdditionalParents returns the AdditionalParents field if non-nil, zero value otherwise.
-
-### GetAdditionalParentsOk
-
-`func (o *LogEntry2) GetAdditionalParentsOk() (*[]string, bool)`
-
-GetAdditionalParentsOk returns a tuple with the AdditionalParents field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAdditionalParents
-
-`func (o *LogEntry2) SetAdditionalParents(v []string)`
-
-SetAdditionalParents sets AdditionalParents field to given value.
-
-### HasAdditionalParents
-
-`func (o *LogEntry2) HasAdditionalParents() bool`
-
-HasAdditionalParents returns a boolean if a field has been set.
 
 ### GetParentCommitHash
 
@@ -100,20 +74,20 @@ HasParentCommitHash returns a boolean if a field has been set.
 
 ### GetOperations
 
-`func (o *LogEntry2) GetOperations() []Operation2`
+`func (o *LogEntry2) GetOperations() []Operation3`
 
 GetOperations returns the Operations field if non-nil, zero value otherwise.
 
 ### GetOperationsOk
 
-`func (o *LogEntry2) GetOperationsOk() (*[]Operation2, bool)`
+`func (o *LogEntry2) GetOperationsOk() (*[]Operation3, bool)`
 
 GetOperationsOk returns a tuple with the Operations field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOperations
 
-`func (o *LogEntry2) SetOperations(v []Operation2)`
+`func (o *LogEntry2) SetOperations(v []Operation3)`
 
 SetOperations sets Operations field to given value.
 

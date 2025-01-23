@@ -5,8 +5,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CommitMeta** | [**CommitMeta2**](CommitMeta2.md) |  | 
+**AdditionalParents** | Pointer to **[]string** |  | [optional] 
 **ParentCommitHash** | Pointer to **string** |  | [optional] 
-**Operations** | Pointer to [**[]Operation3**](Operation3.md) |  | [optional] 
+**Operations** | Pointer to [**[]Operation1**](Operation1.md) |  | [optional] 
 
 ## Methods
 
@@ -47,6 +48,31 @@ and a boolean to check if the value has been set.
 SetCommitMeta sets CommitMeta field to given value.
 
 
+### GetAdditionalParents
+
+`func (o *LogEntry3) GetAdditionalParents() []string`
+
+GetAdditionalParents returns the AdditionalParents field if non-nil, zero value otherwise.
+
+### GetAdditionalParentsOk
+
+`func (o *LogEntry3) GetAdditionalParentsOk() (*[]string, bool)`
+
+GetAdditionalParentsOk returns a tuple with the AdditionalParents field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAdditionalParents
+
+`func (o *LogEntry3) SetAdditionalParents(v []string)`
+
+SetAdditionalParents sets AdditionalParents field to given value.
+
+### HasAdditionalParents
+
+`func (o *LogEntry3) HasAdditionalParents() bool`
+
+HasAdditionalParents returns a boolean if a field has been set.
+
 ### GetParentCommitHash
 
 `func (o *LogEntry3) GetParentCommitHash() string`
@@ -74,20 +100,20 @@ HasParentCommitHash returns a boolean if a field has been set.
 
 ### GetOperations
 
-`func (o *LogEntry3) GetOperations() []Operation3`
+`func (o *LogEntry3) GetOperations() []Operation1`
 
 GetOperations returns the Operations field if non-nil, zero value otherwise.
 
 ### GetOperationsOk
 
-`func (o *LogEntry3) GetOperationsOk() (*[]Operation3, bool)`
+`func (o *LogEntry3) GetOperationsOk() (*[]Operation1, bool)`
 
 GetOperationsOk returns a tuple with the Operations field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOperations
 
-`func (o *LogEntry3) SetOperations(v []Operation3)`
+`func (o *LogEntry3) SetOperations(v []Operation1)`
 
 SetOperations sets Operations field to given value.
 

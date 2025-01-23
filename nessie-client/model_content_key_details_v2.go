@@ -19,7 +19,7 @@ var _ MappedNullable = &ContentKeyDetailsV2{}
 
 // ContentKeyDetailsV2 struct for ContentKeyDetailsV2
 type ContentKeyDetailsV2 struct {
-	Key *AddedContentKey `json:"key,omitempty"`
+	Key *GetMultipleContentsRequest1RequestedKeysInner `json:"key,omitempty"`
 	MergeBehavior *string `json:"mergeBehavior,omitempty"`
 	Conflict *PerContentKeyConflictDetails `json:"conflict,omitempty"`
 }
@@ -42,9 +42,9 @@ func NewContentKeyDetailsV2WithDefaults() *ContentKeyDetailsV2 {
 }
 
 // GetKey returns the Key field value if set, zero value otherwise.
-func (o *ContentKeyDetailsV2) GetKey() AddedContentKey {
+func (o *ContentKeyDetailsV2) GetKey() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil || IsNil(o.Key) {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 	return *o.Key
@@ -52,7 +52,7 @@ func (o *ContentKeyDetailsV2) GetKey() AddedContentKey {
 
 // GetKeyOk returns a tuple with the Key field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ContentKeyDetailsV2) GetKeyOk() (*AddedContentKey, bool) {
+func (o *ContentKeyDetailsV2) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil || IsNil(o.Key) {
 		return nil, false
 	}
@@ -68,8 +68,8 @@ func (o *ContentKeyDetailsV2) HasKey() bool {
 	return false
 }
 
-// SetKey gets a reference to the given AddedContentKey and assigns it to the Key field.
-func (o *ContentKeyDetailsV2) SetKey(v AddedContentKey) {
+// SetKey gets a reference to the given GetMultipleContentsRequest1RequestedKeysInner and assigns it to the Key field.
+func (o *ContentKeyDetailsV2) SetKey(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Key = &v
 }
 

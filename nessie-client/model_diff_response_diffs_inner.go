@@ -19,7 +19,7 @@ var _ MappedNullable = &DiffResponseDiffsInner{}
 
 // DiffResponseDiffsInner struct for DiffResponseDiffsInner
 type DiffResponseDiffsInner struct {
-	Key *AddedContentKey `json:"key,omitempty"`
+	Key *GetMultipleContentsRequest1RequestedKeysInner `json:"key,omitempty"`
 	From *Content2 `json:"from,omitempty"`
 	To *Content2 `json:"to,omitempty"`
 }
@@ -42,9 +42,9 @@ func NewDiffResponseDiffsInnerWithDefaults() *DiffResponseDiffsInner {
 }
 
 // GetKey returns the Key field value if set, zero value otherwise.
-func (o *DiffResponseDiffsInner) GetKey() AddedContentKey {
+func (o *DiffResponseDiffsInner) GetKey() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil || IsNil(o.Key) {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 	return *o.Key
@@ -52,7 +52,7 @@ func (o *DiffResponseDiffsInner) GetKey() AddedContentKey {
 
 // GetKeyOk returns a tuple with the Key field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DiffResponseDiffsInner) GetKeyOk() (*AddedContentKey, bool) {
+func (o *DiffResponseDiffsInner) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil || IsNil(o.Key) {
 		return nil, false
 	}
@@ -68,8 +68,8 @@ func (o *DiffResponseDiffsInner) HasKey() bool {
 	return false
 }
 
-// SetKey gets a reference to the given AddedContentKey and assigns it to the Key field.
-func (o *DiffResponseDiffsInner) SetKey(v AddedContentKey) {
+// SetKey gets a reference to the given GetMultipleContentsRequest1RequestedKeysInner and assigns it to the Key field.
+func (o *DiffResponseDiffsInner) SetKey(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Key = &v
 }
 

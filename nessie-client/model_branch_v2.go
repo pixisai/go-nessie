@@ -22,7 +22,7 @@ var _ MappedNullable = &BranchV2{}
 // BranchV2 struct for BranchV2
 type BranchV2 struct {
 	Name string `json:"name" validate:"regexp=^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9.\\/_-])*[A-Za-z0-9_-])?)|-$"`
-	Metadata *ReferenceMetadata2 `json:"metadata,omitempty"`
+	Metadata *ReferenceMetadata3 `json:"metadata,omitempty"`
 	Hash *string `json:"hash,omitempty" validate:"regexp=^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"`
 }
 
@@ -71,9 +71,9 @@ func (o *BranchV2) SetName(v string) {
 }
 
 // GetMetadata returns the Metadata field value if set, zero value otherwise.
-func (o *BranchV2) GetMetadata() ReferenceMetadata2 {
+func (o *BranchV2) GetMetadata() ReferenceMetadata3 {
 	if o == nil || IsNil(o.Metadata) {
-		var ret ReferenceMetadata2
+		var ret ReferenceMetadata3
 		return ret
 	}
 	return *o.Metadata
@@ -81,7 +81,7 @@ func (o *BranchV2) GetMetadata() ReferenceMetadata2 {
 
 // GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BranchV2) GetMetadataOk() (*ReferenceMetadata2, bool) {
+func (o *BranchV2) GetMetadataOk() (*ReferenceMetadata3, bool) {
 	if o == nil || IsNil(o.Metadata) {
 		return nil, false
 	}
@@ -97,8 +97,8 @@ func (o *BranchV2) HasMetadata() bool {
 	return false
 }
 
-// SetMetadata gets a reference to the given ReferenceMetadata2 and assigns it to the Metadata field.
-func (o *BranchV2) SetMetadata(v ReferenceMetadata2) {
+// SetMetadata gets a reference to the given ReferenceMetadata3 and assigns it to the Metadata field.
+func (o *BranchV2) SetMetadata(v ReferenceMetadata3) {
 	o.Metadata = &v
 }
 

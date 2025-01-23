@@ -19,12 +19,12 @@ var _ MappedNullable = &MergeKeyBehavior{}
 
 // MergeKeyBehavior struct for MergeKeyBehavior
 type MergeKeyBehavior struct {
-	Key *AddedContentKey `json:"key,omitempty"`
+	Key *GetMultipleContentsRequest1RequestedKeysInner `json:"key,omitempty"`
 	MergeBehavior *string `json:"mergeBehavior,omitempty"`
 	ExpectedTargetContent *Content2 `json:"expectedTargetContent,omitempty"`
 	ResolvedContent *Content2 `json:"resolvedContent,omitempty"`
-	ExpectedTargetDocumentation *ContentResponseV2Documentation `json:"expectedTargetDocumentation,omitempty"`
-	ResolvedDocumentation *ContentResponseV2Documentation `json:"resolvedDocumentation,omitempty"`
+	ExpectedTargetDocumentation *PutContentOperationForAContentKeyDocumentation `json:"expectedTargetDocumentation,omitempty"`
+	ResolvedDocumentation *PutContentOperationForAContentKeyDocumentation `json:"resolvedDocumentation,omitempty"`
 	Metadata []ContentMetadata1 `json:"metadata,omitempty"`
 }
 
@@ -46,9 +46,9 @@ func NewMergeKeyBehaviorWithDefaults() *MergeKeyBehavior {
 }
 
 // GetKey returns the Key field value if set, zero value otherwise.
-func (o *MergeKeyBehavior) GetKey() AddedContentKey {
+func (o *MergeKeyBehavior) GetKey() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil || IsNil(o.Key) {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 	return *o.Key
@@ -56,7 +56,7 @@ func (o *MergeKeyBehavior) GetKey() AddedContentKey {
 
 // GetKeyOk returns a tuple with the Key field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MergeKeyBehavior) GetKeyOk() (*AddedContentKey, bool) {
+func (o *MergeKeyBehavior) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil || IsNil(o.Key) {
 		return nil, false
 	}
@@ -72,8 +72,8 @@ func (o *MergeKeyBehavior) HasKey() bool {
 	return false
 }
 
-// SetKey gets a reference to the given AddedContentKey and assigns it to the Key field.
-func (o *MergeKeyBehavior) SetKey(v AddedContentKey) {
+// SetKey gets a reference to the given GetMultipleContentsRequest1RequestedKeysInner and assigns it to the Key field.
+func (o *MergeKeyBehavior) SetKey(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Key = &v
 }
 
@@ -174,9 +174,9 @@ func (o *MergeKeyBehavior) SetResolvedContent(v Content2) {
 }
 
 // GetExpectedTargetDocumentation returns the ExpectedTargetDocumentation field value if set, zero value otherwise.
-func (o *MergeKeyBehavior) GetExpectedTargetDocumentation() ContentResponseV2Documentation {
+func (o *MergeKeyBehavior) GetExpectedTargetDocumentation() PutContentOperationForAContentKeyDocumentation {
 	if o == nil || IsNil(o.ExpectedTargetDocumentation) {
-		var ret ContentResponseV2Documentation
+		var ret PutContentOperationForAContentKeyDocumentation
 		return ret
 	}
 	return *o.ExpectedTargetDocumentation
@@ -184,7 +184,7 @@ func (o *MergeKeyBehavior) GetExpectedTargetDocumentation() ContentResponseV2Doc
 
 // GetExpectedTargetDocumentationOk returns a tuple with the ExpectedTargetDocumentation field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MergeKeyBehavior) GetExpectedTargetDocumentationOk() (*ContentResponseV2Documentation, bool) {
+func (o *MergeKeyBehavior) GetExpectedTargetDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool) {
 	if o == nil || IsNil(o.ExpectedTargetDocumentation) {
 		return nil, false
 	}
@@ -200,15 +200,15 @@ func (o *MergeKeyBehavior) HasExpectedTargetDocumentation() bool {
 	return false
 }
 
-// SetExpectedTargetDocumentation gets a reference to the given ContentResponseV2Documentation and assigns it to the ExpectedTargetDocumentation field.
-func (o *MergeKeyBehavior) SetExpectedTargetDocumentation(v ContentResponseV2Documentation) {
+// SetExpectedTargetDocumentation gets a reference to the given PutContentOperationForAContentKeyDocumentation and assigns it to the ExpectedTargetDocumentation field.
+func (o *MergeKeyBehavior) SetExpectedTargetDocumentation(v PutContentOperationForAContentKeyDocumentation) {
 	o.ExpectedTargetDocumentation = &v
 }
 
 // GetResolvedDocumentation returns the ResolvedDocumentation field value if set, zero value otherwise.
-func (o *MergeKeyBehavior) GetResolvedDocumentation() ContentResponseV2Documentation {
+func (o *MergeKeyBehavior) GetResolvedDocumentation() PutContentOperationForAContentKeyDocumentation {
 	if o == nil || IsNil(o.ResolvedDocumentation) {
-		var ret ContentResponseV2Documentation
+		var ret PutContentOperationForAContentKeyDocumentation
 		return ret
 	}
 	return *o.ResolvedDocumentation
@@ -216,7 +216,7 @@ func (o *MergeKeyBehavior) GetResolvedDocumentation() ContentResponseV2Documenta
 
 // GetResolvedDocumentationOk returns a tuple with the ResolvedDocumentation field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MergeKeyBehavior) GetResolvedDocumentationOk() (*ContentResponseV2Documentation, bool) {
+func (o *MergeKeyBehavior) GetResolvedDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool) {
 	if o == nil || IsNil(o.ResolvedDocumentation) {
 		return nil, false
 	}
@@ -232,8 +232,8 @@ func (o *MergeKeyBehavior) HasResolvedDocumentation() bool {
 	return false
 }
 
-// SetResolvedDocumentation gets a reference to the given ContentResponseV2Documentation and assigns it to the ResolvedDocumentation field.
-func (o *MergeKeyBehavior) SetResolvedDocumentation(v ContentResponseV2Documentation) {
+// SetResolvedDocumentation gets a reference to the given PutContentOperationForAContentKeyDocumentation and assigns it to the ResolvedDocumentation field.
+func (o *MergeKeyBehavior) SetResolvedDocumentation(v PutContentOperationForAContentKeyDocumentation) {
 	o.ResolvedDocumentation = &v
 }
 

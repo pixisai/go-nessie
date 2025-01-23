@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Hash** | **string** |  | 
-**Metadata** | Pointer to [**ReferenceMetadata2**](ReferenceMetadata2.md) |  | [optional] 
+**Metadata** | Pointer to [**ReferenceMetadata3**](ReferenceMetadata3.md) |  | [optional] 
 
 ## Methods
 
@@ -48,20 +48,20 @@ SetHash sets Hash field to given value.
 
 ### GetMetadata
 
-`func (o *DetachedV2) GetMetadata() ReferenceMetadata2`
+`func (o *DetachedV2) GetMetadata() ReferenceMetadata3`
 
 GetMetadata returns the Metadata field if non-nil, zero value otherwise.
 
 ### GetMetadataOk
 
-`func (o *DetachedV2) GetMetadataOk() (*ReferenceMetadata2, bool)`
+`func (o *DetachedV2) GetMetadataOk() (*ReferenceMetadata3, bool)`
 
 GetMetadataOk returns a tuple with the Metadata field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMetadata
 
-`func (o *DetachedV2) SetMetadata(v ReferenceMetadata2)`
+`func (o *DetachedV2) SetMetadata(v ReferenceMetadata3)`
 
 SetMetadata sets Metadata field to given value.
 

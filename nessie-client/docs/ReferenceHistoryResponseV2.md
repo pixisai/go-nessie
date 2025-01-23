@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Reference** | [**Reference2**](Reference2.md) |  | 
-**Current** | [**ReferenceHistoryState3**](ReferenceHistoryState3.md) |  | 
-**Previous** | [**[]ReferenceHistoryState4**](ReferenceHistoryState4.md) | Consistency status of the recorded recent HEADs of the reference, including re-assign operations. | 
+**Reference** | [**Reference3**](Reference3.md) |  | 
+**Current** | [**ReferenceHistoryState1**](ReferenceHistoryState1.md) |  | 
+**Previous** | [**[]ReferenceHistoryState2**](ReferenceHistoryState2.md) | Consistency status of the recorded recent HEADs of the reference, including re-assign operations. | 
 **CommitLogConsistency** | **string** | Combined consistency status of the commit-log of the reference, if requested by the client. | 
 
 ## Methods
 
 ### NewReferenceHistoryResponseV2
 
-`func NewReferenceHistoryResponseV2(reference Reference2, current ReferenceHistoryState3, previous []ReferenceHistoryState4, commitLogConsistency string, ) *ReferenceHistoryResponseV2`
+`func NewReferenceHistoryResponseV2(reference Reference3, current ReferenceHistoryState1, previous []ReferenceHistoryState2, commitLogConsistency string, ) *ReferenceHistoryResponseV2`
 
 NewReferenceHistoryResponseV2 instantiates a new ReferenceHistoryResponseV2 object
 This constructor will assign default values to properties that have it defined,
@@ -30,60 +30,60 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetReference
 
-`func (o *ReferenceHistoryResponseV2) GetReference() Reference2`
+`func (o *ReferenceHistoryResponseV2) GetReference() Reference3`
 
 GetReference returns the Reference field if non-nil, zero value otherwise.
 
 ### GetReferenceOk
 
-`func (o *ReferenceHistoryResponseV2) GetReferenceOk() (*Reference2, bool)`
+`func (o *ReferenceHistoryResponseV2) GetReferenceOk() (*Reference3, bool)`
 
 GetReferenceOk returns a tuple with the Reference field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetReference
 
-`func (o *ReferenceHistoryResponseV2) SetReference(v Reference2)`
+`func (o *ReferenceHistoryResponseV2) SetReference(v Reference3)`
 
 SetReference sets Reference field to given value.
 
 
 ### GetCurrent
 
-`func (o *ReferenceHistoryResponseV2) GetCurrent() ReferenceHistoryState3`
+`func (o *ReferenceHistoryResponseV2) GetCurrent() ReferenceHistoryState1`
 
 GetCurrent returns the Current field if non-nil, zero value otherwise.
 
 ### GetCurrentOk
 
-`func (o *ReferenceHistoryResponseV2) GetCurrentOk() (*ReferenceHistoryState3, bool)`
+`func (o *ReferenceHistoryResponseV2) GetCurrentOk() (*ReferenceHistoryState1, bool)`
 
 GetCurrentOk returns a tuple with the Current field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCurrent
 
-`func (o *ReferenceHistoryResponseV2) SetCurrent(v ReferenceHistoryState3)`
+`func (o *ReferenceHistoryResponseV2) SetCurrent(v ReferenceHistoryState1)`
 
 SetCurrent sets Current field to given value.
 
 
 ### GetPrevious
 
-`func (o *ReferenceHistoryResponseV2) GetPrevious() []ReferenceHistoryState4`
+`func (o *ReferenceHistoryResponseV2) GetPrevious() []ReferenceHistoryState2`
 
 GetPrevious returns the Previous field if non-nil, zero value otherwise.
 
 ### GetPreviousOk
 
-`func (o *ReferenceHistoryResponseV2) GetPreviousOk() (*[]ReferenceHistoryState4, bool)`
+`func (o *ReferenceHistoryResponseV2) GetPreviousOk() (*[]ReferenceHistoryState2, bool)`
 
 GetPreviousOk returns a tuple with the Previous field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPrevious
 
-`func (o *ReferenceHistoryResponseV2) SetPrevious(v []ReferenceHistoryState4)`
+`func (o *ReferenceHistoryResponseV2) SetPrevious(v []ReferenceHistoryState2)`
 
 SetPrevious sets Previous field to given value.
 

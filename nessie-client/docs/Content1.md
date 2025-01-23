@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **SchemaId** | Pointer to **int32** |  | [optional] 
 **SpecId** | Pointer to **int32** |  | [optional] 
 **SortOrderId** | Pointer to **int32** |  | [optional] 
+**Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
 **MetadataLocationHistory** | **[]string** |  | 
 **CheckpointLocationHistory** | **[]string** |  | 
 **LastCheckpoint** | Pointer to **string** |  | [optional] 
@@ -183,6 +184,31 @@ SetSortOrderId sets SortOrderId field to given value.
 `func (o *Content1) HasSortOrderId() bool`
 
 HasSortOrderId returns a boolean if a field has been set.
+
+### GetMetadata
+
+`func (o *Content1) GetMetadata() map[string]interface{}`
+
+GetMetadata returns the Metadata field if non-nil, zero value otherwise.
+
+### GetMetadataOk
+
+`func (o *Content1) GetMetadataOk() (*map[string]interface{}, bool)`
+
+GetMetadataOk returns a tuple with the Metadata field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetadata
+
+`func (o *Content1) SetMetadata(v map[string]interface{})`
+
+SetMetadata sets Metadata field to given value.
+
+### HasMetadata
+
+`func (o *Content1) HasMetadata() bool`
+
+HasMetadata returns a boolean if a field has been set.
 
 ### GetMetadataLocationHistory
 

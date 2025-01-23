@@ -21,8 +21,8 @@ var _ MappedNullable = &GetMultipleContentsResponseV2{}
 
 // GetMultipleContentsResponseV2 struct for GetMultipleContentsResponseV2
 type GetMultipleContentsResponseV2 struct {
-	Contents []GetMultipleContentsResponseV2ContentsInner `json:"contents"`
-	EffectiveReference *Reference2 `json:"effectiveReference,omitempty"`
+	Contents []GetMultipleContentsResponse2ContentsInner `json:"contents"`
+	EffectiveReference *Reference3 `json:"effectiveReference,omitempty"`
 }
 
 type _GetMultipleContentsResponseV2 GetMultipleContentsResponseV2
@@ -31,7 +31,7 @@ type _GetMultipleContentsResponseV2 GetMultipleContentsResponseV2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetMultipleContentsResponseV2(contents []GetMultipleContentsResponseV2ContentsInner) *GetMultipleContentsResponseV2 {
+func NewGetMultipleContentsResponseV2(contents []GetMultipleContentsResponse2ContentsInner) *GetMultipleContentsResponseV2 {
 	this := GetMultipleContentsResponseV2{}
 	this.Contents = contents
 	return &this
@@ -46,9 +46,9 @@ func NewGetMultipleContentsResponseV2WithDefaults() *GetMultipleContentsResponse
 }
 
 // GetContents returns the Contents field value
-func (o *GetMultipleContentsResponseV2) GetContents() []GetMultipleContentsResponseV2ContentsInner {
+func (o *GetMultipleContentsResponseV2) GetContents() []GetMultipleContentsResponse2ContentsInner {
 	if o == nil {
-		var ret []GetMultipleContentsResponseV2ContentsInner
+		var ret []GetMultipleContentsResponse2ContentsInner
 		return ret
 	}
 
@@ -57,7 +57,7 @@ func (o *GetMultipleContentsResponseV2) GetContents() []GetMultipleContentsRespo
 
 // GetContentsOk returns a tuple with the Contents field value
 // and a boolean to check if the value has been set.
-func (o *GetMultipleContentsResponseV2) GetContentsOk() ([]GetMultipleContentsResponseV2ContentsInner, bool) {
+func (o *GetMultipleContentsResponseV2) GetContentsOk() ([]GetMultipleContentsResponse2ContentsInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -65,14 +65,14 @@ func (o *GetMultipleContentsResponseV2) GetContentsOk() ([]GetMultipleContentsRe
 }
 
 // SetContents sets field value
-func (o *GetMultipleContentsResponseV2) SetContents(v []GetMultipleContentsResponseV2ContentsInner) {
+func (o *GetMultipleContentsResponseV2) SetContents(v []GetMultipleContentsResponse2ContentsInner) {
 	o.Contents = v
 }
 
 // GetEffectiveReference returns the EffectiveReference field value if set, zero value otherwise.
-func (o *GetMultipleContentsResponseV2) GetEffectiveReference() Reference2 {
+func (o *GetMultipleContentsResponseV2) GetEffectiveReference() Reference3 {
 	if o == nil || IsNil(o.EffectiveReference) {
-		var ret Reference2
+		var ret Reference3
 		return ret
 	}
 	return *o.EffectiveReference
@@ -80,7 +80,7 @@ func (o *GetMultipleContentsResponseV2) GetEffectiveReference() Reference2 {
 
 // GetEffectiveReferenceOk returns a tuple with the EffectiveReference field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMultipleContentsResponseV2) GetEffectiveReferenceOk() (*Reference2, bool) {
+func (o *GetMultipleContentsResponseV2) GetEffectiveReferenceOk() (*Reference3, bool) {
 	if o == nil || IsNil(o.EffectiveReference) {
 		return nil, false
 	}
@@ -96,8 +96,8 @@ func (o *GetMultipleContentsResponseV2) HasEffectiveReference() bool {
 	return false
 }
 
-// SetEffectiveReference gets a reference to the given Reference2 and assigns it to the EffectiveReference field.
-func (o *GetMultipleContentsResponseV2) SetEffectiveReference(v Reference2) {
+// SetEffectiveReference gets a reference to the given Reference3 and assigns it to the EffectiveReference field.
+func (o *GetMultipleContentsResponseV2) SetEffectiveReference(v Reference3) {
 	o.EffectiveReference = &v
 }
 

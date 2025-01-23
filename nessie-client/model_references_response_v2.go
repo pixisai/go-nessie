@@ -23,7 +23,7 @@ var _ MappedNullable = &ReferencesResponseV2{}
 type ReferencesResponseV2 struct {
 	HasMore *bool `json:"hasMore,omitempty"`
 	Token *string `json:"token,omitempty"`
-	References []Reference2 `json:"references"`
+	References []Reference3 `json:"references"`
 }
 
 type _ReferencesResponseV2 ReferencesResponseV2
@@ -32,7 +32,7 @@ type _ReferencesResponseV2 ReferencesResponseV2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewReferencesResponseV2(references []Reference2) *ReferencesResponseV2 {
+func NewReferencesResponseV2(references []Reference3) *ReferencesResponseV2 {
 	this := ReferencesResponseV2{}
 	this.References = references
 	return &this
@@ -111,9 +111,9 @@ func (o *ReferencesResponseV2) SetToken(v string) {
 }
 
 // GetReferences returns the References field value
-func (o *ReferencesResponseV2) GetReferences() []Reference2 {
+func (o *ReferencesResponseV2) GetReferences() []Reference3 {
 	if o == nil {
-		var ret []Reference2
+		var ret []Reference3
 		return ret
 	}
 
@@ -122,7 +122,7 @@ func (o *ReferencesResponseV2) GetReferences() []Reference2 {
 
 // GetReferencesOk returns a tuple with the References field value
 // and a boolean to check if the value has been set.
-func (o *ReferencesResponseV2) GetReferencesOk() ([]Reference2, bool) {
+func (o *ReferencesResponseV2) GetReferencesOk() ([]Reference3, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -130,7 +130,7 @@ func (o *ReferencesResponseV2) GetReferencesOk() ([]Reference2, bool) {
 }
 
 // SetReferences sets field value
-func (o *ReferencesResponseV2) SetReferences(v []Reference2) {
+func (o *ReferencesResponseV2) SetReferences(v []Reference3) {
 	o.References = v
 }
 

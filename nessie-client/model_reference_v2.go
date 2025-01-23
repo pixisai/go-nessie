@@ -18,29 +18,29 @@ import (
 
 // ReferenceV2 - struct for ReferenceV2
 type ReferenceV2 struct {
-	Branch2 *Branch2
-	DetachedCommitHash1 *DetachedCommitHash1
-	Tag2 *Tag2
+	Branch3 *Branch3
+	DetachedCommitHash2 *DetachedCommitHash2
+	Tag3 *Tag3
 }
 
-// Branch2AsReferenceV2 is a convenience function that returns Branch2 wrapped in ReferenceV2
-func Branch2AsReferenceV2(v *Branch2) ReferenceV2 {
+// Branch3AsReferenceV2 is a convenience function that returns Branch3 wrapped in ReferenceV2
+func Branch3AsReferenceV2(v *Branch3) ReferenceV2 {
 	return ReferenceV2{
-		Branch2: v,
+		Branch3: v,
 	}
 }
 
-// DetachedCommitHash1AsReferenceV2 is a convenience function that returns DetachedCommitHash1 wrapped in ReferenceV2
-func DetachedCommitHash1AsReferenceV2(v *DetachedCommitHash1) ReferenceV2 {
+// DetachedCommitHash2AsReferenceV2 is a convenience function that returns DetachedCommitHash2 wrapped in ReferenceV2
+func DetachedCommitHash2AsReferenceV2(v *DetachedCommitHash2) ReferenceV2 {
 	return ReferenceV2{
-		DetachedCommitHash1: v,
+		DetachedCommitHash2: v,
 	}
 }
 
-// Tag2AsReferenceV2 is a convenience function that returns Tag2 wrapped in ReferenceV2
-func Tag2AsReferenceV2(v *Tag2) ReferenceV2 {
+// Tag3AsReferenceV2 is a convenience function that returns Tag3 wrapped in ReferenceV2
+func Tag3AsReferenceV2(v *Tag3) ReferenceV2 {
 	return ReferenceV2{
-		Tag2: v,
+		Tag3: v,
 	}
 }
 
@@ -49,62 +49,62 @@ func Tag2AsReferenceV2(v *Tag2) ReferenceV2 {
 func (dst *ReferenceV2) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	// try to unmarshal data into Branch2
-	err = newStrictDecoder(data).Decode(&dst.Branch2)
+	// try to unmarshal data into Branch3
+	err = newStrictDecoder(data).Decode(&dst.Branch3)
 	if err == nil {
-		jsonBranch2, _ := json.Marshal(dst.Branch2)
-		if string(jsonBranch2) == "{}" { // empty struct
-			dst.Branch2 = nil
+		jsonBranch3, _ := json.Marshal(dst.Branch3)
+		if string(jsonBranch3) == "{}" { // empty struct
+			dst.Branch3 = nil
 		} else {
-			if err = validator.Validate(dst.Branch2); err != nil {
-				dst.Branch2 = nil
+			if err = validator.Validate(dst.Branch3); err != nil {
+				dst.Branch3 = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.Branch2 = nil
+		dst.Branch3 = nil
 	}
 
-	// try to unmarshal data into DetachedCommitHash1
-	err = newStrictDecoder(data).Decode(&dst.DetachedCommitHash1)
+	// try to unmarshal data into DetachedCommitHash2
+	err = newStrictDecoder(data).Decode(&dst.DetachedCommitHash2)
 	if err == nil {
-		jsonDetachedCommitHash1, _ := json.Marshal(dst.DetachedCommitHash1)
-		if string(jsonDetachedCommitHash1) == "{}" { // empty struct
-			dst.DetachedCommitHash1 = nil
+		jsonDetachedCommitHash2, _ := json.Marshal(dst.DetachedCommitHash2)
+		if string(jsonDetachedCommitHash2) == "{}" { // empty struct
+			dst.DetachedCommitHash2 = nil
 		} else {
-			if err = validator.Validate(dst.DetachedCommitHash1); err != nil {
-				dst.DetachedCommitHash1 = nil
+			if err = validator.Validate(dst.DetachedCommitHash2); err != nil {
+				dst.DetachedCommitHash2 = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.DetachedCommitHash1 = nil
+		dst.DetachedCommitHash2 = nil
 	}
 
-	// try to unmarshal data into Tag2
-	err = newStrictDecoder(data).Decode(&dst.Tag2)
+	// try to unmarshal data into Tag3
+	err = newStrictDecoder(data).Decode(&dst.Tag3)
 	if err == nil {
-		jsonTag2, _ := json.Marshal(dst.Tag2)
-		if string(jsonTag2) == "{}" { // empty struct
-			dst.Tag2 = nil
+		jsonTag3, _ := json.Marshal(dst.Tag3)
+		if string(jsonTag3) == "{}" { // empty struct
+			dst.Tag3 = nil
 		} else {
-			if err = validator.Validate(dst.Tag2); err != nil {
-				dst.Tag2 = nil
+			if err = validator.Validate(dst.Tag3); err != nil {
+				dst.Tag3 = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.Tag2 = nil
+		dst.Tag3 = nil
 	}
 
 	if match > 1 { // more than 1 match
 		// reset to nil
-		dst.Branch2 = nil
-		dst.DetachedCommitHash1 = nil
-		dst.Tag2 = nil
+		dst.Branch3 = nil
+		dst.DetachedCommitHash2 = nil
+		dst.Tag3 = nil
 
 		return fmt.Errorf("data matches more than one schema in oneOf(ReferenceV2)")
 	} else if match == 1 {
@@ -116,16 +116,16 @@ func (dst *ReferenceV2) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src ReferenceV2) MarshalJSON() ([]byte, error) {
-	if src.Branch2 != nil {
-		return json.Marshal(&src.Branch2)
+	if src.Branch3 != nil {
+		return json.Marshal(&src.Branch3)
 	}
 
-	if src.DetachedCommitHash1 != nil {
-		return json.Marshal(&src.DetachedCommitHash1)
+	if src.DetachedCommitHash2 != nil {
+		return json.Marshal(&src.DetachedCommitHash2)
 	}
 
-	if src.Tag2 != nil {
-		return json.Marshal(&src.Tag2)
+	if src.Tag3 != nil {
+		return json.Marshal(&src.Tag3)
 	}
 
 	return nil, nil // no data in oneOf schemas
@@ -136,16 +136,16 @@ func (obj *ReferenceV2) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
-	if obj.Branch2 != nil {
-		return obj.Branch2
+	if obj.Branch3 != nil {
+		return obj.Branch3
 	}
 
-	if obj.DetachedCommitHash1 != nil {
-		return obj.DetachedCommitHash1
+	if obj.DetachedCommitHash2 != nil {
+		return obj.DetachedCommitHash2
 	}
 
-	if obj.Tag2 != nil {
-		return obj.Tag2
+	if obj.Tag3 != nil {
+		return obj.Tag3
 	}
 
 	// all schemas are nil

@@ -22,7 +22,7 @@ var _ MappedNullable = &GetMultipleContentsResponse{}
 // GetMultipleContentsResponse struct for GetMultipleContentsResponse
 type GetMultipleContentsResponse struct {
 	Contents []GetMultipleContentsResponseContentsInner `json:"contents"`
-	EffectiveReference *Reference3 `json:"effectiveReference,omitempty"`
+	EffectiveReference *Reference2 `json:"effectiveReference,omitempty"`
 }
 
 type _GetMultipleContentsResponse GetMultipleContentsResponse
@@ -70,9 +70,9 @@ func (o *GetMultipleContentsResponse) SetContents(v []GetMultipleContentsRespons
 }
 
 // GetEffectiveReference returns the EffectiveReference field value if set, zero value otherwise.
-func (o *GetMultipleContentsResponse) GetEffectiveReference() Reference3 {
+func (o *GetMultipleContentsResponse) GetEffectiveReference() Reference2 {
 	if o == nil || IsNil(o.EffectiveReference) {
-		var ret Reference3
+		var ret Reference2
 		return ret
 	}
 	return *o.EffectiveReference
@@ -80,7 +80,7 @@ func (o *GetMultipleContentsResponse) GetEffectiveReference() Reference3 {
 
 // GetEffectiveReferenceOk returns a tuple with the EffectiveReference field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMultipleContentsResponse) GetEffectiveReferenceOk() (*Reference3, bool) {
+func (o *GetMultipleContentsResponse) GetEffectiveReferenceOk() (*Reference2, bool) {
 	if o == nil || IsNil(o.EffectiveReference) {
 		return nil, false
 	}
@@ -96,8 +96,8 @@ func (o *GetMultipleContentsResponse) HasEffectiveReference() bool {
 	return false
 }
 
-// SetEffectiveReference gets a reference to the given Reference3 and assigns it to the EffectiveReference field.
-func (o *GetMultipleContentsResponse) SetEffectiveReference(v Reference3) {
+// SetEffectiveReference gets a reference to the given Reference2 and assigns it to the EffectiveReference field.
+func (o *GetMultipleContentsResponse) SetEffectiveReference(v Reference2) {
 	o.EffectiveReference = &v
 }
 

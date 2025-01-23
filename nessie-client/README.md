@@ -83,15 +83,49 @@ All URIs are relative to *http://localhost:19120*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*V1API* | [**AssignReference**](docs/V1API.md#assignreference) | **Put** /v1/trees/{referenceType}/{referenceName} | Set a named reference to a specific hash via a named-reference.
+*V1API* | [**CommitMultipleOperations**](docs/V1API.md#commitmultipleoperations) | **Post** /v1/trees/branch/{branchName}/commit | Commit multiple operations against the given branch expecting that branch to have the given hash as its latest commit. The hash in the successful response contains the hash of the commit that contains the operations of the invocation.
+*V1API* | [**CreateNamespace**](docs/V1API.md#createnamespace) | **Put** /v1/namespaces/namespace/{ref}/{name} | Creates a Namespace
+*V1API* | [**CreateReference**](docs/V1API.md#createreference) | **Post** /v1/trees/tree | Create a new reference
+*V1API* | [**DeleteNamespace**](docs/V1API.md#deletenamespace) | **Delete** /v1/namespaces/namespace/{ref}/{name} | Deletes a Namespace
+*V1API* | [**DeleteReference**](docs/V1API.md#deletereference) | **Delete** /v1/trees/{referenceType}/{referenceName} | Delete a reference endpoint
 *V1API* | [**GetAllReferences**](docs/V1API.md#getallreferences) | **Get** /v1/trees | Get all references
+*V1API* | [**GetCommitLog**](docs/V1API.md#getcommitlog) | **Get** /v1/trees/tree/{ref}/log | Get commit log for a reference
+*V1API* | [**GetConfig**](docs/V1API.md#getconfig) | **Get** /v1/config | List all configuration settings
+*V1API* | [**GetContent**](docs/V1API.md#getcontent) | **Get** /v1/contents/{key} | Get object content associated with a key.
+*V1API* | [**GetDefaultBranch**](docs/V1API.md#getdefaultbranch) | **Get** /v1/trees/tree | Get default branch for commits and reads
+*V1API* | [**GetDiff**](docs/V1API.md#getdiff) | **Get** /v1/diffs/{fromRefWithHash}...{toRefWithHash} | Get a diff for two given references
+*V1API* | [**GetEntries**](docs/V1API.md#getentries) | **Get** /v1/trees/tree/{ref}/entries | Fetch all entries for a given reference
+*V1API* | [**GetMultipleContents**](docs/V1API.md#getmultiplecontents) | **Post** /v1/contents | Get multiple objects&#39; content.
+*V1API* | [**GetNamespace**](docs/V1API.md#getnamespace) | **Get** /v1/namespaces/namespace/{ref}/{name} | Retrieves a Namespace
+*V1API* | [**GetNamespaces**](docs/V1API.md#getnamespaces) | **Get** /v1/namespaces/{ref} | 
+*V1API* | [**GetReferenceByName**](docs/V1API.md#getreferencebyname) | **Get** /v1/trees/tree/{ref} | Fetch details of a reference
+*V1API* | [**MergeRefIntoBranch**](docs/V1API.md#mergerefintobranch) | **Post** /v1/trees/branch/{branchName}/merge | Merge commits from &#39;mergeRef&#39; onto &#39;branchName&#39;.
+*V1API* | [**TransplantCommitsIntoBranch**](docs/V1API.md#transplantcommitsintobranch) | **Post** /v1/trees/branch/{branchName}/transplant | Transplant commits from &#39;transplant&#39; onto &#39;branchName&#39;
+*V1API* | [**UpdateProperties**](docs/V1API.md#updateproperties) | **Post** /v1/namespaces/namespace/{ref}/{name} | 
+*V2API* | [**AssignReferenceV2**](docs/V2API.md#assignreferencev2) | **Put** /v2/trees/{ref} | Set a named reference to a specific hash via another reference.
+*V2API* | [**CommitV2**](docs/V2API.md#commitv2) | **Post** /v2/trees/{branch}/history/commit | Commit one or more operations against the given &#39;branch&#39;.
 *V2API* | [**CreateReferenceV2**](docs/V2API.md#createreferencev2) | **Post** /v2/trees | Create a new branch or tag
+*V2API* | [**DeleteReferenceV2**](docs/V2API.md#deletereferencev2) | **Delete** /v2/trees/{ref} | Delete a reference
 *V2API* | [**GetAllReferencesV2**](docs/V2API.md#getallreferencesv2) | **Get** /v2/trees | Get information about all branches and tags
+*V2API* | [**GetCommitLogV2**](docs/V2API.md#getcommitlogv2) | **Get** /v2/trees/{ref}/history | Get commit log for a particular reference
+*V2API* | [**GetConfigV2**](docs/V2API.md#getconfigv2) | **Get** /v2/config | Returns repository and server settings relevant to clients.
+*V2API* | [**GetContentV2**](docs/V2API.md#getcontentv2) | **Get** /v2/trees/{ref}/contents/{key} | Get the content object associated with a key.
+*V2API* | [**GetDiffV2**](docs/V2API.md#getdiffv2) | **Get** /v2/trees/{from-ref}/diff/{to-ref} | Get contents that differ in the trees specified by the two given references
+*V2API* | [**GetEntriesV2**](docs/V2API.md#getentriesv2) | **Get** /v2/trees/{ref}/entries | Fetch all entries for a given reference
+*V2API* | [**GetMultipleContentsV2**](docs/V2API.md#getmultiplecontentsv2) | **Post** /v2/trees/{ref}/contents | Get multiple content objects.
+*V2API* | [**GetReferenceByNameV2**](docs/V2API.md#getreferencebynamev2) | **Get** /v2/trees/{ref} | Fetch details of a reference
+*V2API* | [**GetReferenceHistory**](docs/V2API.md#getreferencehistory) | **Get** /v2/trees/{ref}/recent-changes | Fetch recent pointer changes of a reference
+*V2API* | [**GetRepositoryConfig**](docs/V2API.md#getrepositoryconfig) | **Get** /v2/config/repository | Returns repository configurations of the requested types.
+*V2API* | [**GetSeveralContents**](docs/V2API.md#getseveralcontents) | **Get** /v2/trees/{ref}/contents | Get multiple content objects.
+*V2API* | [**MergeV2**](docs/V2API.md#mergev2) | **Post** /v2/trees/{branch}/history/merge | Merge commits from another reference onto &#39;branch&#39;.
+*V2API* | [**TransplantV2**](docs/V2API.md#transplantv2) | **Post** /v2/trees/{branch}/history/transplant | Transplant commits specified by the &#39;Transplant&#39; payload object onto the given &#39;branch&#39;
+*V2API* | [**UpdateRepositoryConfig**](docs/V2API.md#updaterepositoryconfig) | **Post** /v2/config/repository | Create or update a repository configuration.
 
 
 ## Documentation For Models
 
  - [AddedContent](docs/AddedContent.md)
- - [AddedContentKey](docs/AddedContentKey.md)
  - [AddedContentV2](docs/AddedContentV2.md)
  - [Branch](docs/Branch.md)
  - [Branch1](docs/Branch1.md)
@@ -110,7 +144,6 @@ Class | Method | HTTP request | Description
  - [CommitMetaV1](docs/CommitMetaV1.md)
  - [CommitMetaV2](docs/CommitMetaV2.md)
  - [CommitResponse](docs/CommitResponse.md)
- - [CommitResponseAddedContentsInner](docs/CommitResponseAddedContentsInner.md)
  - [CommitResponseV2](docs/CommitResponseV2.md)
  - [Conflict](docs/Conflict.md)
  - [ConflictV2](docs/ConflictV2.md)
@@ -118,18 +151,18 @@ Class | Method | HTTP request | Description
  - [Content1](docs/Content1.md)
  - [Content10](docs/Content10.md)
  - [Content1AnyOf](docs/Content1AnyOf.md)
+ - [Content1AnyOf1](docs/Content1AnyOf1.md)
+ - [Content1AnyOf2](docs/Content1AnyOf2.md)
+ - [Content1AnyOf3](docs/Content1AnyOf3.md)
  - [Content2](docs/Content2.md)
  - [Content3](docs/Content3.md)
  - [Content4](docs/Content4.md)
  - [Content5](docs/Content5.md)
+ - [Content5AnyOf](docs/Content5AnyOf.md)
  - [Content6](docs/Content6.md)
  - [Content7](docs/Content7.md)
  - [Content8](docs/Content8.md)
  - [Content9](docs/Content9.md)
- - [ContentAnyOf](docs/ContentAnyOf.md)
- - [ContentAnyOf1](docs/ContentAnyOf1.md)
- - [ContentAnyOf2](docs/ContentAnyOf2.md)
- - [ContentAnyOf3](docs/ContentAnyOf3.md)
  - [ContentKey](docs/ContentKey.md)
  - [ContentKeyDetails](docs/ContentKeyDetails.md)
  - [ContentKeyDetailsV1](docs/ContentKeyDetailsV1.md)
@@ -140,7 +173,6 @@ Class | Method | HTTP request | Description
  - [ContentMetadata1](docs/ContentMetadata1.md)
  - [ContentMetadataV2](docs/ContentMetadataV2.md)
  - [ContentResponseV2](docs/ContentResponseV2.md)
- - [ContentResponseV2Documentation](docs/ContentResponseV2Documentation.md)
  - [ContentV1](docs/ContentV1.md)
  - [ContentV2](docs/ContentV2.md)
  - [ContentWithKey](docs/ContentWithKey.md)
@@ -163,17 +195,17 @@ Class | Method | HTTP request | Description
  - [DiffEntryV1](docs/DiffEntryV1.md)
  - [DiffEntryV2](docs/DiffEntryV2.md)
  - [DiffResponse](docs/DiffResponse.md)
+ - [DiffResponse1](docs/DiffResponse1.md)
+ - [DiffResponse1DiffsInner](docs/DiffResponse1DiffsInner.md)
+ - [DiffResponse2](docs/DiffResponse2.md)
+ - [DiffResponse2DiffsInner](docs/DiffResponse2DiffsInner.md)
  - [DiffResponseDiffsInner](docs/DiffResponseDiffsInner.md)
  - [DiffResponseV1](docs/DiffResponseV1.md)
- - [DiffResponseV1DiffsInner](docs/DiffResponseV1DiffsInner.md)
  - [DiffResponseV2](docs/DiffResponseV2.md)
- - [DiffResponseV2DiffsInner](docs/DiffResponseV2DiffsInner.md)
  - [Documentation](docs/Documentation.md)
  - [DocumentationV2](docs/DocumentationV2.md)
  - [EntriesResponseV1](docs/EntriesResponseV1.md)
- - [EntriesResponseV1EntriesInner](docs/EntriesResponseV1EntriesInner.md)
  - [EntriesResponseV2](docs/EntriesResponseV2.md)
- - [EntriesResponseV2EntriesInner](docs/EntriesResponseV2EntriesInner.md)
  - [EntryV1](docs/EntryV1.md)
  - [EntryV2](docs/EntryV2.md)
  - [FetchOption](docs/FetchOption.md)
@@ -182,13 +214,23 @@ Class | Method | HTTP request | Description
  - [GarbageCollectorConfigV2](docs/GarbageCollectorConfigV2.md)
  - [GetAllReferences200Response](docs/GetAllReferences200Response.md)
  - [GetAllReferencesV2200Response](docs/GetAllReferencesV2200Response.md)
+ - [GetContentV2200Response](docs/GetContentV2200Response.md)
+ - [GetEntries200Response](docs/GetEntries200Response.md)
+ - [GetEntries200ResponseEntriesInner](docs/GetEntries200ResponseEntriesInner.md)
+ - [GetEntriesV2200Response](docs/GetEntriesV2200Response.md)
+ - [GetEntriesV2200ResponseEntriesInner](docs/GetEntriesV2200ResponseEntriesInner.md)
  - [GetMultipleContentsRequest](docs/GetMultipleContentsRequest.md)
+ - [GetMultipleContentsRequest1](docs/GetMultipleContentsRequest1.md)
+ - [GetMultipleContentsRequest1RequestedKeysInner](docs/GetMultipleContentsRequest1RequestedKeysInner.md)
  - [GetMultipleContentsResponse](docs/GetMultipleContentsResponse.md)
+ - [GetMultipleContentsResponse1](docs/GetMultipleContentsResponse1.md)
+ - [GetMultipleContentsResponse1ContentsInner](docs/GetMultipleContentsResponse1ContentsInner.md)
+ - [GetMultipleContentsResponse2](docs/GetMultipleContentsResponse2.md)
+ - [GetMultipleContentsResponse2ContentsInner](docs/GetMultipleContentsResponse2ContentsInner.md)
  - [GetMultipleContentsResponseContentsInner](docs/GetMultipleContentsResponseContentsInner.md)
  - [GetMultipleContentsResponseV1](docs/GetMultipleContentsResponseV1.md)
- - [GetMultipleContentsResponseV1ContentsInner](docs/GetMultipleContentsResponseV1ContentsInner.md)
  - [GetMultipleContentsResponseV2](docs/GetMultipleContentsResponseV2.md)
- - [GetMultipleContentsResponseV2ContentsInner](docs/GetMultipleContentsResponseV2ContentsInner.md)
+ - [GetNamespaces200Response](docs/GetNamespaces200Response.md)
  - [GetNamespacesResponseV1](docs/GetNamespacesResponseV1.md)
  - [IcebergTable](docs/IcebergTable.md)
  - [IcebergTableState](docs/IcebergTableState.md)
@@ -205,6 +247,8 @@ Class | Method | HTTP request | Description
  - [LogEntryV1](docs/LogEntryV1.md)
  - [LogEntryV2](docs/LogEntryV2.md)
  - [LogResponse](docs/LogResponse.md)
+ - [LogResponse1](docs/LogResponse1.md)
+ - [LogResponse2](docs/LogResponse2.md)
  - [LogResponseV1](docs/LogResponseV1.md)
  - [LogResponseV2](docs/LogResponseV2.md)
  - [Merge](docs/Merge.md)
@@ -213,10 +257,13 @@ Class | Method | HTTP request | Description
  - [MergeBehaviorV1](docs/MergeBehaviorV1.md)
  - [MergeBehaviorV2](docs/MergeBehaviorV2.md)
  - [MergeKeyBehavior](docs/MergeKeyBehavior.md)
- - [MergeKeyMergeModesInner](docs/MergeKeyMergeModesInner.md)
+ - [MergeOperation](docs/MergeOperation.md)
+ - [MergeOperation1](docs/MergeOperation1.md)
+ - [MergeOperationKeyMergeModesInner](docs/MergeOperationKeyMergeModesInner.md)
  - [MergePerContentKeyDetails](docs/MergePerContentKeyDetails.md)
  - [MergePerContentKeyDetails1](docs/MergePerContentKeyDetails1.md)
  - [MergeResponse](docs/MergeResponse.md)
+ - [MergeResponse1](docs/MergeResponse1.md)
  - [MergeResponseV1](docs/MergeResponseV1.md)
  - [MergeResponseV2](docs/MergeResponseV2.md)
  - [Namespace](docs/Namespace.md)
@@ -224,15 +271,19 @@ Class | Method | HTTP request | Description
  - [NamespaceV1](docs/NamespaceV1.md)
  - [NamespaceV2](docs/NamespaceV2.md)
  - [NessieConfiguration](docs/NessieConfiguration.md)
+ - [NessieConfiguration1](docs/NessieConfiguration1.md)
+ - [NessieConfiguration2](docs/NessieConfiguration2.md)
  - [NessieConfigurationV1](docs/NessieConfigurationV1.md)
  - [NessieConfigurationV2](docs/NessieConfigurationV2.md)
  - [Operation](docs/Operation.md)
  - [Operation1](docs/Operation1.md)
+ - [Operation1OneOf](docs/Operation1OneOf.md)
  - [Operation2](docs/Operation2.md)
  - [Operation3](docs/Operation3.md)
  - [OperationV1](docs/OperationV1.md)
  - [OperationV2](docs/OperationV2.md)
  - [Operations](docs/Operations.md)
+ - [Operations1](docs/Operations1.md)
  - [PerContentKeyConflictDetails](docs/PerContentKeyConflictDetails.md)
  - [Put](docs/Put.md)
  - [PutContentOperationForAContentKey](docs/PutContentOperationForAContentKey.md)
@@ -241,6 +292,7 @@ Class | Method | HTTP request | Description
  - [PutContentOperationForAContentKey3](docs/PutContentOperationForAContentKey3.md)
  - [PutContentOperationForAContentKey4](docs/PutContentOperationForAContentKey4.md)
  - [PutContentOperationForAContentKey5](docs/PutContentOperationForAContentKey5.md)
+ - [PutContentOperationForAContentKeyDocumentation](docs/PutContentOperationForAContentKeyDocumentation.md)
  - [PutV1](docs/PutV1.md)
  - [PutV2](docs/PutV2.md)
  - [Reference](docs/Reference.md)
@@ -250,6 +302,7 @@ Class | Method | HTTP request | Description
  - [ReferenceCutoffPolicy](docs/ReferenceCutoffPolicy.md)
  - [ReferenceCutoffPolicyV2](docs/ReferenceCutoffPolicyV2.md)
  - [ReferenceHistoryResponse](docs/ReferenceHistoryResponse.md)
+ - [ReferenceHistoryResponse1](docs/ReferenceHistoryResponse1.md)
  - [ReferenceHistoryResponseV2](docs/ReferenceHistoryResponseV2.md)
  - [ReferenceHistoryState](docs/ReferenceHistoryState.md)
  - [ReferenceHistoryState1](docs/ReferenceHistoryState1.md)
@@ -273,6 +326,7 @@ Class | Method | HTTP request | Description
  - [RepositoryConfigResponse](docs/RepositoryConfigResponse.md)
  - [RepositoryConfigResponseV2](docs/RepositoryConfigResponseV2.md)
  - [RepositoryConfigV2](docs/RepositoryConfigV2.md)
+ - [RepositoryConfigurationObjectsForTheRequestedTypes](docs/RepositoryConfigurationObjectsForTheRequestedTypes.md)
  - [SingleReferenceResponse](docs/SingleReferenceResponse.md)
  - [SingleReferenceResponse1](docs/SingleReferenceResponse1.md)
  - [SingleReferenceResponseV2](docs/SingleReferenceResponseV2.md)
@@ -282,14 +336,17 @@ Class | Method | HTTP request | Description
  - [Tag3](docs/Tag3.md)
  - [TagV1](docs/TagV1.md)
  - [TagV2](docs/TagV2.md)
+ - [ThePreviousStateOfTheRepositoryConfigurationObject](docs/ThePreviousStateOfTheRepositoryConfigurationObject.md)
  - [Transplant](docs/Transplant.md)
  - [Transplant1](docs/Transplant1.md)
+ - [Transplant2](docs/Transplant2.md)
  - [UDF](docs/UDF.md)
  - [UDFV1](docs/UDFV1.md)
  - [UDFV2](docs/UDFV2.md)
  - [Unchanged](docs/Unchanged.md)
  - [UnchangedV1](docs/UnchangedV1.md)
  - [UnchangedV2](docs/UnchangedV2.md)
+ - [UpdatePropertiesRequest](docs/UpdatePropertiesRequest.md)
  - [UpdateRepositoryConfigRequest](docs/UpdateRepositoryConfigRequest.md)
  - [UpdateRepositoryConfigResponse](docs/UpdateRepositoryConfigResponse.md)
  - [UpdateRepositoryConfigResponseV2](docs/UpdateRepositoryConfigResponseV2.md)

@@ -21,7 +21,7 @@ var _ MappedNullable = &GetMultipleContentsRequest{}
 
 // GetMultipleContentsRequest struct for GetMultipleContentsRequest
 type GetMultipleContentsRequest struct {
-	RequestedKeys []AddedContentKey `json:"requestedKeys"`
+	RequestedKeys []GetMultipleContentsRequest1RequestedKeysInner `json:"requestedKeys"`
 }
 
 type _GetMultipleContentsRequest GetMultipleContentsRequest
@@ -30,7 +30,7 @@ type _GetMultipleContentsRequest GetMultipleContentsRequest
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetMultipleContentsRequest(requestedKeys []AddedContentKey) *GetMultipleContentsRequest {
+func NewGetMultipleContentsRequest(requestedKeys []GetMultipleContentsRequest1RequestedKeysInner) *GetMultipleContentsRequest {
 	this := GetMultipleContentsRequest{}
 	this.RequestedKeys = requestedKeys
 	return &this
@@ -45,9 +45,9 @@ func NewGetMultipleContentsRequestWithDefaults() *GetMultipleContentsRequest {
 }
 
 // GetRequestedKeys returns the RequestedKeys field value
-func (o *GetMultipleContentsRequest) GetRequestedKeys() []AddedContentKey {
+func (o *GetMultipleContentsRequest) GetRequestedKeys() []GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil {
-		var ret []AddedContentKey
+		var ret []GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 
@@ -56,7 +56,7 @@ func (o *GetMultipleContentsRequest) GetRequestedKeys() []AddedContentKey {
 
 // GetRequestedKeysOk returns a tuple with the RequestedKeys field value
 // and a boolean to check if the value has been set.
-func (o *GetMultipleContentsRequest) GetRequestedKeysOk() ([]AddedContentKey, bool) {
+func (o *GetMultipleContentsRequest) GetRequestedKeysOk() ([]GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *GetMultipleContentsRequest) GetRequestedKeysOk() ([]AddedContentKey, bo
 }
 
 // SetRequestedKeys sets field value
-func (o *GetMultipleContentsRequest) SetRequestedKeys(v []AddedContentKey) {
+func (o *GetMultipleContentsRequest) SetRequestedKeys(v []GetMultipleContentsRequest1RequestedKeysInner) {
 	o.RequestedKeys = v
 }
 

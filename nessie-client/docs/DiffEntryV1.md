@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | Pointer to [**AddedContentKey**](AddedContentKey.md) |  | [optional] 
-**From** | Pointer to [**Content3**](Content3.md) |  | [optional] 
-**To** | Pointer to [**Content3**](Content3.md) |  | [optional] 
+**Key** | Pointer to [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | [optional] 
+**From** | Pointer to [**Content1**](Content1.md) |  | [optional] 
+**To** | Pointer to [**Content1**](Content1.md) |  | [optional] 
 
 ## Methods
 
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKey
 
-`func (o *DiffEntryV1) GetKey() AddedContentKey`
+`func (o *DiffEntryV1) GetKey() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetKey returns the Key field if non-nil, zero value otherwise.
 
 ### GetKeyOk
 
-`func (o *DiffEntryV1) GetKeyOk() (*AddedContentKey, bool)`
+`func (o *DiffEntryV1) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetKeyOk returns a tuple with the Key field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKey
 
-`func (o *DiffEntryV1) SetKey(v AddedContentKey)`
+`func (o *DiffEntryV1) SetKey(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetKey sets Key field to given value.
 
@@ -54,20 +54,20 @@ HasKey returns a boolean if a field has been set.
 
 ### GetFrom
 
-`func (o *DiffEntryV1) GetFrom() Content3`
+`func (o *DiffEntryV1) GetFrom() Content1`
 
 GetFrom returns the From field if non-nil, zero value otherwise.
 
 ### GetFromOk
 
-`func (o *DiffEntryV1) GetFromOk() (*Content3, bool)`
+`func (o *DiffEntryV1) GetFromOk() (*Content1, bool)`
 
 GetFromOk returns a tuple with the From field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFrom
 
-`func (o *DiffEntryV1) SetFrom(v Content3)`
+`func (o *DiffEntryV1) SetFrom(v Content1)`
 
 SetFrom sets From field to given value.
 
@@ -79,20 +79,20 @@ HasFrom returns a boolean if a field has been set.
 
 ### GetTo
 
-`func (o *DiffEntryV1) GetTo() Content3`
+`func (o *DiffEntryV1) GetTo() Content1`
 
 GetTo returns the To field if non-nil, zero value otherwise.
 
 ### GetToOk
 
-`func (o *DiffEntryV1) GetToOk() (*Content3, bool)`
+`func (o *DiffEntryV1) GetToOk() (*Content1, bool)`
 
 GetToOk returns a tuple with the To field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTo
 
-`func (o *DiffEntryV1) SetTo(v Content3)`
+`func (o *DiffEntryV1) SetTo(v Content1)`
 
 SetTo sets To field to given value.
 

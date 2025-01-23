@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Content** | [**Content6**](Content6.md) |  | 
 **ExpectedContent** | Pointer to [**Content7**](Content7.md) |  | [optional] 
 **Metadata** | Pointer to [**[]ContentMetadata1**](ContentMetadata1.md) |  | [optional] 
-**Documentation** | Pointer to [**ContentResponseV2Documentation**](ContentResponseV2Documentation.md) |  | [optional] 
+**Documentation** | Pointer to [**PutContentOperationForAContentKeyDocumentation**](PutContentOperationForAContentKeyDocumentation.md) |  | [optional] 
 
 ## Methods
 
@@ -121,20 +121,20 @@ HasMetadata returns a boolean if a field has been set.
 
 ### GetDocumentation
 
-`func (o *Operation) GetDocumentation() ContentResponseV2Documentation`
+`func (o *Operation) GetDocumentation() PutContentOperationForAContentKeyDocumentation`
 
 GetDocumentation returns the Documentation field if non-nil, zero value otherwise.
 
 ### GetDocumentationOk
 
-`func (o *Operation) GetDocumentationOk() (*ContentResponseV2Documentation, bool)`
+`func (o *Operation) GetDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool)`
 
 GetDocumentationOk returns a tuple with the Documentation field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDocumentation
 
-`func (o *Operation) SetDocumentation(v ContentResponseV2Documentation)`
+`func (o *Operation) SetDocumentation(v PutContentOperationForAContentKeyDocumentation)`
 
 SetDocumentation sets Documentation field to given value.
 

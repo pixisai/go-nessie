@@ -6,11 +6,14 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Hash** | Pointer to **string** |  | [optional] 
 **Committer** | Pointer to **string** |  | [optional] 
+**Author** | Pointer to **string** |  | [optional] 
 **Authors** | **[]string** |  | 
+**SignedOffBy** | Pointer to **string** |  | [optional] 
 **AllSignedOffBy** | **[]string** |  | 
 **Message** | **string** |  | 
 **CommitTime** | Pointer to **time.Time** |  | [optional] 
 **AuthorTime** | Pointer to **time.Time** |  | [optional] 
+**Properties** | **map[string]string** |  | 
 **AllProperties** | **map[string][]string** |  | 
 **ParentCommitHashes** | **[]string** |  | 
 
@@ -18,7 +21,7 @@ Name | Type | Description | Notes
 
 ### NewCommitMeta5
 
-`func NewCommitMeta5(authors []string, allSignedOffBy []string, message string, allProperties map[string][]string, parentCommitHashes []string, ) *CommitMeta5`
+`func NewCommitMeta5(authors []string, allSignedOffBy []string, message string, properties map[string]string, allProperties map[string][]string, parentCommitHashes []string, ) *CommitMeta5`
 
 NewCommitMeta5 instantiates a new CommitMeta5 object
 This constructor will assign default values to properties that have it defined,
@@ -83,6 +86,31 @@ SetCommitter sets Committer field to given value.
 
 HasCommitter returns a boolean if a field has been set.
 
+### GetAuthor
+
+`func (o *CommitMeta5) GetAuthor() string`
+
+GetAuthor returns the Author field if non-nil, zero value otherwise.
+
+### GetAuthorOk
+
+`func (o *CommitMeta5) GetAuthorOk() (*string, bool)`
+
+GetAuthorOk returns a tuple with the Author field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAuthor
+
+`func (o *CommitMeta5) SetAuthor(v string)`
+
+SetAuthor sets Author field to given value.
+
+### HasAuthor
+
+`func (o *CommitMeta5) HasAuthor() bool`
+
+HasAuthor returns a boolean if a field has been set.
+
 ### GetAuthors
 
 `func (o *CommitMeta5) GetAuthors() []string`
@@ -102,6 +130,31 @@ and a boolean to check if the value has been set.
 
 SetAuthors sets Authors field to given value.
 
+
+### GetSignedOffBy
+
+`func (o *CommitMeta5) GetSignedOffBy() string`
+
+GetSignedOffBy returns the SignedOffBy field if non-nil, zero value otherwise.
+
+### GetSignedOffByOk
+
+`func (o *CommitMeta5) GetSignedOffByOk() (*string, bool)`
+
+GetSignedOffByOk returns a tuple with the SignedOffBy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSignedOffBy
+
+`func (o *CommitMeta5) SetSignedOffBy(v string)`
+
+SetSignedOffBy sets SignedOffBy field to given value.
+
+### HasSignedOffBy
+
+`func (o *CommitMeta5) HasSignedOffBy() bool`
+
+HasSignedOffBy returns a boolean if a field has been set.
 
 ### GetAllSignedOffBy
 
@@ -192,6 +245,26 @@ SetAuthorTime sets AuthorTime field to given value.
 `func (o *CommitMeta5) HasAuthorTime() bool`
 
 HasAuthorTime returns a boolean if a field has been set.
+
+### GetProperties
+
+`func (o *CommitMeta5) GetProperties() map[string]string`
+
+GetProperties returns the Properties field if non-nil, zero value otherwise.
+
+### GetPropertiesOk
+
+`func (o *CommitMeta5) GetPropertiesOk() (*map[string]string, bool)`
+
+GetPropertiesOk returns a tuple with the Properties field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProperties
+
+`func (o *CommitMeta5) SetProperties(v map[string]string)`
+
+SetProperties sets Properties field to given value.
+
 
 ### GetAllProperties
 

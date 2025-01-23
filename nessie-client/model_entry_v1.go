@@ -23,7 +23,7 @@ var _ MappedNullable = &EntryV1{}
 type EntryV1 struct {
 	// Declares the type of a Nessie content object, which is currently one of ICEBERG_TABLE, DELTA_LAKE_TABLE, ICEBERG_VIEW, NAMESPACE or UDF, which are the discriminator mapping values of the 'Content' type.
 	Type *string `json:"type,omitempty"`
-	Name AddedContentKey `json:"name"`
+	Name GetMultipleContentsRequest1RequestedKeysInner `json:"name"`
 }
 
 type _EntryV1 EntryV1
@@ -32,7 +32,7 @@ type _EntryV1 EntryV1
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEntryV1(name AddedContentKey) *EntryV1 {
+func NewEntryV1(name GetMultipleContentsRequest1RequestedKeysInner) *EntryV1 {
 	this := EntryV1{}
 	this.Name = name
 	return &this
@@ -79,9 +79,9 @@ func (o *EntryV1) SetType(v string) {
 }
 
 // GetName returns the Name field value
-func (o *EntryV1) GetName() AddedContentKey {
+func (o *EntryV1) GetName() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 
@@ -90,7 +90,7 @@ func (o *EntryV1) GetName() AddedContentKey {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *EntryV1) GetNameOk() (*AddedContentKey, bool) {
+func (o *EntryV1) GetNameOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -98,7 +98,7 @@ func (o *EntryV1) GetNameOk() (*AddedContentKey, bool) {
 }
 
 // SetName sets field value
-func (o *EntryV1) SetName(v AddedContentKey) {
+func (o *EntryV1) SetName(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Name = v
 }
 

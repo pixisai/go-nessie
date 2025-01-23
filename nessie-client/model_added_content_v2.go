@@ -21,7 +21,7 @@ var _ MappedNullable = &AddedContentV2{}
 
 // AddedContentV2 struct for AddedContentV2
 type AddedContentV2 struct {
-	Key AddedContentKey `json:"key"`
+	Key GetMultipleContentsRequest1RequestedKeysInner `json:"key"`
 }
 
 type _AddedContentV2 AddedContentV2
@@ -30,7 +30,7 @@ type _AddedContentV2 AddedContentV2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAddedContentV2(key AddedContentKey) *AddedContentV2 {
+func NewAddedContentV2(key GetMultipleContentsRequest1RequestedKeysInner) *AddedContentV2 {
 	this := AddedContentV2{}
 	this.Key = key
 	return &this
@@ -45,9 +45,9 @@ func NewAddedContentV2WithDefaults() *AddedContentV2 {
 }
 
 // GetKey returns the Key field value
-func (o *AddedContentV2) GetKey() AddedContentKey {
+func (o *AddedContentV2) GetKey() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 
@@ -56,7 +56,7 @@ func (o *AddedContentV2) GetKey() AddedContentKey {
 
 // GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
-func (o *AddedContentV2) GetKeyOk() (*AddedContentKey, bool) {
+func (o *AddedContentV2) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *AddedContentV2) GetKeyOk() (*AddedContentKey, bool) {
 }
 
 // SetKey sets field value
-func (o *AddedContentV2) SetKey(v AddedContentKey) {
+func (o *AddedContentV2) SetKey(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Key = v
 }
 

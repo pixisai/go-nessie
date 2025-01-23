@@ -4,17 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | [**AddedContentKey**](AddedContentKey.md) |  | 
+**Key** | [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | 
 **Content** | [**Content6**](Content6.md) |  | 
 **ExpectedContent** | Pointer to [**Content7**](Content7.md) |  | [optional] 
 **Metadata** | Pointer to [**[]ContentMetadata1**](ContentMetadata1.md) |  | [optional] 
-**Documentation** | Pointer to [**ContentResponseV2Documentation**](ContentResponseV2Documentation.md) |  | [optional] 
+**Documentation** | Pointer to [**PutContentOperationForAContentKeyDocumentation**](PutContentOperationForAContentKeyDocumentation.md) |  | [optional] 
 
 ## Methods
 
 ### NewPutContentOperationForAContentKey3
 
-`func NewPutContentOperationForAContentKey3(key AddedContentKey, content Content6, ) *PutContentOperationForAContentKey3`
+`func NewPutContentOperationForAContentKey3(key GetMultipleContentsRequest1RequestedKeysInner, content Content6, ) *PutContentOperationForAContentKey3`
 
 NewPutContentOperationForAContentKey3 instantiates a new PutContentOperationForAContentKey3 object
 This constructor will assign default values to properties that have it defined,
@@ -31,20 +31,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKey
 
-`func (o *PutContentOperationForAContentKey3) GetKey() AddedContentKey`
+`func (o *PutContentOperationForAContentKey3) GetKey() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetKey returns the Key field if non-nil, zero value otherwise.
 
 ### GetKeyOk
 
-`func (o *PutContentOperationForAContentKey3) GetKeyOk() (*AddedContentKey, bool)`
+`func (o *PutContentOperationForAContentKey3) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetKeyOk returns a tuple with the Key field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKey
 
-`func (o *PutContentOperationForAContentKey3) SetKey(v AddedContentKey)`
+`func (o *PutContentOperationForAContentKey3) SetKey(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetKey sets Key field to given value.
 
@@ -121,20 +121,20 @@ HasMetadata returns a boolean if a field has been set.
 
 ### GetDocumentation
 
-`func (o *PutContentOperationForAContentKey3) GetDocumentation() ContentResponseV2Documentation`
+`func (o *PutContentOperationForAContentKey3) GetDocumentation() PutContentOperationForAContentKeyDocumentation`
 
 GetDocumentation returns the Documentation field if non-nil, zero value otherwise.
 
 ### GetDocumentationOk
 
-`func (o *PutContentOperationForAContentKey3) GetDocumentationOk() (*ContentResponseV2Documentation, bool)`
+`func (o *PutContentOperationForAContentKey3) GetDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool)`
 
 GetDocumentationOk returns a tuple with the Documentation field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDocumentation
 
-`func (o *PutContentOperationForAContentKey3) SetDocumentation(v ContentResponseV2Documentation)`
+`func (o *PutContentOperationForAContentKey3) SetDocumentation(v PutContentOperationForAContentKeyDocumentation)`
 
 SetDocumentation sets Documentation field to given value.
 

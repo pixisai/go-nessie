@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **FromRefName** | **string** |  | 
 **HashesToTransplant** | **[]string** |  | 
-**KeyMergeModes** | Pointer to [**[]MergeKeyMergeModesInner**](MergeKeyMergeModesInner.md) |  | [optional] 
+**KeyMergeModes** | Pointer to [**[]MergeOperationKeyMergeModesInner**](MergeOperationKeyMergeModesInner.md) |  | [optional] 
 **DefaultKeyMergeMode** | Pointer to **string** |  | [optional] 
 **DryRun** | Pointer to **bool** |  | [optional] 
 **FetchAdditionalInfo** | Pointer to **bool** |  | [optional] 
@@ -73,20 +73,20 @@ SetHashesToTransplant sets HashesToTransplant field to given value.
 
 ### GetKeyMergeModes
 
-`func (o *Transplant) GetKeyMergeModes() []MergeKeyMergeModesInner`
+`func (o *Transplant) GetKeyMergeModes() []MergeOperationKeyMergeModesInner`
 
 GetKeyMergeModes returns the KeyMergeModes field if non-nil, zero value otherwise.
 
 ### GetKeyMergeModesOk
 
-`func (o *Transplant) GetKeyMergeModesOk() (*[]MergeKeyMergeModesInner, bool)`
+`func (o *Transplant) GetKeyMergeModesOk() (*[]MergeOperationKeyMergeModesInner, bool)`
 
 GetKeyMergeModesOk returns a tuple with the KeyMergeModes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKeyMergeModes
 
-`func (o *Transplant) SetKeyMergeModes(v []MergeKeyMergeModesInner)`
+`func (o *Transplant) SetKeyMergeModes(v []MergeOperationKeyMergeModesInner)`
 
 SetKeyMergeModes sets KeyMergeModes field to given value.
 

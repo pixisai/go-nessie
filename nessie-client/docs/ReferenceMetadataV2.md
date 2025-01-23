@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **NumCommitsAhead** | Pointer to **int32** |  | [optional] 
 **NumCommitsBehind** | Pointer to **int32** |  | [optional] 
-**CommitMetaOfHEAD** | Pointer to [**CommitMeta2**](CommitMeta2.md) |  | [optional] 
+**CommitMetaOfHEAD** | Pointer to [**CommitMeta3**](CommitMeta3.md) |  | [optional] 
 **CommonAncestorHash** | Pointer to **string** |  | [optional] 
 **NumTotalCommits** | Pointer to **int64** |  | [optional] 
 
@@ -81,20 +81,20 @@ HasNumCommitsBehind returns a boolean if a field has been set.
 
 ### GetCommitMetaOfHEAD
 
-`func (o *ReferenceMetadataV2) GetCommitMetaOfHEAD() CommitMeta2`
+`func (o *ReferenceMetadataV2) GetCommitMetaOfHEAD() CommitMeta3`
 
 GetCommitMetaOfHEAD returns the CommitMetaOfHEAD field if non-nil, zero value otherwise.
 
 ### GetCommitMetaOfHEADOk
 
-`func (o *ReferenceMetadataV2) GetCommitMetaOfHEADOk() (*CommitMeta2, bool)`
+`func (o *ReferenceMetadataV2) GetCommitMetaOfHEADOk() (*CommitMeta3, bool)`
 
 GetCommitMetaOfHEADOk returns a tuple with the CommitMetaOfHEAD field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCommitMetaOfHEAD
 
-`func (o *ReferenceMetadataV2) SetCommitMetaOfHEAD(v CommitMeta2)`
+`func (o *ReferenceMetadataV2) SetCommitMetaOfHEAD(v CommitMeta3)`
 
 SetCommitMetaOfHEAD sets CommitMetaOfHEAD field to given value.
 

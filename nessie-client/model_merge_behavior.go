@@ -18,12 +18,6 @@ import (
 // MergeBehavior the model 'MergeBehavior'
 type MergeBehavior string
 
-// List of MergeBehavior
-const (
-	NORMAL MergeBehavior = "NORMAL"
-	FORCE MergeBehavior = "FORCE"
-	DROP MergeBehavior = "DROP"
-)
 
 // All allowed values of MergeBehavior enum
 var AllowedMergeBehaviorEnumValues = []MergeBehavior{

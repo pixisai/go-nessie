@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **HasMore** | Pointer to **bool** |  | [optional] 
 **Token** | Pointer to **string** |  | [optional] 
-**Diffs** | Pointer to [**[]DiffResponseV1DiffsInner**](DiffResponseV1DiffsInner.md) |  | [optional] 
+**Diffs** | Pointer to [**[]DiffResponse1DiffsInner**](DiffResponse1DiffsInner.md) |  | [optional] 
 
 ## Methods
 
@@ -79,20 +79,20 @@ HasToken returns a boolean if a field has been set.
 
 ### GetDiffs
 
-`func (o *DiffResponseV1) GetDiffs() []DiffResponseV1DiffsInner`
+`func (o *DiffResponseV1) GetDiffs() []DiffResponse1DiffsInner`
 
 GetDiffs returns the Diffs field if non-nil, zero value otherwise.
 
 ### GetDiffsOk
 
-`func (o *DiffResponseV1) GetDiffsOk() (*[]DiffResponseV1DiffsInner, bool)`
+`func (o *DiffResponseV1) GetDiffsOk() (*[]DiffResponse1DiffsInner, bool)`
 
 GetDiffsOk returns a tuple with the Diffs field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDiffs
 
-`func (o *DiffResponseV1) SetDiffs(v []DiffResponseV1DiffsInner)`
+`func (o *DiffResponseV1) SetDiffs(v []DiffResponse1DiffsInner)`
 
 SetDiffs sets Diffs field to given value.
 

@@ -23,7 +23,7 @@ var _ MappedNullable = &Merge{}
 type Merge struct {
 	FromRefName string `json:"fromRefName" validate:"regexp=^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9.\\/_-])*[A-Za-z0-9_-])?)|-$"`
 	FromHash string `json:"fromHash" validate:"regexp=^[0-9a-fA-F]{8,64}$"`
-	KeyMergeModes []MergeKeyMergeModesInner `json:"keyMergeModes,omitempty"`
+	KeyMergeModes []MergeOperationKeyMergeModesInner `json:"keyMergeModes,omitempty"`
 	DefaultKeyMergeMode *string `json:"defaultKeyMergeMode,omitempty"`
 	DryRun *bool `json:"dryRun,omitempty"`
 	FetchAdditionalInfo *bool `json:"fetchAdditionalInfo,omitempty"`
@@ -100,9 +100,9 @@ func (o *Merge) SetFromHash(v string) {
 }
 
 // GetKeyMergeModes returns the KeyMergeModes field value if set, zero value otherwise.
-func (o *Merge) GetKeyMergeModes() []MergeKeyMergeModesInner {
+func (o *Merge) GetKeyMergeModes() []MergeOperationKeyMergeModesInner {
 	if o == nil || IsNil(o.KeyMergeModes) {
-		var ret []MergeKeyMergeModesInner
+		var ret []MergeOperationKeyMergeModesInner
 		return ret
 	}
 	return o.KeyMergeModes
@@ -110,7 +110,7 @@ func (o *Merge) GetKeyMergeModes() []MergeKeyMergeModesInner {
 
 // GetKeyMergeModesOk returns a tuple with the KeyMergeModes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Merge) GetKeyMergeModesOk() ([]MergeKeyMergeModesInner, bool) {
+func (o *Merge) GetKeyMergeModesOk() ([]MergeOperationKeyMergeModesInner, bool) {
 	if o == nil || IsNil(o.KeyMergeModes) {
 		return nil, false
 	}
@@ -126,8 +126,8 @@ func (o *Merge) HasKeyMergeModes() bool {
 	return false
 }
 
-// SetKeyMergeModes gets a reference to the given []MergeKeyMergeModesInner and assigns it to the KeyMergeModes field.
-func (o *Merge) SetKeyMergeModes(v []MergeKeyMergeModesInner) {
+// SetKeyMergeModes gets a reference to the given []MergeOperationKeyMergeModesInner and assigns it to the KeyMergeModes field.
+func (o *Merge) SetKeyMergeModes(v []MergeOperationKeyMergeModesInner) {
 	o.KeyMergeModes = v
 }
 

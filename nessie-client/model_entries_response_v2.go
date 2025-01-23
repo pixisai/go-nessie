@@ -23,8 +23,8 @@ var _ MappedNullable = &EntriesResponseV2{}
 type EntriesResponseV2 struct {
 	HasMore *bool `json:"hasMore,omitempty"`
 	Token *string `json:"token,omitempty"`
-	Entries []EntriesResponseV2EntriesInner `json:"entries"`
-	EffectiveReference *Reference2 `json:"effectiveReference,omitempty"`
+	Entries []GetEntriesV2200ResponseEntriesInner `json:"entries"`
+	EffectiveReference *Reference3 `json:"effectiveReference,omitempty"`
 }
 
 type _EntriesResponseV2 EntriesResponseV2
@@ -33,7 +33,7 @@ type _EntriesResponseV2 EntriesResponseV2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEntriesResponseV2(entries []EntriesResponseV2EntriesInner) *EntriesResponseV2 {
+func NewEntriesResponseV2(entries []GetEntriesV2200ResponseEntriesInner) *EntriesResponseV2 {
 	this := EntriesResponseV2{}
 	this.Entries = entries
 	return &this
@@ -112,9 +112,9 @@ func (o *EntriesResponseV2) SetToken(v string) {
 }
 
 // GetEntries returns the Entries field value
-func (o *EntriesResponseV2) GetEntries() []EntriesResponseV2EntriesInner {
+func (o *EntriesResponseV2) GetEntries() []GetEntriesV2200ResponseEntriesInner {
 	if o == nil {
-		var ret []EntriesResponseV2EntriesInner
+		var ret []GetEntriesV2200ResponseEntriesInner
 		return ret
 	}
 
@@ -123,7 +123,7 @@ func (o *EntriesResponseV2) GetEntries() []EntriesResponseV2EntriesInner {
 
 // GetEntriesOk returns a tuple with the Entries field value
 // and a boolean to check if the value has been set.
-func (o *EntriesResponseV2) GetEntriesOk() ([]EntriesResponseV2EntriesInner, bool) {
+func (o *EntriesResponseV2) GetEntriesOk() ([]GetEntriesV2200ResponseEntriesInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -131,14 +131,14 @@ func (o *EntriesResponseV2) GetEntriesOk() ([]EntriesResponseV2EntriesInner, boo
 }
 
 // SetEntries sets field value
-func (o *EntriesResponseV2) SetEntries(v []EntriesResponseV2EntriesInner) {
+func (o *EntriesResponseV2) SetEntries(v []GetEntriesV2200ResponseEntriesInner) {
 	o.Entries = v
 }
 
 // GetEffectiveReference returns the EffectiveReference field value if set, zero value otherwise.
-func (o *EntriesResponseV2) GetEffectiveReference() Reference2 {
+func (o *EntriesResponseV2) GetEffectiveReference() Reference3 {
 	if o == nil || IsNil(o.EffectiveReference) {
-		var ret Reference2
+		var ret Reference3
 		return ret
 	}
 	return *o.EffectiveReference
@@ -146,7 +146,7 @@ func (o *EntriesResponseV2) GetEffectiveReference() Reference2 {
 
 // GetEffectiveReferenceOk returns a tuple with the EffectiveReference field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EntriesResponseV2) GetEffectiveReferenceOk() (*Reference2, bool) {
+func (o *EntriesResponseV2) GetEffectiveReferenceOk() (*Reference3, bool) {
 	if o == nil || IsNil(o.EffectiveReference) {
 		return nil, false
 	}
@@ -162,8 +162,8 @@ func (o *EntriesResponseV2) HasEffectiveReference() bool {
 	return false
 }
 
-// SetEffectiveReference gets a reference to the given Reference2 and assigns it to the EffectiveReference field.
-func (o *EntriesResponseV2) SetEffectiveReference(v Reference2) {
+// SetEffectiveReference gets a reference to the given Reference3 and assigns it to the EffectiveReference field.
+func (o *EntriesResponseV2) SetEffectiveReference(v Reference3) {
 	o.EffectiveReference = &v
 }
 

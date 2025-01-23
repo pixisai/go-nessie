@@ -21,7 +21,7 @@ var _ MappedNullable = &DeleteV1{}
 
 // DeleteV1 Used to delete an existing content key.  If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the current `Content` in the the `value` field. See `Put` operation.
 type DeleteV1 struct {
-	Key AddedContentKey `json:"key"`
+	Key GetMultipleContentsRequest1RequestedKeysInner `json:"key"`
 }
 
 type _DeleteV1 DeleteV1
@@ -30,7 +30,7 @@ type _DeleteV1 DeleteV1
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeleteV1(key AddedContentKey) *DeleteV1 {
+func NewDeleteV1(key GetMultipleContentsRequest1RequestedKeysInner) *DeleteV1 {
 	this := DeleteV1{}
 	this.Key = key
 	return &this
@@ -45,9 +45,9 @@ func NewDeleteV1WithDefaults() *DeleteV1 {
 }
 
 // GetKey returns the Key field value
-func (o *DeleteV1) GetKey() AddedContentKey {
+func (o *DeleteV1) GetKey() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 
@@ -56,7 +56,7 @@ func (o *DeleteV1) GetKey() AddedContentKey {
 
 // GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
-func (o *DeleteV1) GetKeyOk() (*AddedContentKey, bool) {
+func (o *DeleteV1) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *DeleteV1) GetKeyOk() (*AddedContentKey, bool) {
 }
 
 // SetKey sets field value
-func (o *DeleteV1) SetKey(v AddedContentKey) {
+func (o *DeleteV1) SetKey(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Key = v
 }
 

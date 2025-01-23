@@ -1,4 +1,4 @@
-module github.com/pixisai/go-nessie
+module github.com/pixisai/go-nessie/nessie-client
 
 go 1.18
 

@@ -21,7 +21,7 @@ var _ MappedNullable = &GetMultipleContentsResponseV1{}
 
 // GetMultipleContentsResponseV1 struct for GetMultipleContentsResponseV1
 type GetMultipleContentsResponseV1 struct {
-	Contents []GetMultipleContentsResponseV1ContentsInner `json:"contents"`
+	Contents []GetMultipleContentsResponse1ContentsInner `json:"contents"`
 }
 
 type _GetMultipleContentsResponseV1 GetMultipleContentsResponseV1
@@ -30,7 +30,7 @@ type _GetMultipleContentsResponseV1 GetMultipleContentsResponseV1
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetMultipleContentsResponseV1(contents []GetMultipleContentsResponseV1ContentsInner) *GetMultipleContentsResponseV1 {
+func NewGetMultipleContentsResponseV1(contents []GetMultipleContentsResponse1ContentsInner) *GetMultipleContentsResponseV1 {
 	this := GetMultipleContentsResponseV1{}
 	this.Contents = contents
 	return &this
@@ -45,9 +45,9 @@ func NewGetMultipleContentsResponseV1WithDefaults() *GetMultipleContentsResponse
 }
 
 // GetContents returns the Contents field value
-func (o *GetMultipleContentsResponseV1) GetContents() []GetMultipleContentsResponseV1ContentsInner {
+func (o *GetMultipleContentsResponseV1) GetContents() []GetMultipleContentsResponse1ContentsInner {
 	if o == nil {
-		var ret []GetMultipleContentsResponseV1ContentsInner
+		var ret []GetMultipleContentsResponse1ContentsInner
 		return ret
 	}
 
@@ -56,7 +56,7 @@ func (o *GetMultipleContentsResponseV1) GetContents() []GetMultipleContentsRespo
 
 // GetContentsOk returns a tuple with the Contents field value
 // and a boolean to check if the value has been set.
-func (o *GetMultipleContentsResponseV1) GetContentsOk() ([]GetMultipleContentsResponseV1ContentsInner, bool) {
+func (o *GetMultipleContentsResponseV1) GetContentsOk() ([]GetMultipleContentsResponse1ContentsInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *GetMultipleContentsResponseV1) GetContentsOk() ([]GetMultipleContentsRe
 }
 
 // SetContents sets field value
-func (o *GetMultipleContentsResponseV1) SetContents(v []GetMultipleContentsResponseV1ContentsInner) {
+func (o *GetMultipleContentsResponseV1) SetContents(v []GetMultipleContentsResponse1ContentsInner) {
 	o.Contents = v
 }
 

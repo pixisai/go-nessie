@@ -4,20 +4,19 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Message** | Pointer to **string** | Commit message for this transplant request. | [optional] 
-**HashesToTransplant** | **[]string** | Lists the hashes of commits that should be transplanted into the target branch. | 
-**FromRefName** | **string** | The name of the reference that contains the &#39;source&#39; commits for the requested merge or transplant operation.  | 
-**KeyMergeModes** | Pointer to [**[]MergeKeyMergeModesInner**](MergeKeyMergeModesInner.md) | Specific merge behaviour requests by content key.  The default is set by the &#x60;defaultKeyMergeMode&#x60; parameter.  | [optional] 
-**DefaultKeyMergeMode** | Pointer to **string** | The default merge mode. If not set, &#x60;NORMAL&#x60; is assumed.  This settings applies to key thaWhen set to &#39;true&#39; instructs the server to validate the request but to avoid committing any changes.t are not explicitly mentioned in the &#x60;keyMergeModes&#x60; property.  | [optional] 
-**DryRun** | Pointer to **bool** | When set to &#39;true&#39; instructs the server to validate the request but to avoid committing any changes.  | [optional] 
-**FetchAdditionalInfo** | Pointer to **bool** | Whether to provide optional response data.  | [optional] 
-**ReturnConflictAsResult** | Pointer to **bool** | When set to &#39;true&#39; instructs the server to produce normal (non-error) responses in case a conflict is detected and report conflict details in the response payload. | [optional] 
+**FromRefName** | **string** |  | 
+**HashesToTransplant** | **[]string** |  | 
+**KeyMergeModes** | Pointer to [**[]MergeOperationKeyMergeModesInner**](MergeOperationKeyMergeModesInner.md) |  | [optional] 
+**DefaultKeyMergeMode** | Pointer to **string** |  | [optional] 
+**DryRun** | Pointer to **bool** |  | [optional] 
+**FetchAdditionalInfo** | Pointer to **bool** |  | [optional] 
+**ReturnConflictAsResult** | Pointer to **bool** |  | [optional] 
 
 ## Methods
 
 ### NewTransplant1
 
-`func NewTransplant1(hashesToTransplant []string, fromRefName string, ) *Transplant1`
+`func NewTransplant1(fromRefName string, hashesToTransplant []string, ) *Transplant1`
 
 NewTransplant1 instantiates a new Transplant1 object
 This constructor will assign default values to properties that have it defined,
@@ -31,51 +30,6 @@ will change when the set of required properties is changed
 NewTransplant1WithDefaults instantiates a new Transplant1 object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetMessage
-
-`func (o *Transplant1) GetMessage() string`
-
-GetMessage returns the Message field if non-nil, zero value otherwise.
-
-### GetMessageOk
-
-`func (o *Transplant1) GetMessageOk() (*string, bool)`
-
-GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMessage
-
-`func (o *Transplant1) SetMessage(v string)`
-
-SetMessage sets Message field to given value.
-
-### HasMessage
-
-`func (o *Transplant1) HasMessage() bool`
-
-HasMessage returns a boolean if a field has been set.
-
-### GetHashesToTransplant
-
-`func (o *Transplant1) GetHashesToTransplant() []string`
-
-GetHashesToTransplant returns the HashesToTransplant field if non-nil, zero value otherwise.
-
-### GetHashesToTransplantOk
-
-`func (o *Transplant1) GetHashesToTransplantOk() (*[]string, bool)`
-
-GetHashesToTransplantOk returns a tuple with the HashesToTransplant field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHashesToTransplant
-
-`func (o *Transplant1) SetHashesToTransplant(v []string)`
-
-SetHashesToTransplant sets HashesToTransplant field to given value.
-
 
 ### GetFromRefName
 
@@ -97,22 +51,42 @@ and a boolean to check if the value has been set.
 SetFromRefName sets FromRefName field to given value.
 
 
+### GetHashesToTransplant
+
+`func (o *Transplant1) GetHashesToTransplant() []string`
+
+GetHashesToTransplant returns the HashesToTransplant field if non-nil, zero value otherwise.
+
+### GetHashesToTransplantOk
+
+`func (o *Transplant1) GetHashesToTransplantOk() (*[]string, bool)`
+
+GetHashesToTransplantOk returns a tuple with the HashesToTransplant field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHashesToTransplant
+
+`func (o *Transplant1) SetHashesToTransplant(v []string)`
+
+SetHashesToTransplant sets HashesToTransplant field to given value.
+
+
 ### GetKeyMergeModes
 
-`func (o *Transplant1) GetKeyMergeModes() []MergeKeyMergeModesInner`
+`func (o *Transplant1) GetKeyMergeModes() []MergeOperationKeyMergeModesInner`
 
 GetKeyMergeModes returns the KeyMergeModes field if non-nil, zero value otherwise.
 
 ### GetKeyMergeModesOk
 
-`func (o *Transplant1) GetKeyMergeModesOk() (*[]MergeKeyMergeModesInner, bool)`
+`func (o *Transplant1) GetKeyMergeModesOk() (*[]MergeOperationKeyMergeModesInner, bool)`
 
 GetKeyMergeModesOk returns a tuple with the KeyMergeModes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKeyMergeModes
 
-`func (o *Transplant1) SetKeyMergeModes(v []MergeKeyMergeModesInner)`
+`func (o *Transplant1) SetKeyMergeModes(v []MergeOperationKeyMergeModesInner)`
 
 SetKeyMergeModes sets KeyMergeModes field to given value.
 

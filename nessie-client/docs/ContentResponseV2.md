@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Content** | [**Content1**](Content1.md) |  | 
-**EffectiveReference** | [**Reference2**](Reference2.md) |  | 
-**Documentation** | Pointer to [**ContentResponseV2Documentation**](ContentResponseV2Documentation.md) |  | [optional] 
+**Content** | [**Content5**](Content5.md) |  | 
+**EffectiveReference** | [**Reference3**](Reference3.md) |  | 
+**Documentation** | Pointer to [**PutContentOperationForAContentKeyDocumentation**](PutContentOperationForAContentKeyDocumentation.md) |  | [optional] 
 
 ## Methods
 
 ### NewContentResponseV2
 
-`func NewContentResponseV2(content Content1, effectiveReference Reference2, ) *ContentResponseV2`
+`func NewContentResponseV2(content Content5, effectiveReference Reference3, ) *ContentResponseV2`
 
 NewContentResponseV2 instantiates a new ContentResponseV2 object
 This constructor will assign default values to properties that have it defined,
@@ -29,60 +29,60 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetContent
 
-`func (o *ContentResponseV2) GetContent() Content1`
+`func (o *ContentResponseV2) GetContent() Content5`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *ContentResponseV2) GetContentOk() (*Content1, bool)`
+`func (o *ContentResponseV2) GetContentOk() (*Content5, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *ContentResponseV2) SetContent(v Content1)`
+`func (o *ContentResponseV2) SetContent(v Content5)`
 
 SetContent sets Content field to given value.
 
 
 ### GetEffectiveReference
 
-`func (o *ContentResponseV2) GetEffectiveReference() Reference2`
+`func (o *ContentResponseV2) GetEffectiveReference() Reference3`
 
 GetEffectiveReference returns the EffectiveReference field if non-nil, zero value otherwise.
 
 ### GetEffectiveReferenceOk
 
-`func (o *ContentResponseV2) GetEffectiveReferenceOk() (*Reference2, bool)`
+`func (o *ContentResponseV2) GetEffectiveReferenceOk() (*Reference3, bool)`
 
 GetEffectiveReferenceOk returns a tuple with the EffectiveReference field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEffectiveReference
 
-`func (o *ContentResponseV2) SetEffectiveReference(v Reference2)`
+`func (o *ContentResponseV2) SetEffectiveReference(v Reference3)`
 
 SetEffectiveReference sets EffectiveReference field to given value.
 
 
 ### GetDocumentation
 
-`func (o *ContentResponseV2) GetDocumentation() ContentResponseV2Documentation`
+`func (o *ContentResponseV2) GetDocumentation() PutContentOperationForAContentKeyDocumentation`
 
 GetDocumentation returns the Documentation field if non-nil, zero value otherwise.
 
 ### GetDocumentationOk
 
-`func (o *ContentResponseV2) GetDocumentationOk() (*ContentResponseV2Documentation, bool)`
+`func (o *ContentResponseV2) GetDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool)`
 
 GetDocumentationOk returns a tuple with the Documentation field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDocumentation
 
-`func (o *ContentResponseV2) SetDocumentation(v ContentResponseV2Documentation)`
+`func (o *ContentResponseV2) SetDocumentation(v PutContentOperationForAContentKeyDocumentation)`
 
 SetDocumentation sets Documentation field to given value.
 

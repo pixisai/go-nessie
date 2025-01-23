@@ -6,13 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **HasMore** | Pointer to **bool** |  | [optional] 
 **Token** | Pointer to **string** |  | [optional] 
-**References** | [**[]Reference2**](Reference2.md) |  | 
+**References** | [**[]Reference3**](Reference3.md) |  | 
 
 ## Methods
 
 ### NewGetAllReferencesV2200Response
 
-`func NewGetAllReferencesV2200Response(references []Reference2, ) *GetAllReferencesV2200Response`
+`func NewGetAllReferencesV2200Response(references []Reference3, ) *GetAllReferencesV2200Response`
 
 NewGetAllReferencesV2200Response instantiates a new GetAllReferencesV2200Response object
 This constructor will assign default values to properties that have it defined,
@@ -79,20 +79,20 @@ HasToken returns a boolean if a field has been set.
 
 ### GetReferences
 
-`func (o *GetAllReferencesV2200Response) GetReferences() []Reference2`
+`func (o *GetAllReferencesV2200Response) GetReferences() []Reference3`
 
 GetReferences returns the References field if non-nil, zero value otherwise.
 
 ### GetReferencesOk
 
-`func (o *GetAllReferencesV2200Response) GetReferencesOk() (*[]Reference2, bool)`
+`func (o *GetAllReferencesV2200Response) GetReferencesOk() (*[]Reference3, bool)`
 
 GetReferencesOk returns a tuple with the References field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetReferences
 
-`func (o *GetAllReferencesV2200Response) SetReferences(v []Reference2)`
+`func (o *GetAllReferencesV2200Response) SetReferences(v []Reference3)`
 
 SetReferences sets References field to given value.
 

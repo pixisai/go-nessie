@@ -21,7 +21,7 @@ var _ MappedNullable = &LogEntryV2{}
 
 // LogEntryV2 struct for LogEntryV2
 type LogEntryV2 struct {
-	CommitMeta CommitMeta2 `json:"commitMeta"`
+	CommitMeta CommitMeta3 `json:"commitMeta"`
 	ParentCommitHash *string `json:"parentCommitHash,omitempty"`
 	Operations []Operation3 `json:"operations,omitempty"`
 }
@@ -32,7 +32,7 @@ type _LogEntryV2 LogEntryV2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLogEntryV2(commitMeta CommitMeta2) *LogEntryV2 {
+func NewLogEntryV2(commitMeta CommitMeta3) *LogEntryV2 {
 	this := LogEntryV2{}
 	this.CommitMeta = commitMeta
 	return &this
@@ -47,9 +47,9 @@ func NewLogEntryV2WithDefaults() *LogEntryV2 {
 }
 
 // GetCommitMeta returns the CommitMeta field value
-func (o *LogEntryV2) GetCommitMeta() CommitMeta2 {
+func (o *LogEntryV2) GetCommitMeta() CommitMeta3 {
 	if o == nil {
-		var ret CommitMeta2
+		var ret CommitMeta3
 		return ret
 	}
 
@@ -58,7 +58,7 @@ func (o *LogEntryV2) GetCommitMeta() CommitMeta2 {
 
 // GetCommitMetaOk returns a tuple with the CommitMeta field value
 // and a boolean to check if the value has been set.
-func (o *LogEntryV2) GetCommitMetaOk() (*CommitMeta2, bool) {
+func (o *LogEntryV2) GetCommitMetaOk() (*CommitMeta3, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -66,7 +66,7 @@ func (o *LogEntryV2) GetCommitMetaOk() (*CommitMeta2, bool) {
 }
 
 // SetCommitMeta sets field value
-func (o *LogEntryV2) SetCommitMeta(v CommitMeta2) {
+func (o *LogEntryV2) SetCommitMeta(v CommitMeta3) {
 	o.CommitMeta = v
 }
 

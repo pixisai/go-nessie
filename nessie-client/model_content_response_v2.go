@@ -21,9 +21,9 @@ var _ MappedNullable = &ContentResponseV2{}
 
 // ContentResponseV2 struct for ContentResponseV2
 type ContentResponseV2 struct {
-	Content Content1 `json:"content"`
-	EffectiveReference Reference2 `json:"effectiveReference"`
-	Documentation *ContentResponseV2Documentation `json:"documentation,omitempty"`
+	Content Content5 `json:"content"`
+	EffectiveReference Reference3 `json:"effectiveReference"`
+	Documentation *PutContentOperationForAContentKeyDocumentation `json:"documentation,omitempty"`
 }
 
 type _ContentResponseV2 ContentResponseV2
@@ -32,7 +32,7 @@ type _ContentResponseV2 ContentResponseV2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewContentResponseV2(content Content1, effectiveReference Reference2) *ContentResponseV2 {
+func NewContentResponseV2(content Content5, effectiveReference Reference3) *ContentResponseV2 {
 	this := ContentResponseV2{}
 	this.Content = content
 	this.EffectiveReference = effectiveReference
@@ -48,9 +48,9 @@ func NewContentResponseV2WithDefaults() *ContentResponseV2 {
 }
 
 // GetContent returns the Content field value
-func (o *ContentResponseV2) GetContent() Content1 {
+func (o *ContentResponseV2) GetContent() Content5 {
 	if o == nil {
-		var ret Content1
+		var ret Content5
 		return ret
 	}
 
@@ -59,7 +59,7 @@ func (o *ContentResponseV2) GetContent() Content1 {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *ContentResponseV2) GetContentOk() (*Content1, bool) {
+func (o *ContentResponseV2) GetContentOk() (*Content5, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -67,14 +67,14 @@ func (o *ContentResponseV2) GetContentOk() (*Content1, bool) {
 }
 
 // SetContent sets field value
-func (o *ContentResponseV2) SetContent(v Content1) {
+func (o *ContentResponseV2) SetContent(v Content5) {
 	o.Content = v
 }
 
 // GetEffectiveReference returns the EffectiveReference field value
-func (o *ContentResponseV2) GetEffectiveReference() Reference2 {
+func (o *ContentResponseV2) GetEffectiveReference() Reference3 {
 	if o == nil {
-		var ret Reference2
+		var ret Reference3
 		return ret
 	}
 
@@ -83,7 +83,7 @@ func (o *ContentResponseV2) GetEffectiveReference() Reference2 {
 
 // GetEffectiveReferenceOk returns a tuple with the EffectiveReference field value
 // and a boolean to check if the value has been set.
-func (o *ContentResponseV2) GetEffectiveReferenceOk() (*Reference2, bool) {
+func (o *ContentResponseV2) GetEffectiveReferenceOk() (*Reference3, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -91,14 +91,14 @@ func (o *ContentResponseV2) GetEffectiveReferenceOk() (*Reference2, bool) {
 }
 
 // SetEffectiveReference sets field value
-func (o *ContentResponseV2) SetEffectiveReference(v Reference2) {
+func (o *ContentResponseV2) SetEffectiveReference(v Reference3) {
 	o.EffectiveReference = v
 }
 
 // GetDocumentation returns the Documentation field value if set, zero value otherwise.
-func (o *ContentResponseV2) GetDocumentation() ContentResponseV2Documentation {
+func (o *ContentResponseV2) GetDocumentation() PutContentOperationForAContentKeyDocumentation {
 	if o == nil || IsNil(o.Documentation) {
-		var ret ContentResponseV2Documentation
+		var ret PutContentOperationForAContentKeyDocumentation
 		return ret
 	}
 	return *o.Documentation
@@ -106,7 +106,7 @@ func (o *ContentResponseV2) GetDocumentation() ContentResponseV2Documentation {
 
 // GetDocumentationOk returns a tuple with the Documentation field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ContentResponseV2) GetDocumentationOk() (*ContentResponseV2Documentation, bool) {
+func (o *ContentResponseV2) GetDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool) {
 	if o == nil || IsNil(o.Documentation) {
 		return nil, false
 	}
@@ -122,8 +122,8 @@ func (o *ContentResponseV2) HasDocumentation() bool {
 	return false
 }
 
-// SetDocumentation gets a reference to the given ContentResponseV2Documentation and assigns it to the Documentation field.
-func (o *ContentResponseV2) SetDocumentation(v ContentResponseV2Documentation) {
+// SetDocumentation gets a reference to the given PutContentOperationForAContentKeyDocumentation and assigns it to the Documentation field.
+func (o *ContentResponseV2) SetDocumentation(v PutContentOperationForAContentKeyDocumentation) {
 	o.Documentation = &v
 }
 

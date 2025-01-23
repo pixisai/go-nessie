@@ -21,7 +21,7 @@ var _ MappedNullable = &DiffResponseV1{}
 type DiffResponseV1 struct {
 	HasMore *bool `json:"hasMore,omitempty"`
 	Token *string `json:"token,omitempty"`
-	Diffs []DiffResponseV1DiffsInner `json:"diffs,omitempty"`
+	Diffs []DiffResponse1DiffsInner `json:"diffs,omitempty"`
 }
 
 // NewDiffResponseV1 instantiates a new DiffResponseV1 object
@@ -106,9 +106,9 @@ func (o *DiffResponseV1) SetToken(v string) {
 }
 
 // GetDiffs returns the Diffs field value if set, zero value otherwise.
-func (o *DiffResponseV1) GetDiffs() []DiffResponseV1DiffsInner {
+func (o *DiffResponseV1) GetDiffs() []DiffResponse1DiffsInner {
 	if o == nil || IsNil(o.Diffs) {
-		var ret []DiffResponseV1DiffsInner
+		var ret []DiffResponse1DiffsInner
 		return ret
 	}
 	return o.Diffs
@@ -116,7 +116,7 @@ func (o *DiffResponseV1) GetDiffs() []DiffResponseV1DiffsInner {
 
 // GetDiffsOk returns a tuple with the Diffs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DiffResponseV1) GetDiffsOk() ([]DiffResponseV1DiffsInner, bool) {
+func (o *DiffResponseV1) GetDiffsOk() ([]DiffResponse1DiffsInner, bool) {
 	if o == nil || IsNil(o.Diffs) {
 		return nil, false
 	}
@@ -132,8 +132,8 @@ func (o *DiffResponseV1) HasDiffs() bool {
 	return false
 }
 
-// SetDiffs gets a reference to the given []DiffResponseV1DiffsInner and assigns it to the Diffs field.
-func (o *DiffResponseV1) SetDiffs(v []DiffResponseV1DiffsInner) {
+// SetDiffs gets a reference to the given []DiffResponse1DiffsInner and assigns it to the Diffs field.
+func (o *DiffResponseV1) SetDiffs(v []DiffResponse1DiffsInner) {
 	o.Diffs = v
 }
 

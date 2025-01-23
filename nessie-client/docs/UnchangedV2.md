@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | [**AddedContentKey**](AddedContentKey.md) |  | 
+**Key** | [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | 
 
 ## Methods
 
 ### NewUnchangedV2
 
-`func NewUnchangedV2(key AddedContentKey, ) *UnchangedV2`
+`func NewUnchangedV2(key GetMultipleContentsRequest1RequestedKeysInner, ) *UnchangedV2`
 
 NewUnchangedV2 instantiates a new UnchangedV2 object
 This constructor will assign default values to properties that have it defined,
@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKey
 
-`func (o *UnchangedV2) GetKey() AddedContentKey`
+`func (o *UnchangedV2) GetKey() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetKey returns the Key field if non-nil, zero value otherwise.
 
 ### GetKeyOk
 
-`func (o *UnchangedV2) GetKeyOk() (*AddedContentKey, bool)`
+`func (o *UnchangedV2) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetKeyOk returns a tuple with the Key field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKey
 
-`func (o *UnchangedV2) SetKey(v AddedContentKey)`
+`func (o *UnchangedV2) SetKey(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetKey sets Key field to given value.
 

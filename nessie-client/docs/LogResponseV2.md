@@ -6,13 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **HasMore** | Pointer to **bool** |  | [optional] 
 **Token** | Pointer to **string** |  | [optional] 
-**LogEntries** | [**[]LogEntry3**](LogEntry3.md) |  | 
+**LogEntries** | [**[]LogEntry2**](LogEntry2.md) |  | 
 
 ## Methods
 
 ### NewLogResponseV2
 
-`func NewLogResponseV2(logEntries []LogEntry3, ) *LogResponseV2`
+`func NewLogResponseV2(logEntries []LogEntry2, ) *LogResponseV2`
 
 NewLogResponseV2 instantiates a new LogResponseV2 object
 This constructor will assign default values to properties that have it defined,
@@ -79,20 +79,20 @@ HasToken returns a boolean if a field has been set.
 
 ### GetLogEntries
 
-`func (o *LogResponseV2) GetLogEntries() []LogEntry3`
+`func (o *LogResponseV2) GetLogEntries() []LogEntry2`
 
 GetLogEntries returns the LogEntries field if non-nil, zero value otherwise.
 
 ### GetLogEntriesOk
 
-`func (o *LogResponseV2) GetLogEntriesOk() (*[]LogEntry3, bool)`
+`func (o *LogResponseV2) GetLogEntriesOk() (*[]LogEntry2, bool)`
 
 GetLogEntriesOk returns a tuple with the LogEntries field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLogEntries
 
-`func (o *LogResponseV2) SetLogEntries(v []LogEntry3)`
+`func (o *LogResponseV2) SetLogEntries(v []LogEntry2)`
 
 SetLogEntries sets LogEntries field to given value.
 

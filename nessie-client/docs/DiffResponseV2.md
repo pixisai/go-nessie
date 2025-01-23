@@ -6,9 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **HasMore** | Pointer to **bool** |  | [optional] 
 **Token** | Pointer to **string** |  | [optional] 
-**Diffs** | Pointer to [**[]DiffResponseV2DiffsInner**](DiffResponseV2DiffsInner.md) |  | [optional] 
-**EffectiveFromReference** | Pointer to [**Reference2**](Reference2.md) |  | [optional] 
-**EffectiveToReference** | Pointer to [**Reference2**](Reference2.md) |  | [optional] 
+**Diffs** | Pointer to [**[]DiffResponse2DiffsInner**](DiffResponse2DiffsInner.md) |  | [optional] 
+**EffectiveFromReference** | Pointer to [**Reference3**](Reference3.md) |  | [optional] 
+**EffectiveToReference** | Pointer to [**Reference3**](Reference3.md) |  | [optional] 
 
 ## Methods
 
@@ -81,20 +81,20 @@ HasToken returns a boolean if a field has been set.
 
 ### GetDiffs
 
-`func (o *DiffResponseV2) GetDiffs() []DiffResponseV2DiffsInner`
+`func (o *DiffResponseV2) GetDiffs() []DiffResponse2DiffsInner`
 
 GetDiffs returns the Diffs field if non-nil, zero value otherwise.
 
 ### GetDiffsOk
 
-`func (o *DiffResponseV2) GetDiffsOk() (*[]DiffResponseV2DiffsInner, bool)`
+`func (o *DiffResponseV2) GetDiffsOk() (*[]DiffResponse2DiffsInner, bool)`
 
 GetDiffsOk returns a tuple with the Diffs field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDiffs
 
-`func (o *DiffResponseV2) SetDiffs(v []DiffResponseV2DiffsInner)`
+`func (o *DiffResponseV2) SetDiffs(v []DiffResponse2DiffsInner)`
 
 SetDiffs sets Diffs field to given value.
 
@@ -106,20 +106,20 @@ HasDiffs returns a boolean if a field has been set.
 
 ### GetEffectiveFromReference
 
-`func (o *DiffResponseV2) GetEffectiveFromReference() Reference2`
+`func (o *DiffResponseV2) GetEffectiveFromReference() Reference3`
 
 GetEffectiveFromReference returns the EffectiveFromReference field if non-nil, zero value otherwise.
 
 ### GetEffectiveFromReferenceOk
 
-`func (o *DiffResponseV2) GetEffectiveFromReferenceOk() (*Reference2, bool)`
+`func (o *DiffResponseV2) GetEffectiveFromReferenceOk() (*Reference3, bool)`
 
 GetEffectiveFromReferenceOk returns a tuple with the EffectiveFromReference field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEffectiveFromReference
 
-`func (o *DiffResponseV2) SetEffectiveFromReference(v Reference2)`
+`func (o *DiffResponseV2) SetEffectiveFromReference(v Reference3)`
 
 SetEffectiveFromReference sets EffectiveFromReference field to given value.
 
@@ -131,20 +131,20 @@ HasEffectiveFromReference returns a boolean if a field has been set.
 
 ### GetEffectiveToReference
 
-`func (o *DiffResponseV2) GetEffectiveToReference() Reference2`
+`func (o *DiffResponseV2) GetEffectiveToReference() Reference3`
 
 GetEffectiveToReference returns the EffectiveToReference field if non-nil, zero value otherwise.
 
 ### GetEffectiveToReferenceOk
 
-`func (o *DiffResponseV2) GetEffectiveToReferenceOk() (*Reference2, bool)`
+`func (o *DiffResponseV2) GetEffectiveToReferenceOk() (*Reference3, bool)`
 
 GetEffectiveToReferenceOk returns a tuple with the EffectiveToReference field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEffectiveToReference
 
-`func (o *DiffResponseV2) SetEffectiveToReference(v Reference2)`
+`func (o *DiffResponseV2) SetEffectiveToReference(v Reference3)`
 
 SetEffectiveToReference sets EffectiveToReference field to given value.
 

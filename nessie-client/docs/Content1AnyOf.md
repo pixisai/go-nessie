@@ -5,17 +5,15 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **string** |  | [optional] 
-**MetadataLocation** | **string** |  | 
-**VersionId** | Pointer to **int64** |  | [optional] 
-**SchemaId** | Pointer to **int32** |  | [optional] 
-**SqlText** | **string** |  | 
-**Dialect** | Pointer to **string** |  | [optional] 
+**MetadataLocationHistory** | **[]string** |  | 
+**CheckpointLocationHistory** | **[]string** |  | 
+**LastCheckpoint** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
 ### NewContent1AnyOf
 
-`func NewContent1AnyOf(metadataLocation string, sqlText string, ) *Content1AnyOf`
+`func NewContent1AnyOf(metadataLocationHistory []string, checkpointLocationHistory []string, ) *Content1AnyOf`
 
 NewContent1AnyOf instantiates a new Content1AnyOf object
 This constructor will assign default values to properties that have it defined,
@@ -55,120 +53,70 @@ SetId sets Id field to given value.
 
 HasId returns a boolean if a field has been set.
 
-### GetMetadataLocation
+### GetMetadataLocationHistory
 
-`func (o *Content1AnyOf) GetMetadataLocation() string`
+`func (o *Content1AnyOf) GetMetadataLocationHistory() []string`
 
-GetMetadataLocation returns the MetadataLocation field if non-nil, zero value otherwise.
+GetMetadataLocationHistory returns the MetadataLocationHistory field if non-nil, zero value otherwise.
 
-### GetMetadataLocationOk
+### GetMetadataLocationHistoryOk
 
-`func (o *Content1AnyOf) GetMetadataLocationOk() (*string, bool)`
+`func (o *Content1AnyOf) GetMetadataLocationHistoryOk() (*[]string, bool)`
 
-GetMetadataLocationOk returns a tuple with the MetadataLocation field if it's non-nil, zero value otherwise
+GetMetadataLocationHistoryOk returns a tuple with the MetadataLocationHistory field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetadataLocation
+### SetMetadataLocationHistory
 
-`func (o *Content1AnyOf) SetMetadataLocation(v string)`
+`func (o *Content1AnyOf) SetMetadataLocationHistory(v []string)`
 
-SetMetadataLocation sets MetadataLocation field to given value.
+SetMetadataLocationHistory sets MetadataLocationHistory field to given value.
 
 
-### GetVersionId
+### GetCheckpointLocationHistory
 
-`func (o *Content1AnyOf) GetVersionId() int64`
+`func (o *Content1AnyOf) GetCheckpointLocationHistory() []string`
 
-GetVersionId returns the VersionId field if non-nil, zero value otherwise.
+GetCheckpointLocationHistory returns the CheckpointLocationHistory field if non-nil, zero value otherwise.
 
-### GetVersionIdOk
+### GetCheckpointLocationHistoryOk
 
-`func (o *Content1AnyOf) GetVersionIdOk() (*int64, bool)`
+`func (o *Content1AnyOf) GetCheckpointLocationHistoryOk() (*[]string, bool)`
 
-GetVersionIdOk returns a tuple with the VersionId field if it's non-nil, zero value otherwise
+GetCheckpointLocationHistoryOk returns a tuple with the CheckpointLocationHistory field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetVersionId
+### SetCheckpointLocationHistory
 
-`func (o *Content1AnyOf) SetVersionId(v int64)`
+`func (o *Content1AnyOf) SetCheckpointLocationHistory(v []string)`
 
-SetVersionId sets VersionId field to given value.
+SetCheckpointLocationHistory sets CheckpointLocationHistory field to given value.
 
-### HasVersionId
 
-`func (o *Content1AnyOf) HasVersionId() bool`
+### GetLastCheckpoint
 
-HasVersionId returns a boolean if a field has been set.
+`func (o *Content1AnyOf) GetLastCheckpoint() string`
 
-### GetSchemaId
+GetLastCheckpoint returns the LastCheckpoint field if non-nil, zero value otherwise.
 
-`func (o *Content1AnyOf) GetSchemaId() int32`
+### GetLastCheckpointOk
 
-GetSchemaId returns the SchemaId field if non-nil, zero value otherwise.
+`func (o *Content1AnyOf) GetLastCheckpointOk() (*string, bool)`
 
-### GetSchemaIdOk
-
-`func (o *Content1AnyOf) GetSchemaIdOk() (*int32, bool)`
-
-GetSchemaIdOk returns a tuple with the SchemaId field if it's non-nil, zero value otherwise
+GetLastCheckpointOk returns a tuple with the LastCheckpoint field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetSchemaId
+### SetLastCheckpoint
 
-`func (o *Content1AnyOf) SetSchemaId(v int32)`
+`func (o *Content1AnyOf) SetLastCheckpoint(v string)`
 
-SetSchemaId sets SchemaId field to given value.
+SetLastCheckpoint sets LastCheckpoint field to given value.
 
-### HasSchemaId
+### HasLastCheckpoint
 
-`func (o *Content1AnyOf) HasSchemaId() bool`
+`func (o *Content1AnyOf) HasLastCheckpoint() bool`
 
-HasSchemaId returns a boolean if a field has been set.
-
-### GetSqlText
-
-`func (o *Content1AnyOf) GetSqlText() string`
-
-GetSqlText returns the SqlText field if non-nil, zero value otherwise.
-
-### GetSqlTextOk
-
-`func (o *Content1AnyOf) GetSqlTextOk() (*string, bool)`
-
-GetSqlTextOk returns a tuple with the SqlText field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSqlText
-
-`func (o *Content1AnyOf) SetSqlText(v string)`
-
-SetSqlText sets SqlText field to given value.
-
-
-### GetDialect
-
-`func (o *Content1AnyOf) GetDialect() string`
-
-GetDialect returns the Dialect field if non-nil, zero value otherwise.
-
-### GetDialectOk
-
-`func (o *Content1AnyOf) GetDialectOk() (*string, bool)`
-
-GetDialectOk returns a tuple with the Dialect field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDialect
-
-`func (o *Content1AnyOf) SetDialect(v string)`
-
-SetDialect sets Dialect field to given value.
-
-### HasDialect
-
-`func (o *Content1AnyOf) HasDialect() bool`
-
-HasDialect returns a boolean if a field has been set.
+HasLastCheckpoint returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

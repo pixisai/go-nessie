@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CommitMeta** | [**CommitMeta3**](CommitMeta3.md) |  | 
+**CommitMeta** | [**CommitMeta2**](CommitMeta2.md) |  | 
 **Operations** | [**[]Operation1**](Operation1.md) |  | 
 
 ## Methods
 
 ### NewOperations
 
-`func NewOperations(commitMeta CommitMeta3, operations []Operation1, ) *Operations`
+`func NewOperations(commitMeta CommitMeta2, operations []Operation1, ) *Operations`
 
 NewOperations instantiates a new Operations object
 This constructor will assign default values to properties that have it defined,
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetCommitMeta
 
-`func (o *Operations) GetCommitMeta() CommitMeta3`
+`func (o *Operations) GetCommitMeta() CommitMeta2`
 
 GetCommitMeta returns the CommitMeta field if non-nil, zero value otherwise.
 
 ### GetCommitMetaOk
 
-`func (o *Operations) GetCommitMetaOk() (*CommitMeta3, bool)`
+`func (o *Operations) GetCommitMetaOk() (*CommitMeta2, bool)`
 
 GetCommitMetaOk returns a tuple with the CommitMeta field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCommitMeta
 
-`func (o *Operations) SetCommitMeta(v CommitMeta3)`
+`func (o *Operations) SetCommitMeta(v CommitMeta2)`
 
 SetCommitMeta sets CommitMeta field to given value.
 

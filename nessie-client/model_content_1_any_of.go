@@ -22,13 +22,9 @@ var _ MappedNullable = &Content1AnyOf{}
 // Content1AnyOf struct for Content1AnyOf
 type Content1AnyOf struct {
 	Id *string `json:"id,omitempty"`
-	MetadataLocation string `json:"metadataLocation" validate:"regexp=\\\\S"`
-	VersionId *int64 `json:"versionId,omitempty"`
-	SchemaId *int32 `json:"schemaId,omitempty"`
-	// Deprecated
-	SqlText string `json:"sqlText" validate:"regexp=\\\\S"`
-	// Deprecated
-	Dialect *string `json:"dialect,omitempty"`
+	MetadataLocationHistory []string `json:"metadataLocationHistory"`
+	CheckpointLocationHistory []string `json:"checkpointLocationHistory"`
+	LastCheckpoint *string `json:"lastCheckpoint,omitempty"`
 }
 
 type _Content1AnyOf Content1AnyOf
@@ -37,10 +33,10 @@ type _Content1AnyOf Content1AnyOf
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewContent1AnyOf(metadataLocation string, sqlText string) *Content1AnyOf {
+func NewContent1AnyOf(metadataLocationHistory []string, checkpointLocationHistory []string) *Content1AnyOf {
 	this := Content1AnyOf{}
-	this.MetadataLocation = metadataLocation
-	this.SqlText = sqlText
+	this.MetadataLocationHistory = metadataLocationHistory
+	this.CheckpointLocationHistory = checkpointLocationHistory
 	return &this
 }
 
@@ -84,154 +80,84 @@ func (o *Content1AnyOf) SetId(v string) {
 	o.Id = &v
 }
 
-// GetMetadataLocation returns the MetadataLocation field value
-func (o *Content1AnyOf) GetMetadataLocation() string {
+// GetMetadataLocationHistory returns the MetadataLocationHistory field value
+func (o *Content1AnyOf) GetMetadataLocationHistory() []string {
 	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.MetadataLocationHistory
+}
+
+// GetMetadataLocationHistoryOk returns a tuple with the MetadataLocationHistory field value
+// and a boolean to check if the value has been set.
+func (o *Content1AnyOf) GetMetadataLocationHistoryOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.MetadataLocationHistory, true
+}
+
+// SetMetadataLocationHistory sets field value
+func (o *Content1AnyOf) SetMetadataLocationHistory(v []string) {
+	o.MetadataLocationHistory = v
+}
+
+// GetCheckpointLocationHistory returns the CheckpointLocationHistory field value
+func (o *Content1AnyOf) GetCheckpointLocationHistory() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.CheckpointLocationHistory
+}
+
+// GetCheckpointLocationHistoryOk returns a tuple with the CheckpointLocationHistory field value
+// and a boolean to check if the value has been set.
+func (o *Content1AnyOf) GetCheckpointLocationHistoryOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CheckpointLocationHistory, true
+}
+
+// SetCheckpointLocationHistory sets field value
+func (o *Content1AnyOf) SetCheckpointLocationHistory(v []string) {
+	o.CheckpointLocationHistory = v
+}
+
+// GetLastCheckpoint returns the LastCheckpoint field value if set, zero value otherwise.
+func (o *Content1AnyOf) GetLastCheckpoint() string {
+	if o == nil || IsNil(o.LastCheckpoint) {
 		var ret string
 		return ret
 	}
-
-	return o.MetadataLocation
+	return *o.LastCheckpoint
 }
 
-// GetMetadataLocationOk returns a tuple with the MetadataLocation field value
+// GetLastCheckpointOk returns a tuple with the LastCheckpoint field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Content1AnyOf) GetMetadataLocationOk() (*string, bool) {
-	if o == nil {
+func (o *Content1AnyOf) GetLastCheckpointOk() (*string, bool) {
+	if o == nil || IsNil(o.LastCheckpoint) {
 		return nil, false
 	}
-	return &o.MetadataLocation, true
+	return o.LastCheckpoint, true
 }
 
-// SetMetadataLocation sets field value
-func (o *Content1AnyOf) SetMetadataLocation(v string) {
-	o.MetadataLocation = v
-}
-
-// GetVersionId returns the VersionId field value if set, zero value otherwise.
-func (o *Content1AnyOf) GetVersionId() int64 {
-	if o == nil || IsNil(o.VersionId) {
-		var ret int64
-		return ret
-	}
-	return *o.VersionId
-}
-
-// GetVersionIdOk returns a tuple with the VersionId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Content1AnyOf) GetVersionIdOk() (*int64, bool) {
-	if o == nil || IsNil(o.VersionId) {
-		return nil, false
-	}
-	return o.VersionId, true
-}
-
-// HasVersionId returns a boolean if a field has been set.
-func (o *Content1AnyOf) HasVersionId() bool {
-	if o != nil && !IsNil(o.VersionId) {
+// HasLastCheckpoint returns a boolean if a field has been set.
+func (o *Content1AnyOf) HasLastCheckpoint() bool {
+	if o != nil && !IsNil(o.LastCheckpoint) {
 		return true
 	}
 
 	return false
 }
 
-// SetVersionId gets a reference to the given int64 and assigns it to the VersionId field.
-func (o *Content1AnyOf) SetVersionId(v int64) {
-	o.VersionId = &v
-}
-
-// GetSchemaId returns the SchemaId field value if set, zero value otherwise.
-func (o *Content1AnyOf) GetSchemaId() int32 {
-	if o == nil || IsNil(o.SchemaId) {
-		var ret int32
-		return ret
-	}
-	return *o.SchemaId
-}
-
-// GetSchemaIdOk returns a tuple with the SchemaId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Content1AnyOf) GetSchemaIdOk() (*int32, bool) {
-	if o == nil || IsNil(o.SchemaId) {
-		return nil, false
-	}
-	return o.SchemaId, true
-}
-
-// HasSchemaId returns a boolean if a field has been set.
-func (o *Content1AnyOf) HasSchemaId() bool {
-	if o != nil && !IsNil(o.SchemaId) {
-		return true
-	}
-
-	return false
-}
-
-// SetSchemaId gets a reference to the given int32 and assigns it to the SchemaId field.
-func (o *Content1AnyOf) SetSchemaId(v int32) {
-	o.SchemaId = &v
-}
-
-// GetSqlText returns the SqlText field value
-// Deprecated
-func (o *Content1AnyOf) GetSqlText() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.SqlText
-}
-
-// GetSqlTextOk returns a tuple with the SqlText field value
-// and a boolean to check if the value has been set.
-// Deprecated
-func (o *Content1AnyOf) GetSqlTextOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.SqlText, true
-}
-
-// SetSqlText sets field value
-// Deprecated
-func (o *Content1AnyOf) SetSqlText(v string) {
-	o.SqlText = v
-}
-
-// GetDialect returns the Dialect field value if set, zero value otherwise.
-// Deprecated
-func (o *Content1AnyOf) GetDialect() string {
-	if o == nil || IsNil(o.Dialect) {
-		var ret string
-		return ret
-	}
-	return *o.Dialect
-}
-
-// GetDialectOk returns a tuple with the Dialect field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// Deprecated
-func (o *Content1AnyOf) GetDialectOk() (*string, bool) {
-	if o == nil || IsNil(o.Dialect) {
-		return nil, false
-	}
-	return o.Dialect, true
-}
-
-// HasDialect returns a boolean if a field has been set.
-func (o *Content1AnyOf) HasDialect() bool {
-	if o != nil && !IsNil(o.Dialect) {
-		return true
-	}
-
-	return false
-}
-
-// SetDialect gets a reference to the given string and assigns it to the Dialect field.
-// Deprecated
-func (o *Content1AnyOf) SetDialect(v string) {
-	o.Dialect = &v
+// SetLastCheckpoint gets a reference to the given string and assigns it to the LastCheckpoint field.
+func (o *Content1AnyOf) SetLastCheckpoint(v string) {
+	o.LastCheckpoint = &v
 }
 
 func (o Content1AnyOf) MarshalJSON() ([]byte, error) {
@@ -247,16 +173,10 @@ func (o Content1AnyOf) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Id) {
 		toSerialize["id"] = o.Id
 	}
-	toSerialize["metadataLocation"] = o.MetadataLocation
-	if !IsNil(o.VersionId) {
-		toSerialize["versionId"] = o.VersionId
-	}
-	if !IsNil(o.SchemaId) {
-		toSerialize["schemaId"] = o.SchemaId
-	}
-	toSerialize["sqlText"] = o.SqlText
-	if !IsNil(o.Dialect) {
-		toSerialize["dialect"] = o.Dialect
+	toSerialize["metadataLocationHistory"] = o.MetadataLocationHistory
+	toSerialize["checkpointLocationHistory"] = o.CheckpointLocationHistory
+	if !IsNil(o.LastCheckpoint) {
+		toSerialize["lastCheckpoint"] = o.LastCheckpoint
 	}
 	return toSerialize, nil
 }
@@ -266,8 +186,8 @@ func (o *Content1AnyOf) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"metadataLocation",
-		"sqlText",
+		"metadataLocationHistory",
+		"checkpointLocationHistory",
 	}
 
 	allProperties := make(map[string]interface{})

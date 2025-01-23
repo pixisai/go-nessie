@@ -21,10 +21,10 @@ var _ MappedNullable = &LogEntry1{}
 
 // LogEntry1 struct for LogEntry1
 type LogEntry1 struct {
-	CommitMeta CommitMeta3 `json:"commitMeta"`
+	CommitMeta CommitMeta1 `json:"commitMeta"`
 	AdditionalParents []string `json:"additionalParents,omitempty"`
 	ParentCommitHash *string `json:"parentCommitHash,omitempty"`
-	Operations []Operation1 `json:"operations,omitempty"`
+	Operations []Operation2 `json:"operations,omitempty"`
 }
 
 type _LogEntry1 LogEntry1
@@ -33,7 +33,7 @@ type _LogEntry1 LogEntry1
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLogEntry1(commitMeta CommitMeta3) *LogEntry1 {
+func NewLogEntry1(commitMeta CommitMeta1) *LogEntry1 {
 	this := LogEntry1{}
 	this.CommitMeta = commitMeta
 	return &this
@@ -48,9 +48,9 @@ func NewLogEntry1WithDefaults() *LogEntry1 {
 }
 
 // GetCommitMeta returns the CommitMeta field value
-func (o *LogEntry1) GetCommitMeta() CommitMeta3 {
+func (o *LogEntry1) GetCommitMeta() CommitMeta1 {
 	if o == nil {
-		var ret CommitMeta3
+		var ret CommitMeta1
 		return ret
 	}
 
@@ -59,7 +59,7 @@ func (o *LogEntry1) GetCommitMeta() CommitMeta3 {
 
 // GetCommitMetaOk returns a tuple with the CommitMeta field value
 // and a boolean to check if the value has been set.
-func (o *LogEntry1) GetCommitMetaOk() (*CommitMeta3, bool) {
+func (o *LogEntry1) GetCommitMetaOk() (*CommitMeta1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *LogEntry1) GetCommitMetaOk() (*CommitMeta3, bool) {
 }
 
 // SetCommitMeta sets field value
-func (o *LogEntry1) SetCommitMeta(v CommitMeta3) {
+func (o *LogEntry1) SetCommitMeta(v CommitMeta1) {
 	o.CommitMeta = v
 }
 
@@ -136,9 +136,9 @@ func (o *LogEntry1) SetParentCommitHash(v string) {
 }
 
 // GetOperations returns the Operations field value if set, zero value otherwise.
-func (o *LogEntry1) GetOperations() []Operation1 {
+func (o *LogEntry1) GetOperations() []Operation2 {
 	if o == nil || IsNil(o.Operations) {
-		var ret []Operation1
+		var ret []Operation2
 		return ret
 	}
 	return o.Operations
@@ -146,7 +146,7 @@ func (o *LogEntry1) GetOperations() []Operation1 {
 
 // GetOperationsOk returns a tuple with the Operations field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *LogEntry1) GetOperationsOk() ([]Operation1, bool) {
+func (o *LogEntry1) GetOperationsOk() ([]Operation2, bool) {
 	if o == nil || IsNil(o.Operations) {
 		return nil, false
 	}
@@ -162,8 +162,8 @@ func (o *LogEntry1) HasOperations() bool {
 	return false
 }
 
-// SetOperations gets a reference to the given []Operation1 and assigns it to the Operations field.
-func (o *LogEntry1) SetOperations(v []Operation1) {
+// SetOperations gets a reference to the given []Operation2 and assigns it to the Operations field.
+func (o *LogEntry1) SetOperations(v []Operation2) {
 	o.Operations = v
 }
 

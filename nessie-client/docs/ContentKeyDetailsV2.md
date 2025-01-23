@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | Pointer to [**AddedContentKey**](AddedContentKey.md) |  | [optional] 
+**Key** | Pointer to [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | [optional] 
 **MergeBehavior** | Pointer to **string** |  | [optional] 
 **Conflict** | Pointer to [**PerContentKeyConflictDetails**](PerContentKeyConflictDetails.md) |  | [optional] 
 
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKey
 
-`func (o *ContentKeyDetailsV2) GetKey() AddedContentKey`
+`func (o *ContentKeyDetailsV2) GetKey() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetKey returns the Key field if non-nil, zero value otherwise.
 
 ### GetKeyOk
 
-`func (o *ContentKeyDetailsV2) GetKeyOk() (*AddedContentKey, bool)`
+`func (o *ContentKeyDetailsV2) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetKeyOk returns a tuple with the Key field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKey
 
-`func (o *ContentKeyDetailsV2) SetKey(v AddedContentKey)`
+`func (o *ContentKeyDetailsV2) SetKey(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetKey sets Key field to given value.
 

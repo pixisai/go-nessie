@@ -18,7 +18,6 @@ import (
 // CommitConsistencyV2 the model 'CommitConsistencyV2'
 type CommitConsistencyV2 string
 
-// List of CommitConsistency_V2
 
 // All allowed values of CommitConsistencyV2 enum
 var AllowedCommitConsistencyV2EnumValues = []CommitConsistencyV2{

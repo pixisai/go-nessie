@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | [**AddedContentKey**](AddedContentKey.md) |  | 
+**Key** | [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | 
 
 ## Methods
 
 ### NewDeleteV2
 
-`func NewDeleteV2(key AddedContentKey, ) *DeleteV2`
+`func NewDeleteV2(key GetMultipleContentsRequest1RequestedKeysInner, ) *DeleteV2`
 
 NewDeleteV2 instantiates a new DeleteV2 object
 This constructor will assign default values to properties that have it defined,
@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKey
 
-`func (o *DeleteV2) GetKey() AddedContentKey`
+`func (o *DeleteV2) GetKey() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetKey returns the Key field if non-nil, zero value otherwise.
 
 ### GetKeyOk
 
-`func (o *DeleteV2) GetKeyOk() (*AddedContentKey, bool)`
+`func (o *DeleteV2) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetKeyOk returns a tuple with the Key field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKey
 
-`func (o *DeleteV2) SetKey(v AddedContentKey)`
+`func (o *DeleteV2) SetKey(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetKey sets Key field to given value.
 

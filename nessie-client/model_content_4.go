@@ -20,16 +20,16 @@ var _ MappedNullable = &Content4{}
 
 // Content4 struct for Content4
 type Content4 struct {
-	ContentAnyOf *ContentAnyOf
-	ContentAnyOf1 *ContentAnyOf1
-	ContentAnyOf2 *ContentAnyOf2
-	ContentAnyOf3 *ContentAnyOf3
+	Content1AnyOf *Content1AnyOf
+	Content1AnyOf1 *Content1AnyOf1
+	Content1AnyOf2 *Content1AnyOf2
+	Content1AnyOf3 *Content1AnyOf3
 	IcebergTableState *IcebergTableState
-	DeltaLakeTable    *DeltaLakeTable // Add this field
-    IcebergTable      *IcebergTable   // Add this field
-    IcebergView       *IcebergView    // Add this field
-    UDF               *UDF            // Add this field
-    Namespace         *Namespace      // Add this field
+	DeltaLakeTableV1 *DeltaLakeTableV1
+	IcebergTableV1 *IcebergTableV1
+	IcebergViewV1 *IcebergViewV1
+	NamespaceV1 *NamespaceV1
+	UDFV1 *UDFV1
 	MapmapOfStringAny *map[string]interface{}
 }
 
@@ -45,145 +45,145 @@ func (dst *Content4) UnmarshalJSON(data []byte) error {
 
 	// check if the discriminator value is 'DELTA_LAKE_TABLE'
 	if jsonDict["type"] == "DELTA_LAKE_TABLE" {
-		// try to unmarshal JSON data into DeltaLakeTable
-		err = json.Unmarshal(data, &dst.DeltaLakeTable);
+		// try to unmarshal JSON data into DeltaLakeTableV1
+		err = json.Unmarshal(data, &dst.DeltaLakeTableV1);
 		if err == nil {
-			jsonDeltaLakeTable, _ := json.Marshal(dst.DeltaLakeTable)
-			if string(jsonDeltaLakeTable) == "{}" { // empty struct
-				dst.DeltaLakeTable = nil
+			jsonDeltaLakeTableV1, _ := json.Marshal(dst.DeltaLakeTableV1)
+			if string(jsonDeltaLakeTableV1) == "{}" { // empty struct
+				dst.DeltaLakeTableV1 = nil
 			} else {
-				return nil // data stored in dst.DeltaLakeTable, return on the first match
+				return nil // data stored in dst.DeltaLakeTableV1, return on the first match
 			}
 		} else {
-			dst.DeltaLakeTable = nil
+			dst.DeltaLakeTableV1 = nil
 		}
 	}
 
 	// check if the discriminator value is 'ICEBERG_TABLE'
 	if jsonDict["type"] == "ICEBERG_TABLE" {
-		// try to unmarshal JSON data into IcebergTable
-		err = json.Unmarshal(data, &dst.IcebergTable);
+		// try to unmarshal JSON data into IcebergTableV1
+		err = json.Unmarshal(data, &dst.IcebergTableV1);
 		if err == nil {
-			jsonIcebergTable, _ := json.Marshal(dst.IcebergTable)
-			if string(jsonIcebergTable) == "{}" { // empty struct
-				dst.IcebergTable = nil
+			jsonIcebergTableV1, _ := json.Marshal(dst.IcebergTableV1)
+			if string(jsonIcebergTableV1) == "{}" { // empty struct
+				dst.IcebergTableV1 = nil
 			} else {
-				return nil // data stored in dst.IcebergTable, return on the first match
+				return nil // data stored in dst.IcebergTableV1, return on the first match
 			}
 		} else {
-			dst.IcebergTable = nil
+			dst.IcebergTableV1 = nil
 		}
 	}
 
 	// check if the discriminator value is 'ICEBERG_VIEW'
 	if jsonDict["type"] == "ICEBERG_VIEW" {
-		// try to unmarshal JSON data into IcebergView
-		err = json.Unmarshal(data, &dst.IcebergView);
+		// try to unmarshal JSON data into IcebergViewV1
+		err = json.Unmarshal(data, &dst.IcebergViewV1);
 		if err == nil {
-			jsonIcebergView, _ := json.Marshal(dst.IcebergView)
-			if string(jsonIcebergView) == "{}" { // empty struct
-				dst.IcebergView = nil
+			jsonIcebergViewV1, _ := json.Marshal(dst.IcebergViewV1)
+			if string(jsonIcebergViewV1) == "{}" { // empty struct
+				dst.IcebergViewV1 = nil
 			} else {
-				return nil // data stored in dst.IcebergView, return on the first match
+				return nil // data stored in dst.IcebergViewV1, return on the first match
 			}
 		} else {
-			dst.IcebergView = nil
+			dst.IcebergViewV1 = nil
 		}
 	}
 
 	// check if the discriminator value is 'NAMESPACE'
 	if jsonDict["type"] == "NAMESPACE" {
-		// try to unmarshal JSON data into Namespace
-		err = json.Unmarshal(data, &dst.Namespace);
+		// try to unmarshal JSON data into NamespaceV1
+		err = json.Unmarshal(data, &dst.NamespaceV1);
 		if err == nil {
-			jsonNamespace, _ := json.Marshal(dst.Namespace)
-			if string(jsonNamespace) == "{}" { // empty struct
-				dst.Namespace = nil
+			jsonNamespaceV1, _ := json.Marshal(dst.NamespaceV1)
+			if string(jsonNamespaceV1) == "{}" { // empty struct
+				dst.NamespaceV1 = nil
 			} else {
-				return nil // data stored in dst.Namespace, return on the first match
+				return nil // data stored in dst.NamespaceV1, return on the first match
 			}
 		} else {
-			dst.Namespace = nil
+			dst.NamespaceV1 = nil
 		}
 	}
 
 	// check if the discriminator value is 'UDF'
 	if jsonDict["type"] == "UDF" {
-		// try to unmarshal JSON data into UDF
-		err = json.Unmarshal(data, &dst.UDF);
+		// try to unmarshal JSON data into UDFV1
+		err = json.Unmarshal(data, &dst.UDFV1);
 		if err == nil {
-			jsonUDF, _ := json.Marshal(dst.UDF)
-			if string(jsonUDF) == "{}" { // empty struct
-				dst.UDF = nil
+			jsonUDFV1, _ := json.Marshal(dst.UDFV1)
+			if string(jsonUDFV1) == "{}" { // empty struct
+				dst.UDFV1 = nil
 			} else {
-				return nil // data stored in dst.UDF, return on the first match
+				return nil // data stored in dst.UDFV1, return on the first match
 			}
 		} else {
-			dst.UDF = nil
+			dst.UDFV1 = nil
 		}
 	}
 
-	// check if the discriminator value is 'Content_anyOf'
-	if jsonDict["type"] == "Content_anyOf" {
-		// try to unmarshal JSON data into ContentAnyOf
-		err = json.Unmarshal(data, &dst.ContentAnyOf);
+	// check if the discriminator value is 'Content_1_anyOf'
+	if jsonDict["type"] == "Content_1_anyOf" {
+		// try to unmarshal JSON data into Content1AnyOf
+		err = json.Unmarshal(data, &dst.Content1AnyOf);
 		if err == nil {
-			jsonContentAnyOf, _ := json.Marshal(dst.ContentAnyOf)
-			if string(jsonContentAnyOf) == "{}" { // empty struct
-				dst.ContentAnyOf = nil
+			jsonContent1AnyOf, _ := json.Marshal(dst.Content1AnyOf)
+			if string(jsonContent1AnyOf) == "{}" { // empty struct
+				dst.Content1AnyOf = nil
 			} else {
-				return nil // data stored in dst.ContentAnyOf, return on the first match
+				return nil // data stored in dst.Content1AnyOf, return on the first match
 			}
 		} else {
-			dst.ContentAnyOf = nil
+			dst.Content1AnyOf = nil
 		}
 	}
 
-	// check if the discriminator value is 'Content_anyOf_1'
-	if jsonDict["type"] == "Content_anyOf_1" {
-		// try to unmarshal JSON data into ContentAnyOf1
-		err = json.Unmarshal(data, &dst.ContentAnyOf1);
+	// check if the discriminator value is 'Content_1_anyOf_1'
+	if jsonDict["type"] == "Content_1_anyOf_1" {
+		// try to unmarshal JSON data into Content1AnyOf1
+		err = json.Unmarshal(data, &dst.Content1AnyOf1);
 		if err == nil {
-			jsonContentAnyOf1, _ := json.Marshal(dst.ContentAnyOf1)
-			if string(jsonContentAnyOf1) == "{}" { // empty struct
-				dst.ContentAnyOf1 = nil
+			jsonContent1AnyOf1, _ := json.Marshal(dst.Content1AnyOf1)
+			if string(jsonContent1AnyOf1) == "{}" { // empty struct
+				dst.Content1AnyOf1 = nil
 			} else {
-				return nil // data stored in dst.ContentAnyOf1, return on the first match
+				return nil // data stored in dst.Content1AnyOf1, return on the first match
 			}
 		} else {
-			dst.ContentAnyOf1 = nil
+			dst.Content1AnyOf1 = nil
 		}
 	}
 
-	// check if the discriminator value is 'Content_anyOf_2'
-	if jsonDict["type"] == "Content_anyOf_2" {
-		// try to unmarshal JSON data into ContentAnyOf2
-		err = json.Unmarshal(data, &dst.ContentAnyOf2);
+	// check if the discriminator value is 'Content_1_anyOf_2'
+	if jsonDict["type"] == "Content_1_anyOf_2" {
+		// try to unmarshal JSON data into Content1AnyOf2
+		err = json.Unmarshal(data, &dst.Content1AnyOf2);
 		if err == nil {
-			jsonContentAnyOf2, _ := json.Marshal(dst.ContentAnyOf2)
-			if string(jsonContentAnyOf2) == "{}" { // empty struct
-				dst.ContentAnyOf2 = nil
+			jsonContent1AnyOf2, _ := json.Marshal(dst.Content1AnyOf2)
+			if string(jsonContent1AnyOf2) == "{}" { // empty struct
+				dst.Content1AnyOf2 = nil
 			} else {
-				return nil // data stored in dst.ContentAnyOf2, return on the first match
+				return nil // data stored in dst.Content1AnyOf2, return on the first match
 			}
 		} else {
-			dst.ContentAnyOf2 = nil
+			dst.Content1AnyOf2 = nil
 		}
 	}
 
-	// check if the discriminator value is 'Content_anyOf_3'
-	if jsonDict["type"] == "Content_anyOf_3" {
-		// try to unmarshal JSON data into ContentAnyOf3
-		err = json.Unmarshal(data, &dst.ContentAnyOf3);
+	// check if the discriminator value is 'Content_1_anyOf_3'
+	if jsonDict["type"] == "Content_1_anyOf_3" {
+		// try to unmarshal JSON data into Content1AnyOf3
+		err = json.Unmarshal(data, &dst.Content1AnyOf3);
 		if err == nil {
-			jsonContentAnyOf3, _ := json.Marshal(dst.ContentAnyOf3)
-			if string(jsonContentAnyOf3) == "{}" { // empty struct
-				dst.ContentAnyOf3 = nil
+			jsonContent1AnyOf3, _ := json.Marshal(dst.Content1AnyOf3)
+			if string(jsonContent1AnyOf3) == "{}" { // empty struct
+				dst.Content1AnyOf3 = nil
 			} else {
-				return nil // data stored in dst.ContentAnyOf3, return on the first match
+				return nil // data stored in dst.Content1AnyOf3, return on the first match
 			}
 		} else {
-			dst.ContentAnyOf3 = nil
+			dst.Content1AnyOf3 = nil
 		}
 	}
 
@@ -219,56 +219,56 @@ func (dst *Content4) UnmarshalJSON(data []byte) error {
 	// 	}
 	// }
 
-	// try to unmarshal JSON data into ContentAnyOf
-	err = json.Unmarshal(data, &dst.ContentAnyOf);
+	// try to unmarshal JSON data into Content1AnyOf
+	err = json.Unmarshal(data, &dst.Content1AnyOf);
 	if err == nil {
-		jsonContentAnyOf, _ := json.Marshal(dst.ContentAnyOf)
-		if string(jsonContentAnyOf) == "{}" { // empty struct
-			dst.ContentAnyOf = nil
+		jsonContent1AnyOf, _ := json.Marshal(dst.Content1AnyOf)
+		if string(jsonContent1AnyOf) == "{}" { // empty struct
+			dst.Content1AnyOf = nil
 		} else {
-			return nil // data stored in dst.ContentAnyOf, return on the first match
+			return nil // data stored in dst.Content1AnyOf, return on the first match
 		}
 	} else {
-		dst.ContentAnyOf = nil
+		dst.Content1AnyOf = nil
 	}
 
-	// try to unmarshal JSON data into ContentAnyOf1
-	err = json.Unmarshal(data, &dst.ContentAnyOf1);
+	// try to unmarshal JSON data into Content1AnyOf1
+	err = json.Unmarshal(data, &dst.Content1AnyOf1);
 	if err == nil {
-		jsonContentAnyOf1, _ := json.Marshal(dst.ContentAnyOf1)
-		if string(jsonContentAnyOf1) == "{}" { // empty struct
-			dst.ContentAnyOf1 = nil
+		jsonContent1AnyOf1, _ := json.Marshal(dst.Content1AnyOf1)
+		if string(jsonContent1AnyOf1) == "{}" { // empty struct
+			dst.Content1AnyOf1 = nil
 		} else {
-			return nil // data stored in dst.ContentAnyOf1, return on the first match
+			return nil // data stored in dst.Content1AnyOf1, return on the first match
 		}
 	} else {
-		dst.ContentAnyOf1 = nil
+		dst.Content1AnyOf1 = nil
 	}
 
-	// try to unmarshal JSON data into ContentAnyOf2
-	err = json.Unmarshal(data, &dst.ContentAnyOf2);
+	// try to unmarshal JSON data into Content1AnyOf2
+	err = json.Unmarshal(data, &dst.Content1AnyOf2);
 	if err == nil {
-		jsonContentAnyOf2, _ := json.Marshal(dst.ContentAnyOf2)
-		if string(jsonContentAnyOf2) == "{}" { // empty struct
-			dst.ContentAnyOf2 = nil
+		jsonContent1AnyOf2, _ := json.Marshal(dst.Content1AnyOf2)
+		if string(jsonContent1AnyOf2) == "{}" { // empty struct
+			dst.Content1AnyOf2 = nil
 		} else {
-			return nil // data stored in dst.ContentAnyOf2, return on the first match
+			return nil // data stored in dst.Content1AnyOf2, return on the first match
 		}
 	} else {
-		dst.ContentAnyOf2 = nil
+		dst.Content1AnyOf2 = nil
 	}
 
-	// try to unmarshal JSON data into ContentAnyOf3
-	err = json.Unmarshal(data, &dst.ContentAnyOf3);
+	// try to unmarshal JSON data into Content1AnyOf3
+	err = json.Unmarshal(data, &dst.Content1AnyOf3);
 	if err == nil {
-		jsonContentAnyOf3, _ := json.Marshal(dst.ContentAnyOf3)
-		if string(jsonContentAnyOf3) == "{}" { // empty struct
-			dst.ContentAnyOf3 = nil
+		jsonContent1AnyOf3, _ := json.Marshal(dst.Content1AnyOf3)
+		if string(jsonContent1AnyOf3) == "{}" { // empty struct
+			dst.Content1AnyOf3 = nil
 		} else {
-			return nil // data stored in dst.ContentAnyOf3, return on the first match
+			return nil // data stored in dst.Content1AnyOf3, return on the first match
 		}
 	} else {
-		dst.ContentAnyOf3 = nil
+		dst.Content1AnyOf3 = nil
 	}
 
 	// try to unmarshal JSON data into IcebergTableState
@@ -302,20 +302,20 @@ func (dst *Content4) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Content4) MarshalJSON() ([]byte, error) {
-	if src.ContentAnyOf != nil {
-		return json.Marshal(&src.ContentAnyOf)
+	if src.Content1AnyOf != nil {
+		return json.Marshal(&src.Content1AnyOf)
 	}
 
-	if src.ContentAnyOf1 != nil {
-		return json.Marshal(&src.ContentAnyOf1)
+	if src.Content1AnyOf1 != nil {
+		return json.Marshal(&src.Content1AnyOf1)
 	}
 
-	if src.ContentAnyOf2 != nil {
-		return json.Marshal(&src.ContentAnyOf2)
+	if src.Content1AnyOf2 != nil {
+		return json.Marshal(&src.Content1AnyOf2)
 	}
 
-	if src.ContentAnyOf3 != nil {
-		return json.Marshal(&src.ContentAnyOf3)
+	if src.Content1AnyOf3 != nil {
+		return json.Marshal(&src.Content1AnyOf3)
 	}
 
 	if src.IcebergTableState != nil {
@@ -330,20 +330,20 @@ func (src Content4) MarshalJSON() ([]byte, error) {
 }
 
 func (src Content4) ToMap() (map[string]interface{}, error) {
-	if src.ContentAnyOf != nil {
-		return src.ContentAnyOf.ToMap()
+	if src.Content1AnyOf != nil {
+		return src.Content1AnyOf.ToMap()
 	}
 
-	if src.ContentAnyOf1 != nil {
-		return src.ContentAnyOf1.ToMap()
+	if src.Content1AnyOf1 != nil {
+		return src.Content1AnyOf1.ToMap()
 	}
 
-	if src.ContentAnyOf2 != nil {
-		return src.ContentAnyOf2.ToMap()
+	if src.Content1AnyOf2 != nil {
+		return src.Content1AnyOf2.ToMap()
 	}
 
-	if src.ContentAnyOf3 != nil {
-		return src.ContentAnyOf3.ToMap()
+	if src.Content1AnyOf3 != nil {
+		return src.Content1AnyOf3.ToMap()
 	}
 
 	if src.IcebergTableState != nil {

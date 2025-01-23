@@ -19,8 +19,9 @@ var _ MappedNullable = &MergePerContentKeyDetails1{}
 
 // MergePerContentKeyDetails1 struct for MergePerContentKeyDetails1
 type MergePerContentKeyDetails1 struct {
-	Key *AddedContentKey `json:"key,omitempty"`
+	Key *GetMultipleContentsRequest1RequestedKeysInner `json:"key,omitempty"`
 	MergeBehavior *string `json:"mergeBehavior,omitempty"`
+	Conflict *PerContentKeyConflictDetails `json:"conflict,omitempty"`
 }
 
 // NewMergePerContentKeyDetails1 instantiates a new MergePerContentKeyDetails1 object
@@ -41,9 +42,9 @@ func NewMergePerContentKeyDetails1WithDefaults() *MergePerContentKeyDetails1 {
 }
 
 // GetKey returns the Key field value if set, zero value otherwise.
-func (o *MergePerContentKeyDetails1) GetKey() AddedContentKey {
+func (o *MergePerContentKeyDetails1) GetKey() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil || IsNil(o.Key) {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 	return *o.Key
@@ -51,7 +52,7 @@ func (o *MergePerContentKeyDetails1) GetKey() AddedContentKey {
 
 // GetKeyOk returns a tuple with the Key field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MergePerContentKeyDetails1) GetKeyOk() (*AddedContentKey, bool) {
+func (o *MergePerContentKeyDetails1) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil || IsNil(o.Key) {
 		return nil, false
 	}
@@ -67,8 +68,8 @@ func (o *MergePerContentKeyDetails1) HasKey() bool {
 	return false
 }
 
-// SetKey gets a reference to the given AddedContentKey and assigns it to the Key field.
-func (o *MergePerContentKeyDetails1) SetKey(v AddedContentKey) {
+// SetKey gets a reference to the given GetMultipleContentsRequest1RequestedKeysInner and assigns it to the Key field.
+func (o *MergePerContentKeyDetails1) SetKey(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Key = &v
 }
 
@@ -104,6 +105,38 @@ func (o *MergePerContentKeyDetails1) SetMergeBehavior(v string) {
 	o.MergeBehavior = &v
 }
 
+// GetConflict returns the Conflict field value if set, zero value otherwise.
+func (o *MergePerContentKeyDetails1) GetConflict() PerContentKeyConflictDetails {
+	if o == nil || IsNil(o.Conflict) {
+		var ret PerContentKeyConflictDetails
+		return ret
+	}
+	return *o.Conflict
+}
+
+// GetConflictOk returns a tuple with the Conflict field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MergePerContentKeyDetails1) GetConflictOk() (*PerContentKeyConflictDetails, bool) {
+	if o == nil || IsNil(o.Conflict) {
+		return nil, false
+	}
+	return o.Conflict, true
+}
+
+// HasConflict returns a boolean if a field has been set.
+func (o *MergePerContentKeyDetails1) HasConflict() bool {
+	if o != nil && !IsNil(o.Conflict) {
+		return true
+	}
+
+	return false
+}
+
+// SetConflict gets a reference to the given PerContentKeyConflictDetails and assigns it to the Conflict field.
+func (o *MergePerContentKeyDetails1) SetConflict(v PerContentKeyConflictDetails) {
+	o.Conflict = &v
+}
+
 func (o MergePerContentKeyDetails1) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -119,6 +152,9 @@ func (o MergePerContentKeyDetails1) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.MergeBehavior) {
 		toSerialize["mergeBehavior"] = o.MergeBehavior
+	}
+	if !IsNil(o.Conflict) {
+		toSerialize["conflict"] = o.Conflict
 	}
 	return toSerialize, nil
 }

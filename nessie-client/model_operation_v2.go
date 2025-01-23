@@ -18,22 +18,22 @@ import (
 
 // OperationV2 - Describes an operation to be performed against one content object.  The Nessie backend will validate the correctness of the operations.
 type OperationV2 struct {
-	CommitResponseAddedContentsInner *CommitResponseAddedContentsInner
 	DeleteContentOperationForAContentKey *DeleteContentOperationForAContentKey
+	Operation1OneOf *Operation1OneOf
 	PutContentOperationForAContentKey5 *PutContentOperationForAContentKey5
-}
-
-// CommitResponseAddedContentsInnerAsOperationV2 is a convenience function that returns CommitResponseAddedContentsInner wrapped in OperationV2
-func CommitResponseAddedContentsInnerAsOperationV2(v *CommitResponseAddedContentsInner) OperationV2 {
-	return OperationV2{
-		CommitResponseAddedContentsInner: v,
-	}
 }
 
 // DeleteContentOperationForAContentKeyAsOperationV2 is a convenience function that returns DeleteContentOperationForAContentKey wrapped in OperationV2
 func DeleteContentOperationForAContentKeyAsOperationV2(v *DeleteContentOperationForAContentKey) OperationV2 {
 	return OperationV2{
 		DeleteContentOperationForAContentKey: v,
+	}
+}
+
+// Operation1OneOfAsOperationV2 is a convenience function that returns Operation1OneOf wrapped in OperationV2
+func Operation1OneOfAsOperationV2(v *Operation1OneOf) OperationV2 {
+	return OperationV2{
+		Operation1OneOf: v,
 	}
 }
 
@@ -49,23 +49,6 @@ func PutContentOperationForAContentKey5AsOperationV2(v *PutContentOperationForAC
 func (dst *OperationV2) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	// try to unmarshal data into CommitResponseAddedContentsInner
-	err = newStrictDecoder(data).Decode(&dst.CommitResponseAddedContentsInner)
-	if err == nil {
-		jsonCommitResponseAddedContentsInner, _ := json.Marshal(dst.CommitResponseAddedContentsInner)
-		if string(jsonCommitResponseAddedContentsInner) == "{}" { // empty struct
-			dst.CommitResponseAddedContentsInner = nil
-		} else {
-			if err = validator.Validate(dst.CommitResponseAddedContentsInner); err != nil {
-				dst.CommitResponseAddedContentsInner = nil
-			} else {
-				match++
-			}
-		}
-	} else {
-		dst.CommitResponseAddedContentsInner = nil
-	}
-
 	// try to unmarshal data into DeleteContentOperationForAContentKey
 	err = newStrictDecoder(data).Decode(&dst.DeleteContentOperationForAContentKey)
 	if err == nil {
@@ -81,6 +64,23 @@ func (dst *OperationV2) UnmarshalJSON(data []byte) error {
 		}
 	} else {
 		dst.DeleteContentOperationForAContentKey = nil
+	}
+
+	// try to unmarshal data into Operation1OneOf
+	err = newStrictDecoder(data).Decode(&dst.Operation1OneOf)
+	if err == nil {
+		jsonOperation1OneOf, _ := json.Marshal(dst.Operation1OneOf)
+		if string(jsonOperation1OneOf) == "{}" { // empty struct
+			dst.Operation1OneOf = nil
+		} else {
+			if err = validator.Validate(dst.Operation1OneOf); err != nil {
+				dst.Operation1OneOf = nil
+			} else {
+				match++
+			}
+		}
+	} else {
+		dst.Operation1OneOf = nil
 	}
 
 	// try to unmarshal data into PutContentOperationForAContentKey5
@@ -102,8 +102,8 @@ func (dst *OperationV2) UnmarshalJSON(data []byte) error {
 
 	if match > 1 { // more than 1 match
 		// reset to nil
-		dst.CommitResponseAddedContentsInner = nil
 		dst.DeleteContentOperationForAContentKey = nil
+		dst.Operation1OneOf = nil
 		dst.PutContentOperationForAContentKey5 = nil
 
 		return fmt.Errorf("data matches more than one schema in oneOf(OperationV2)")
@@ -116,12 +116,12 @@ func (dst *OperationV2) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src OperationV2) MarshalJSON() ([]byte, error) {
-	if src.CommitResponseAddedContentsInner != nil {
-		return json.Marshal(&src.CommitResponseAddedContentsInner)
-	}
-
 	if src.DeleteContentOperationForAContentKey != nil {
 		return json.Marshal(&src.DeleteContentOperationForAContentKey)
+	}
+
+	if src.Operation1OneOf != nil {
+		return json.Marshal(&src.Operation1OneOf)
 	}
 
 	if src.PutContentOperationForAContentKey5 != nil {
@@ -136,12 +136,12 @@ func (obj *OperationV2) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
-	if obj.CommitResponseAddedContentsInner != nil {
-		return obj.CommitResponseAddedContentsInner
-	}
-
 	if obj.DeleteContentOperationForAContentKey != nil {
 		return obj.DeleteContentOperationForAContentKey
+	}
+
+	if obj.Operation1OneOf != nil {
+		return obj.Operation1OneOf
 	}
 
 	if obj.PutContentOperationForAContentKey5 != nil {

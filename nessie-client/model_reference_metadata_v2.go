@@ -21,7 +21,7 @@ var _ MappedNullable = &ReferenceMetadataV2{}
 type ReferenceMetadataV2 struct {
 	NumCommitsAhead *int32 `json:"numCommitsAhead,omitempty"`
 	NumCommitsBehind *int32 `json:"numCommitsBehind,omitempty"`
-	CommitMetaOfHEAD *CommitMeta2 `json:"commitMetaOfHEAD,omitempty"`
+	CommitMetaOfHEAD *CommitMeta3 `json:"commitMetaOfHEAD,omitempty"`
 	CommonAncestorHash *string `json:"commonAncestorHash,omitempty"`
 	NumTotalCommits *int64 `json:"numTotalCommits,omitempty"`
 }
@@ -108,9 +108,9 @@ func (o *ReferenceMetadataV2) SetNumCommitsBehind(v int32) {
 }
 
 // GetCommitMetaOfHEAD returns the CommitMetaOfHEAD field value if set, zero value otherwise.
-func (o *ReferenceMetadataV2) GetCommitMetaOfHEAD() CommitMeta2 {
+func (o *ReferenceMetadataV2) GetCommitMetaOfHEAD() CommitMeta3 {
 	if o == nil || IsNil(o.CommitMetaOfHEAD) {
-		var ret CommitMeta2
+		var ret CommitMeta3
 		return ret
 	}
 	return *o.CommitMetaOfHEAD
@@ -118,7 +118,7 @@ func (o *ReferenceMetadataV2) GetCommitMetaOfHEAD() CommitMeta2 {
 
 // GetCommitMetaOfHEADOk returns a tuple with the CommitMetaOfHEAD field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ReferenceMetadataV2) GetCommitMetaOfHEADOk() (*CommitMeta2, bool) {
+func (o *ReferenceMetadataV2) GetCommitMetaOfHEADOk() (*CommitMeta3, bool) {
 	if o == nil || IsNil(o.CommitMetaOfHEAD) {
 		return nil, false
 	}
@@ -134,8 +134,8 @@ func (o *ReferenceMetadataV2) HasCommitMetaOfHEAD() bool {
 	return false
 }
 
-// SetCommitMetaOfHEAD gets a reference to the given CommitMeta2 and assigns it to the CommitMetaOfHEAD field.
-func (o *ReferenceMetadataV2) SetCommitMetaOfHEAD(v CommitMeta2) {
+// SetCommitMetaOfHEAD gets a reference to the given CommitMeta3 and assigns it to the CommitMetaOfHEAD field.
+func (o *ReferenceMetadataV2) SetCommitMetaOfHEAD(v CommitMeta3) {
 	o.CommitMetaOfHEAD = &v
 }
 

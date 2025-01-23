@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | [**AddedContentKey**](AddedContentKey.md) |  | 
-**Content** | [**Content1**](Content1.md) |  | 
+**Key** | [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | 
+**Content** | [**Content5**](Content5.md) |  | 
 **Metadata** | Pointer to [**[]ContentMetadata1**](ContentMetadata1.md) |  | [optional] 
-**Documentation** | Pointer to [**ContentResponseV2Documentation**](ContentResponseV2Documentation.md) |  | [optional] 
+**Documentation** | Pointer to [**PutContentOperationForAContentKeyDocumentation**](PutContentOperationForAContentKeyDocumentation.md) |  | [optional] 
 
 ## Methods
 
 ### NewPutContentOperationForAContentKey2
 
-`func NewPutContentOperationForAContentKey2(key AddedContentKey, content Content1, ) *PutContentOperationForAContentKey2`
+`func NewPutContentOperationForAContentKey2(key GetMultipleContentsRequest1RequestedKeysInner, content Content5, ) *PutContentOperationForAContentKey2`
 
 NewPutContentOperationForAContentKey2 instantiates a new PutContentOperationForAContentKey2 object
 This constructor will assign default values to properties that have it defined,
@@ -30,40 +30,40 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKey
 
-`func (o *PutContentOperationForAContentKey2) GetKey() AddedContentKey`
+`func (o *PutContentOperationForAContentKey2) GetKey() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetKey returns the Key field if non-nil, zero value otherwise.
 
 ### GetKeyOk
 
-`func (o *PutContentOperationForAContentKey2) GetKeyOk() (*AddedContentKey, bool)`
+`func (o *PutContentOperationForAContentKey2) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetKeyOk returns a tuple with the Key field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKey
 
-`func (o *PutContentOperationForAContentKey2) SetKey(v AddedContentKey)`
+`func (o *PutContentOperationForAContentKey2) SetKey(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetKey sets Key field to given value.
 
 
 ### GetContent
 
-`func (o *PutContentOperationForAContentKey2) GetContent() Content1`
+`func (o *PutContentOperationForAContentKey2) GetContent() Content5`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *PutContentOperationForAContentKey2) GetContentOk() (*Content1, bool)`
+`func (o *PutContentOperationForAContentKey2) GetContentOk() (*Content5, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *PutContentOperationForAContentKey2) SetContent(v Content1)`
+`func (o *PutContentOperationForAContentKey2) SetContent(v Content5)`
 
 SetContent sets Content field to given value.
 
@@ -95,20 +95,20 @@ HasMetadata returns a boolean if a field has been set.
 
 ### GetDocumentation
 
-`func (o *PutContentOperationForAContentKey2) GetDocumentation() ContentResponseV2Documentation`
+`func (o *PutContentOperationForAContentKey2) GetDocumentation() PutContentOperationForAContentKeyDocumentation`
 
 GetDocumentation returns the Documentation field if non-nil, zero value otherwise.
 
 ### GetDocumentationOk
 
-`func (o *PutContentOperationForAContentKey2) GetDocumentationOk() (*ContentResponseV2Documentation, bool)`
+`func (o *PutContentOperationForAContentKey2) GetDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool)`
 
 GetDocumentationOk returns a tuple with the Documentation field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDocumentation
 
-`func (o *PutContentOperationForAContentKey2) SetDocumentation(v ContentResponseV2Documentation)`
+`func (o *PutContentOperationForAContentKey2) SetDocumentation(v PutContentOperationForAContentKeyDocumentation)`
 
 SetDocumentation sets Documentation field to given value.
 

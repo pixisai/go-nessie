@@ -21,10 +21,10 @@ var _ MappedNullable = &PutContentOperationForAContentKey1{}
 
 // PutContentOperationForAContentKey1 Used to add new content or to update existing content.  A new content object is created by populating the `value` field, the content-id in the content object must not be present (null).  A content object is updated by populating the `value` containing the correct content-id.  If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the `value` having the correct content-id. Both operations must happen in the same commit.  A content object can be replaced (think: `DROP TABLE xyz` + `CREATE TABLE xyz`) with a `Delete` operation and a `Put` operation for a content using a `value`representing a new content object, so without a content-id, in the same commit.
 type PutContentOperationForAContentKey1 struct {
-	Key AddedContentKey `json:"key"`
-	Content Content3 `json:"content"`
+	Key GetMultipleContentsRequest1RequestedKeysInner `json:"key"`
+	Content Content1 `json:"content"`
 	// Deprecated
-	ExpectedContent *Content5 `json:"expectedContent,omitempty"`
+	ExpectedContent *Content4 `json:"expectedContent,omitempty"`
 }
 
 type _PutContentOperationForAContentKey1 PutContentOperationForAContentKey1
@@ -33,7 +33,7 @@ type _PutContentOperationForAContentKey1 PutContentOperationForAContentKey1
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPutContentOperationForAContentKey1(key AddedContentKey, content Content3) *PutContentOperationForAContentKey1 {
+func NewPutContentOperationForAContentKey1(key GetMultipleContentsRequest1RequestedKeysInner, content Content1) *PutContentOperationForAContentKey1 {
 	this := PutContentOperationForAContentKey1{}
 	this.Key = key
 	this.Content = content
@@ -49,9 +49,9 @@ func NewPutContentOperationForAContentKey1WithDefaults() *PutContentOperationFor
 }
 
 // GetKey returns the Key field value
-func (o *PutContentOperationForAContentKey1) GetKey() AddedContentKey {
+func (o *PutContentOperationForAContentKey1) GetKey() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 
@@ -60,7 +60,7 @@ func (o *PutContentOperationForAContentKey1) GetKey() AddedContentKey {
 
 // GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
-func (o *PutContentOperationForAContentKey1) GetKeyOk() (*AddedContentKey, bool) {
+func (o *PutContentOperationForAContentKey1) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,14 +68,14 @@ func (o *PutContentOperationForAContentKey1) GetKeyOk() (*AddedContentKey, bool)
 }
 
 // SetKey sets field value
-func (o *PutContentOperationForAContentKey1) SetKey(v AddedContentKey) {
+func (o *PutContentOperationForAContentKey1) SetKey(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Key = v
 }
 
 // GetContent returns the Content field value
-func (o *PutContentOperationForAContentKey1) GetContent() Content3 {
+func (o *PutContentOperationForAContentKey1) GetContent() Content1 {
 	if o == nil {
-		var ret Content3
+		var ret Content1
 		return ret
 	}
 
@@ -84,7 +84,7 @@ func (o *PutContentOperationForAContentKey1) GetContent() Content3 {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *PutContentOperationForAContentKey1) GetContentOk() (*Content3, bool) {
+func (o *PutContentOperationForAContentKey1) GetContentOk() (*Content1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -92,15 +92,15 @@ func (o *PutContentOperationForAContentKey1) GetContentOk() (*Content3, bool) {
 }
 
 // SetContent sets field value
-func (o *PutContentOperationForAContentKey1) SetContent(v Content3) {
+func (o *PutContentOperationForAContentKey1) SetContent(v Content1) {
 	o.Content = v
 }
 
 // GetExpectedContent returns the ExpectedContent field value if set, zero value otherwise.
 // Deprecated
-func (o *PutContentOperationForAContentKey1) GetExpectedContent() Content5 {
+func (o *PutContentOperationForAContentKey1) GetExpectedContent() Content4 {
 	if o == nil || IsNil(o.ExpectedContent) {
-		var ret Content5
+		var ret Content4
 		return ret
 	}
 	return *o.ExpectedContent
@@ -109,7 +109,7 @@ func (o *PutContentOperationForAContentKey1) GetExpectedContent() Content5 {
 // GetExpectedContentOk returns a tuple with the ExpectedContent field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // Deprecated
-func (o *PutContentOperationForAContentKey1) GetExpectedContentOk() (*Content5, bool) {
+func (o *PutContentOperationForAContentKey1) GetExpectedContentOk() (*Content4, bool) {
 	if o == nil || IsNil(o.ExpectedContent) {
 		return nil, false
 	}
@@ -125,9 +125,9 @@ func (o *PutContentOperationForAContentKey1) HasExpectedContent() bool {
 	return false
 }
 
-// SetExpectedContent gets a reference to the given Content5 and assigns it to the ExpectedContent field.
+// SetExpectedContent gets a reference to the given Content4 and assigns it to the ExpectedContent field.
 // Deprecated
-func (o *PutContentOperationForAContentKey1) SetExpectedContent(v Content5) {
+func (o *PutContentOperationForAContentKey1) SetExpectedContent(v Content4) {
 	o.ExpectedContent = &v
 }
 

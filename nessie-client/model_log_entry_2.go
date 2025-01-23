@@ -21,10 +21,9 @@ var _ MappedNullable = &LogEntry2{}
 
 // LogEntry2 struct for LogEntry2
 type LogEntry2 struct {
-	CommitMeta CommitMeta1 `json:"commitMeta"`
-	AdditionalParents []string `json:"additionalParents,omitempty"`
+	CommitMeta CommitMeta3 `json:"commitMeta"`
 	ParentCommitHash *string `json:"parentCommitHash,omitempty"`
-	Operations []Operation2 `json:"operations,omitempty"`
+	Operations []Operation3 `json:"operations,omitempty"`
 }
 
 type _LogEntry2 LogEntry2
@@ -33,7 +32,7 @@ type _LogEntry2 LogEntry2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLogEntry2(commitMeta CommitMeta1) *LogEntry2 {
+func NewLogEntry2(commitMeta CommitMeta3) *LogEntry2 {
 	this := LogEntry2{}
 	this.CommitMeta = commitMeta
 	return &this
@@ -48,9 +47,9 @@ func NewLogEntry2WithDefaults() *LogEntry2 {
 }
 
 // GetCommitMeta returns the CommitMeta field value
-func (o *LogEntry2) GetCommitMeta() CommitMeta1 {
+func (o *LogEntry2) GetCommitMeta() CommitMeta3 {
 	if o == nil {
-		var ret CommitMeta1
+		var ret CommitMeta3
 		return ret
 	}
 
@@ -59,7 +58,7 @@ func (o *LogEntry2) GetCommitMeta() CommitMeta1 {
 
 // GetCommitMetaOk returns a tuple with the CommitMeta field value
 // and a boolean to check if the value has been set.
-func (o *LogEntry2) GetCommitMetaOk() (*CommitMeta1, bool) {
+func (o *LogEntry2) GetCommitMetaOk() (*CommitMeta3, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -67,40 +66,8 @@ func (o *LogEntry2) GetCommitMetaOk() (*CommitMeta1, bool) {
 }
 
 // SetCommitMeta sets field value
-func (o *LogEntry2) SetCommitMeta(v CommitMeta1) {
+func (o *LogEntry2) SetCommitMeta(v CommitMeta3) {
 	o.CommitMeta = v
-}
-
-// GetAdditionalParents returns the AdditionalParents field value if set, zero value otherwise.
-func (o *LogEntry2) GetAdditionalParents() []string {
-	if o == nil || IsNil(o.AdditionalParents) {
-		var ret []string
-		return ret
-	}
-	return o.AdditionalParents
-}
-
-// GetAdditionalParentsOk returns a tuple with the AdditionalParents field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *LogEntry2) GetAdditionalParentsOk() ([]string, bool) {
-	if o == nil || IsNil(o.AdditionalParents) {
-		return nil, false
-	}
-	return o.AdditionalParents, true
-}
-
-// HasAdditionalParents returns a boolean if a field has been set.
-func (o *LogEntry2) HasAdditionalParents() bool {
-	if o != nil && !IsNil(o.AdditionalParents) {
-		return true
-	}
-
-	return false
-}
-
-// SetAdditionalParents gets a reference to the given []string and assigns it to the AdditionalParents field.
-func (o *LogEntry2) SetAdditionalParents(v []string) {
-	o.AdditionalParents = v
 }
 
 // GetParentCommitHash returns the ParentCommitHash field value if set, zero value otherwise.
@@ -136,9 +103,9 @@ func (o *LogEntry2) SetParentCommitHash(v string) {
 }
 
 // GetOperations returns the Operations field value if set, zero value otherwise.
-func (o *LogEntry2) GetOperations() []Operation2 {
+func (o *LogEntry2) GetOperations() []Operation3 {
 	if o == nil || IsNil(o.Operations) {
-		var ret []Operation2
+		var ret []Operation3
 		return ret
 	}
 	return o.Operations
@@ -146,7 +113,7 @@ func (o *LogEntry2) GetOperations() []Operation2 {
 
 // GetOperationsOk returns a tuple with the Operations field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *LogEntry2) GetOperationsOk() ([]Operation2, bool) {
+func (o *LogEntry2) GetOperationsOk() ([]Operation3, bool) {
 	if o == nil || IsNil(o.Operations) {
 		return nil, false
 	}
@@ -162,8 +129,8 @@ func (o *LogEntry2) HasOperations() bool {
 	return false
 }
 
-// SetOperations gets a reference to the given []Operation2 and assigns it to the Operations field.
-func (o *LogEntry2) SetOperations(v []Operation2) {
+// SetOperations gets a reference to the given []Operation3 and assigns it to the Operations field.
+func (o *LogEntry2) SetOperations(v []Operation3) {
 	o.Operations = v
 }
 
@@ -178,9 +145,6 @@ func (o LogEntry2) MarshalJSON() ([]byte, error) {
 func (o LogEntry2) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["commitMeta"] = o.CommitMeta
-	if !IsNil(o.AdditionalParents) {
-		toSerialize["additionalParents"] = o.AdditionalParents
-	}
 	if !IsNil(o.ParentCommitHash) {
 		toSerialize["parentCommitHash"] = o.ParentCommitHash
 	}

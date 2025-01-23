@@ -6,14 +6,11 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Hash** | Pointer to **string** |  | [optional] 
 **Committer** | Pointer to **string** |  | [optional] 
-**Author** | Pointer to **string** |  | [optional] 
 **Authors** | **[]string** |  | 
-**SignedOffBy** | Pointer to **string** |  | [optional] 
 **AllSignedOffBy** | **[]string** |  | 
 **Message** | **string** |  | 
 **CommitTime** | Pointer to **time.Time** |  | [optional] 
 **AuthorTime** | Pointer to **time.Time** |  | [optional] 
-**Properties** | **map[string]string** |  | 
 **AllProperties** | **map[string][]string** |  | 
 **ParentCommitHashes** | **[]string** |  | 
 
@@ -21,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewCommitMeta3
 
-`func NewCommitMeta3(authors []string, allSignedOffBy []string, message string, properties map[string]string, allProperties map[string][]string, parentCommitHashes []string, ) *CommitMeta3`
+`func NewCommitMeta3(authors []string, allSignedOffBy []string, message string, allProperties map[string][]string, parentCommitHashes []string, ) *CommitMeta3`
 
 NewCommitMeta3 instantiates a new CommitMeta3 object
 This constructor will assign default values to properties that have it defined,
@@ -86,31 +83,6 @@ SetCommitter sets Committer field to given value.
 
 HasCommitter returns a boolean if a field has been set.
 
-### GetAuthor
-
-`func (o *CommitMeta3) GetAuthor() string`
-
-GetAuthor returns the Author field if non-nil, zero value otherwise.
-
-### GetAuthorOk
-
-`func (o *CommitMeta3) GetAuthorOk() (*string, bool)`
-
-GetAuthorOk returns a tuple with the Author field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAuthor
-
-`func (o *CommitMeta3) SetAuthor(v string)`
-
-SetAuthor sets Author field to given value.
-
-### HasAuthor
-
-`func (o *CommitMeta3) HasAuthor() bool`
-
-HasAuthor returns a boolean if a field has been set.
-
 ### GetAuthors
 
 `func (o *CommitMeta3) GetAuthors() []string`
@@ -130,31 +102,6 @@ and a boolean to check if the value has been set.
 
 SetAuthors sets Authors field to given value.
 
-
-### GetSignedOffBy
-
-`func (o *CommitMeta3) GetSignedOffBy() string`
-
-GetSignedOffBy returns the SignedOffBy field if non-nil, zero value otherwise.
-
-### GetSignedOffByOk
-
-`func (o *CommitMeta3) GetSignedOffByOk() (*string, bool)`
-
-GetSignedOffByOk returns a tuple with the SignedOffBy field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSignedOffBy
-
-`func (o *CommitMeta3) SetSignedOffBy(v string)`
-
-SetSignedOffBy sets SignedOffBy field to given value.
-
-### HasSignedOffBy
-
-`func (o *CommitMeta3) HasSignedOffBy() bool`
-
-HasSignedOffBy returns a boolean if a field has been set.
 
 ### GetAllSignedOffBy
 
@@ -245,26 +192,6 @@ SetAuthorTime sets AuthorTime field to given value.
 `func (o *CommitMeta3) HasAuthorTime() bool`
 
 HasAuthorTime returns a boolean if a field has been set.
-
-### GetProperties
-
-`func (o *CommitMeta3) GetProperties() map[string]string`
-
-GetProperties returns the Properties field if non-nil, zero value otherwise.
-
-### GetPropertiesOk
-
-`func (o *CommitMeta3) GetPropertiesOk() (*map[string]string, bool)`
-
-GetPropertiesOk returns a tuple with the Properties field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetProperties
-
-`func (o *CommitMeta3) SetProperties(v map[string]string)`
-
-SetProperties sets Properties field to given value.
-
 
 ### GetAllProperties
 

@@ -21,9 +21,9 @@ var _ MappedNullable = &GetMultipleContentsResponseContentsInner{}
 
 // GetMultipleContentsResponseContentsInner struct for GetMultipleContentsResponseContentsInner
 type GetMultipleContentsResponseContentsInner struct {
-	Key AddedContentKey `json:"key"`
+	Key GetMultipleContentsRequest1RequestedKeysInner `json:"key"`
 	Content Content2 `json:"content"`
-	Documentation *ContentResponseV2Documentation `json:"documentation,omitempty"`
+	Documentation *PutContentOperationForAContentKeyDocumentation `json:"documentation,omitempty"`
 }
 
 type _GetMultipleContentsResponseContentsInner GetMultipleContentsResponseContentsInner
@@ -32,7 +32,7 @@ type _GetMultipleContentsResponseContentsInner GetMultipleContentsResponseConten
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetMultipleContentsResponseContentsInner(key AddedContentKey, content Content2) *GetMultipleContentsResponseContentsInner {
+func NewGetMultipleContentsResponseContentsInner(key GetMultipleContentsRequest1RequestedKeysInner, content Content2) *GetMultipleContentsResponseContentsInner {
 	this := GetMultipleContentsResponseContentsInner{}
 	this.Key = key
 	this.Content = content
@@ -48,9 +48,9 @@ func NewGetMultipleContentsResponseContentsInnerWithDefaults() *GetMultipleConte
 }
 
 // GetKey returns the Key field value
-func (o *GetMultipleContentsResponseContentsInner) GetKey() AddedContentKey {
+func (o *GetMultipleContentsResponseContentsInner) GetKey() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 
@@ -59,7 +59,7 @@ func (o *GetMultipleContentsResponseContentsInner) GetKey() AddedContentKey {
 
 // GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
-func (o *GetMultipleContentsResponseContentsInner) GetKeyOk() (*AddedContentKey, bool) {
+func (o *GetMultipleContentsResponseContentsInner) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -67,7 +67,7 @@ func (o *GetMultipleContentsResponseContentsInner) GetKeyOk() (*AddedContentKey,
 }
 
 // SetKey sets field value
-func (o *GetMultipleContentsResponseContentsInner) SetKey(v AddedContentKey) {
+func (o *GetMultipleContentsResponseContentsInner) SetKey(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Key = v
 }
 
@@ -96,9 +96,9 @@ func (o *GetMultipleContentsResponseContentsInner) SetContent(v Content2) {
 }
 
 // GetDocumentation returns the Documentation field value if set, zero value otherwise.
-func (o *GetMultipleContentsResponseContentsInner) GetDocumentation() ContentResponseV2Documentation {
+func (o *GetMultipleContentsResponseContentsInner) GetDocumentation() PutContentOperationForAContentKeyDocumentation {
 	if o == nil || IsNil(o.Documentation) {
-		var ret ContentResponseV2Documentation
+		var ret PutContentOperationForAContentKeyDocumentation
 		return ret
 	}
 	return *o.Documentation
@@ -106,7 +106,7 @@ func (o *GetMultipleContentsResponseContentsInner) GetDocumentation() ContentRes
 
 // GetDocumentationOk returns a tuple with the Documentation field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GetMultipleContentsResponseContentsInner) GetDocumentationOk() (*ContentResponseV2Documentation, bool) {
+func (o *GetMultipleContentsResponseContentsInner) GetDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool) {
 	if o == nil || IsNil(o.Documentation) {
 		return nil, false
 	}
@@ -122,8 +122,8 @@ func (o *GetMultipleContentsResponseContentsInner) HasDocumentation() bool {
 	return false
 }
 
-// SetDocumentation gets a reference to the given ContentResponseV2Documentation and assigns it to the Documentation field.
-func (o *GetMultipleContentsResponseContentsInner) SetDocumentation(v ContentResponseV2Documentation) {
+// SetDocumentation gets a reference to the given PutContentOperationForAContentKeyDocumentation and assigns it to the Documentation field.
+func (o *GetMultipleContentsResponseContentsInner) SetDocumentation(v PutContentOperationForAContentKeyDocumentation) {
 	o.Documentation = &v
 }
 

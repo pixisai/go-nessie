@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | Pointer to **string** | Declares the type of a Nessie content object, which is currently one of ICEBERG_TABLE, DELTA_LAKE_TABLE, ICEBERG_VIEW, NAMESPACE or UDF, which are the discriminator mapping values of the &#39;Content&#39; type. | [optional] 
-**Name** | [**AddedContentKey**](AddedContentKey.md) |  | 
+**Name** | [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | 
 
 ## Methods
 
 ### NewEntryV1
 
-`func NewEntryV1(name AddedContentKey, ) *EntryV1`
+`func NewEntryV1(name GetMultipleContentsRequest1RequestedKeysInner, ) *EntryV1`
 
 NewEntryV1 instantiates a new EntryV1 object
 This constructor will assign default values to properties that have it defined,
@@ -53,20 +53,20 @@ HasType returns a boolean if a field has been set.
 
 ### GetName
 
-`func (o *EntryV1) GetName() AddedContentKey`
+`func (o *EntryV1) GetName() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *EntryV1) GetNameOk() (*AddedContentKey, bool)`
+`func (o *EntryV1) GetNameOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *EntryV1) SetName(v AddedContentKey)`
+`func (o *EntryV1) SetName(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetName sets Name field to given value.
 

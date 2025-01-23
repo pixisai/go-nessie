@@ -21,7 +21,7 @@ var _ MappedNullable = &GetNamespacesResponseV1{}
 
 // GetNamespacesResponseV1 struct for GetNamespacesResponseV1
 type GetNamespacesResponseV1 struct {
-	Namespaces []ContentAnyOf2 `json:"namespaces"`
+	Namespaces []Content1AnyOf2 `json:"namespaces"`
 }
 
 type _GetNamespacesResponseV1 GetNamespacesResponseV1
@@ -30,7 +30,7 @@ type _GetNamespacesResponseV1 GetNamespacesResponseV1
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetNamespacesResponseV1(namespaces []ContentAnyOf2) *GetNamespacesResponseV1 {
+func NewGetNamespacesResponseV1(namespaces []Content1AnyOf2) *GetNamespacesResponseV1 {
 	this := GetNamespacesResponseV1{}
 	this.Namespaces = namespaces
 	return &this
@@ -45,9 +45,9 @@ func NewGetNamespacesResponseV1WithDefaults() *GetNamespacesResponseV1 {
 }
 
 // GetNamespaces returns the Namespaces field value
-func (o *GetNamespacesResponseV1) GetNamespaces() []ContentAnyOf2 {
+func (o *GetNamespacesResponseV1) GetNamespaces() []Content1AnyOf2 {
 	if o == nil {
-		var ret []ContentAnyOf2
+		var ret []Content1AnyOf2
 		return ret
 	}
 
@@ -56,7 +56,7 @@ func (o *GetNamespacesResponseV1) GetNamespaces() []ContentAnyOf2 {
 
 // GetNamespacesOk returns a tuple with the Namespaces field value
 // and a boolean to check if the value has been set.
-func (o *GetNamespacesResponseV1) GetNamespacesOk() ([]ContentAnyOf2, bool) {
+func (o *GetNamespacesResponseV1) GetNamespacesOk() ([]Content1AnyOf2, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *GetNamespacesResponseV1) GetNamespacesOk() ([]ContentAnyOf2, bool) {
 }
 
 // SetNamespaces sets field value
-func (o *GetNamespacesResponseV1) SetNamespaces(v []ContentAnyOf2) {
+func (o *GetNamespacesResponseV1) SetNamespaces(v []Content1AnyOf2) {
 	o.Namespaces = v
 }
 

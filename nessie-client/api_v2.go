@@ -16,18 +16,266 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
+	"reflect"
 )
 
 
 // V2APIService V2API service
 type V2APIService service
 
+type ApiAssignReferenceV2Request struct {
+	ctx context.Context
+	ApiService *V2APIService
+	ref interface{}
+	reference2 *Reference2
+	type_ *string
+}
+
+// Reference to which the &#39;ref&#39; (from the path parameter) shall be assigned. This must be either a &#39;Detached&#39; commit, &#39;Branch&#39; or &#39;Tag&#39; via which the hash is visible to the caller.
+func (r ApiAssignReferenceV2Request) Reference2(reference2 Reference2) ApiAssignReferenceV2Request {
+	r.reference2 = &reference2
+	return r
+}
+
+// Optional expected type of the reference being reassigned
+func (r ApiAssignReferenceV2Request) Type_(type_ string) ApiAssignReferenceV2Request {
+	r.type_ = &type_
+	return r
+}
+
+func (r ApiAssignReferenceV2Request) Execute() (*SingleReferenceResponse1, *http.Response, error) {
+	return r.ApiService.AssignReferenceV2Execute(r)
+}
+
+/*
+AssignReferenceV2 Set a named reference to a specific hash via another reference.
+
+The 'ref' parameter identifies the branch or tag to be reassigned.
+The 'ref' parameter may contain a hash qualifier. That hash as well as the optional 'type' parameter may be used to ensure the operation is performed on the same object that the user expects.
+
+Only branches and tags may be reassigned.
+The payload object identifies any reference visible to the current user whose 'hash' will be used to define the new HEAD of the reference being reassigned. Detached hashes may be used in the payload.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ref Specifies a named branch or tag reference with its expected HEAD 'hash' value.  For example: - name@hash - Identifies the 'hash' commit on a branch or tag.  The specified 'hash' must be the value of the current HEAD of the branch or tag known by the client. It will be used to validate that at execution time the reference points to the same hash that the caller expected when the operation arguments were constructed. 
+ @return ApiAssignReferenceV2Request
+*/
+func (a *V2APIService) AssignReferenceV2(ctx context.Context, ref interface{}) ApiAssignReferenceV2Request {
+	return ApiAssignReferenceV2Request{
+		ApiService: a,
+		ctx: ctx,
+		ref: ref,
+	}
+}
+
+// Execute executes the request
+//  @return SingleReferenceResponse1
+func (a *V2APIService) AssignReferenceV2Execute(r ApiAssignReferenceV2Request) (*SingleReferenceResponse1, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPut
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SingleReferenceResponse1
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.AssignReferenceV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{ref}"
+	localVarPath = strings.Replace(localVarPath, "{"+"ref"+"}", url.PathEscape(parameterValueToString(r.ref, "ref")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.reference2 == nil {
+		return localVarReturnValue, nil, reportError("reference2 is required and must be specified")
+	}
+
+	if r.type_ != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "type", r.type_, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.reference2
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiCommitV2Request struct {
+	ctx context.Context
+	ApiService *V2APIService
+	branch interface{}
+	operations1 *Operations1
+}
+
+// Operations to commit
+func (r ApiCommitV2Request) Operations1(operations1 Operations1) ApiCommitV2Request {
+	r.operations1 = &operations1
+	return r
+}
+
+func (r ApiCommitV2Request) Execute() (*CommitResponse, *http.Response, error) {
+	return r.ApiService.CommitV2Execute(r)
+}
+
+/*
+CommitV2 Commit one or more operations against the given 'branch'.
+
+The state of contents specified by the 'branch' reference will be used for detecting conflicts with the operation being committed.
+
+The hash in the successful response will be the hash of the commit that contains the requested operations, whose immediate parent commit will be the current HEAD of the specified branch.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param branch A reference to a particular version of the contents tree (a point in history) on a branch. This reference is specified in this form: - name@hash - Identifies the 'hash' commit on the named branch.  The 'hash' commit must be reachable from the current HEAD of the branch. In this case 'hash' indicates the state of contents that should be used for validating incoming changes. 
+ @return ApiCommitV2Request
+*/
+func (a *V2APIService) CommitV2(ctx context.Context, branch interface{}) ApiCommitV2Request {
+	return ApiCommitV2Request{
+		ApiService: a,
+		ctx: ctx,
+		branch: branch,
+	}
+}
+
+// Execute executes the request
+//  @return CommitResponse
+func (a *V2APIService) CommitV2Execute(r ApiCommitV2Request) (*CommitResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *CommitResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.CommitV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{branch}/history/commit"
+	localVarPath = strings.Replace(localVarPath, "{"+"branch"+"}", url.PathEscape(parameterValueToString(r.branch, "branch")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.operations1 == nil {
+		return localVarReturnValue, nil, reportError("operations1 is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.operations1
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiCreateReferenceV2Request struct {
 	ctx context.Context
 	ApiService *V2APIService
 	name *string
 	type_ *string
-	reference3 *Reference3
+	reference2 *Reference2
 }
 
 // A reference name.  Reference name must start with a letter, followed by letters, digits, one of the ./_- characters, not end with a slash or dot, not contain &#39;..&#39; 
@@ -43,8 +291,8 @@ func (r ApiCreateReferenceV2Request) Type_(type_ string) ApiCreateReferenceV2Req
 }
 
 // Source reference data from which the new reference is to be created.
-func (r ApiCreateReferenceV2Request) Reference3(reference3 Reference3) ApiCreateReferenceV2Request {
-	r.reference3 = &reference3
+func (r ApiCreateReferenceV2Request) Reference2(reference2 Reference2) ApiCreateReferenceV2Request {
+	r.reference2 = &reference2
 	return r
 }
 
@@ -95,8 +343,8 @@ func (a *V2APIService) CreateReferenceV2Execute(r ApiCreateReferenceV2Request) (
 	if r.type_ == nil {
 		return localVarReturnValue, nil, reportError("type_ is required and must be specified")
 	}
-	if r.reference3 == nil {
-		return localVarReturnValue, nil, reportError("reference3 is required and must be specified")
+	if r.reference2 == nil {
+		return localVarReturnValue, nil, reportError("reference2 is required and must be specified")
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "name", r.name, "form", "")
@@ -119,7 +367,123 @@ func (a *V2APIService) CreateReferenceV2Execute(r ApiCreateReferenceV2Request) (
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.reference3
+	localVarPostBody = r.reference2
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiDeleteReferenceV2Request struct {
+	ctx context.Context
+	ApiService *V2APIService
+	ref interface{}
+	type_ *string
+}
+
+// Optional expected type of the reference being deleted
+func (r ApiDeleteReferenceV2Request) Type_(type_ string) ApiDeleteReferenceV2Request {
+	r.type_ = &type_
+	return r
+}
+
+func (r ApiDeleteReferenceV2Request) Execute() (*SingleReferenceResponse1, *http.Response, error) {
+	return r.ApiService.DeleteReferenceV2Execute(r)
+}
+
+/*
+DeleteReferenceV2 Delete a reference
+
+The 'ref' parameter identifies the branch or tag to be deleted.
+The 'ref' parameter may contain a hash qualifier. That hash as well as the optional 'type' parameter may be used to ensure the operation is performed on the same object that the user expects.
+
+Only branches and tags can be deleted. However, deleting the default branch may be restricted.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ref Specifies a named branch or tag reference with its expected HEAD 'hash' value.  For example: - name@hash - Identifies the 'hash' commit on a branch or tag.  The specified 'hash' must be the value of the current HEAD of the branch or tag known by the client. It will be used to validate that at execution time the reference points to the same hash that the caller expected when the operation arguments were constructed. 
+ @return ApiDeleteReferenceV2Request
+*/
+func (a *V2APIService) DeleteReferenceV2(ctx context.Context, ref interface{}) ApiDeleteReferenceV2Request {
+	return ApiDeleteReferenceV2Request{
+		ApiService: a,
+		ctx: ctx,
+		ref: ref,
+	}
+}
+
+// Execute executes the request
+//  @return SingleReferenceResponse1
+func (a *V2APIService) DeleteReferenceV2Execute(r ApiDeleteReferenceV2Request) (*SingleReferenceResponse1, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SingleReferenceResponse1
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.DeleteReferenceV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{ref}"
+	localVarPath = strings.Replace(localVarPath, "{"+"ref"+"}", url.PathEscape(parameterValueToString(r.ref, "ref")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.type_ != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "type", r.type_, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -240,6 +604,1781 @@ func (a *V2APIService) GetAllReferencesV2Execute(r ApiGetAllReferencesV2Request)
 	if r.pageToken != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "page-token", r.pageToken, "form", "")
 	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetCommitLogV2Request struct {
+	ctx context.Context
+	ApiService *V2APIService
+	ref interface{}
+	fetch *string
+	filter *string
+	limitHash *string
+	maxRecords *int32
+	pageToken *string
+}
+
+// Specify how much information to be returned. Will fetch additional metadata such as parent commit hash and operations in a commit, for each commit if set to &#39;ALL&#39;.
+func (r ApiGetCommitLogV2Request) Fetch(fetch string) ApiGetCommitLogV2Request {
+	r.fetch = &fetch
+	return r
+}
+
+// A Common Expression Language (CEL) expression. An intro to CEL can be found at https://github.com/google/cel-spec/blob/master/doc/intro.md.  Usable variables within the expression are:  - &#39;commit&#39; with fields &#39;author&#39; (string), &#39;committer&#39; (string), &#39;commitTime&#39; (timestamp), &#39;hash&#39; (string), &#39;,message&#39; (string), &#39;properties&#39; (map)  - &#39;operations&#39; (list), each operation has the fields &#39;type&#39; (string, either &#39;PUT&#39; or &#39;DELETE&#39;), &#39;key&#39; (string, namespace + table name), &#39;keyElements&#39; (list of strings), &#39;namespace&#39; (string), &#39;namespaceElements&#39; (list of strings) and &#39;name&#39; (string, the \&quot;simple\&quot; table name)  Note that the expression can only test against &#39;operations&#39;, if &#39;fetch&#39; is set to &#39;ALL&#39;.  Hint: when filtering commits, you can determine whether commits are \&quot;missing\&quot; (filtered) by checking whether &#39;LogEntry.parentCommitHash&#39; is different from the hash of the previous commit in the log response.
+func (r ApiGetCommitLogV2Request) Filter(filter string) ApiGetCommitLogV2Request {
+	r.filter = &filter
+	return r
+}
+
+// Hash on the given ref to identify the commit where the operation of fetching the log should stop, i.e. the &#39;far&#39; end of the commit log, returned late in the result.
+func (r ApiGetCommitLogV2Request) LimitHash(limitHash string) ApiGetCommitLogV2Request {
+	r.limitHash = &limitHash
+	return r
+}
+
+// maximum number of entries to return, just a hint for the server
+func (r ApiGetCommitLogV2Request) MaxRecords(maxRecords int32) ApiGetCommitLogV2Request {
+	r.maxRecords = &maxRecords
+	return r
+}
+
+// paging continuation token, as returned in the previous value of the field &#39;token&#39; in the corresponding &#39;EntriesResponse&#39; or &#39;LogResponse&#39; or &#39;ReferencesResponse&#39; or &#39;RefLogResponse&#39;.
+func (r ApiGetCommitLogV2Request) PageToken(pageToken string) ApiGetCommitLogV2Request {
+	r.pageToken = &pageToken
+	return r
+}
+
+func (r ApiGetCommitLogV2Request) Execute() (*LogResponse2, *http.Response, error) {
+	return r.ApiService.GetCommitLogV2Execute(r)
+}
+
+/*
+GetCommitLogV2 Get commit log for a particular reference
+
+Retrieve the commit log for a reference, potentially truncated by the backend.
+
+The backend may respect the given 'max-entries' records hint, or may return more or less entries. Backends may also cap the returned entries at a hard-coded limit
+
+To implement paging, check 'hasMore' in the response and, if 'true', pass the value returned as 'token' in the next invocation as the 'pageToken' parameter.
+
+The content and meaning of the returned 'token' is "private" to the implementation,treat is as an opaque value.
+
+It is wrong to assume that invoking this method with a very high 'maxRecords' value will return all available data in one page.
+
+Different pages may have different numbers of log records in them even if they come from another call to this method with the same parameters. Also, pages are not guaranteed to be filled to contain exactly 'maxRecords' even if the total amount of available data allows that. Pages may contain more of less entries at server's discretion.
+
+The 'filter' parameter allows for advanced filtering capabilities using the Common Expression Language (CEL).
+An intro to CEL can be found at https://github.com/google/cel-spec/blob/master/doc/intro.md.
+
+The fetching of the log starts from the HEAD of the given ref (or a more specific commit, if provided as part of the 'ref' path element) and proceeds until the 'root' commit or the 'limit-hash' commit are encountered.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ref A reference to a particular version of the contents tree (a point in history).  Reference representations consist of: - The reference name. '-' means the default branch name. - A commit hash prefixed with '@'. - A relative commit specification. '~N' means the N-th predecessor commit, '*T' means the commit for which the timestamp T (milliseconds since epoch or ISO-8601 instant) is valid, '^N' means the N-th parentin a commit (N=2 is the merge parent).  If neither the reference name or the default branch name placeholder '-' is specified, the reference type 'DETACHED' will be assumed. If no commit hash is specified, the HEAD of the specified named reference will be used. An empty reference parameter is not valid.  This reference can be specified in these forms: - \\- (literal minus character) - identifies the HEAD of the default branch. - name - Identifies the HEAD commit of a branch or tag. - name@hash - Identifies the 'hash' commit on a branch or tag. - @hash - Identifies the 'hash' commit in an unspecified branch or tag. - -~3 - The 3rd predecessor commit from the HEAD of the default branch. - name~3 - The 3rd predecessor commit from the HEAD of a branch or tag. - @hash~3 - The 3rd predecessor commit of the 'hash' commit. - name@hash^2 - The merge parent of the 'hash' commit of a branch or tag. - @hash^2 - The merge parent of the 'hash' commit. - -*2021-04-07T14:42:25.534748Z - The predecessor commit closest to the HEAD of the default branch for the given ISO-8601 timestamp. - name*2021-04-07T14:42:25.534748Z - The predecessor commit closest to the HEAD of a branch or tag valid for the given ISO-8601 timestamp. - name*1685185847230 - The predecessor commit closest to the HEAD of a branch or tag valid for the given timestamp in milliseconds since epoch.  If both 'name' and 'hash' are given, 'hash' must be reachable from the current HEAD of the branch or tag. If 'name' is omitted, the reference will be of type 'DETACHED' (referencing a specific commit hash without claiming its reachability from any live HEAD). Using references of the last form may have authorization implications when compared to an equivalent reference of the former forms.  An empty reference parameter is invalid.  The 'name@hash' form always refers to the exact commit on a specific named reference. This is the most complete form of a reference. Other forms omit some of the details and require those gaps to be filled by the server at runtime. Although these forms may be convenient to a human-being, they may resolve differently at different times depending on the state of the system. Using the full 'name@hash' form is recommended to avoid ambiguity. 
+ @return ApiGetCommitLogV2Request
+*/
+func (a *V2APIService) GetCommitLogV2(ctx context.Context, ref interface{}) ApiGetCommitLogV2Request {
+	return ApiGetCommitLogV2Request{
+		ApiService: a,
+		ctx: ctx,
+		ref: ref,
+	}
+}
+
+// Execute executes the request
+//  @return LogResponse2
+func (a *V2APIService) GetCommitLogV2Execute(r ApiGetCommitLogV2Request) (*LogResponse2, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *LogResponse2
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.GetCommitLogV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{ref}/history"
+	localVarPath = strings.Replace(localVarPath, "{"+"ref"+"}", url.PathEscape(parameterValueToString(r.ref, "ref")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.fetch != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "fetch", r.fetch, "form", "")
+	}
+	if r.filter != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "filter", r.filter, "form", "")
+	}
+	if r.limitHash != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit-hash", r.limitHash, "form", "")
+	}
+	if r.maxRecords != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "max-records", r.maxRecords, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page-token", r.pageToken, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetConfigV2Request struct {
+	ctx context.Context
+	ApiService *V2APIService
+}
+
+func (r ApiGetConfigV2Request) Execute() (*NessieConfiguration2, *http.Response, error) {
+	return r.ApiService.GetConfigV2Execute(r)
+}
+
+/*
+GetConfigV2 Returns repository and server settings relevant to clients.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetConfigV2Request
+*/
+func (a *V2APIService) GetConfigV2(ctx context.Context) ApiGetConfigV2Request {
+	return ApiGetConfigV2Request{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return NessieConfiguration2
+func (a *V2APIService) GetConfigV2Execute(r ApiGetConfigV2Request) (*NessieConfiguration2, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *NessieConfiguration2
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.GetConfigV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/config"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetContentV2Request struct {
+	ctx context.Context
+	ApiService *V2APIService
+	key GetMultipleContentsRequest1RequestedKeysInner
+	ref interface{}
+	forWrite *bool
+	withDoc *bool
+}
+
+// If set to &#39;true&#39;, access control checks will check for write/create privilege in addition to read privileges.
+func (r ApiGetContentV2Request) ForWrite(forWrite bool) ApiGetContentV2Request {
+	r.forWrite = &forWrite
+	return r
+}
+
+// Whether to return the documentation, if it exists. Default is to not return the documentation.
+func (r ApiGetContentV2Request) WithDoc(withDoc bool) ApiGetContentV2Request {
+	r.withDoc = &withDoc
+	return r
+}
+
+func (r ApiGetContentV2Request) Execute() (*GetContentV2200Response, *http.Response, error) {
+	return r.ApiService.GetContentV2Execute(r)
+}
+
+/*
+GetContentV2 Get the content object associated with a key.
+
+This operation returns the content value for a content key at a particular point in history as defined by the 'ref' parameter.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param key The key to a content object.  Content key and namespace components are separated by the dot (`.`) character. The components itself must be escaped using the rules described in [NESSIE-SPEC-2.0.md in the repository](https://github.com/projectnessie/nessie/blob/main/api/NESSIE-SPEC-2-0.md).
+ @param ref A reference to a particular version of the contents tree (a point in history).  Reference representations consist of: - The reference name. '-' means the default branch name. - A commit hash prefixed with '@'. - A relative commit specification. '~N' means the N-th predecessor commit, '*T' means the commit for which the timestamp T (milliseconds since epoch or ISO-8601 instant) is valid, '^N' means the N-th parentin a commit (N=2 is the merge parent).  If neither the reference name or the default branch name placeholder '-' is specified, the reference type 'DETACHED' will be assumed. If no commit hash is specified, the HEAD of the specified named reference will be used. An empty reference parameter is not valid.  This reference can be specified in these forms: - \\- (literal minus character) - identifies the HEAD of the default branch. - name - Identifies the HEAD commit of a branch or tag. - name@hash - Identifies the 'hash' commit on a branch or tag. - @hash - Identifies the 'hash' commit in an unspecified branch or tag. - -~3 - The 3rd predecessor commit from the HEAD of the default branch. - name~3 - The 3rd predecessor commit from the HEAD of a branch or tag. - @hash~3 - The 3rd predecessor commit of the 'hash' commit. - name@hash^2 - The merge parent of the 'hash' commit of a branch or tag. - @hash^2 - The merge parent of the 'hash' commit. - -*2021-04-07T14:42:25.534748Z - The predecessor commit closest to the HEAD of the default branch for the given ISO-8601 timestamp. - name*2021-04-07T14:42:25.534748Z - The predecessor commit closest to the HEAD of a branch or tag valid for the given ISO-8601 timestamp. - name*1685185847230 - The predecessor commit closest to the HEAD of a branch or tag valid for the given timestamp in milliseconds since epoch.  If both 'name' and 'hash' are given, 'hash' must be reachable from the current HEAD of the branch or tag. If 'name' is omitted, the reference will be of type 'DETACHED' (referencing a specific commit hash without claiming its reachability from any live HEAD). Using references of the last form may have authorization implications when compared to an equivalent reference of the former forms.  An empty reference parameter is invalid.  The 'name@hash' form always refers to the exact commit on a specific named reference. This is the most complete form of a reference. Other forms omit some of the details and require those gaps to be filled by the server at runtime. Although these forms may be convenient to a human-being, they may resolve differently at different times depending on the state of the system. Using the full 'name@hash' form is recommended to avoid ambiguity. 
+ @return ApiGetContentV2Request
+*/
+func (a *V2APIService) GetContentV2(ctx context.Context, key GetMultipleContentsRequest1RequestedKeysInner, ref interface{}) ApiGetContentV2Request {
+	return ApiGetContentV2Request{
+		ApiService: a,
+		ctx: ctx,
+		key: key,
+		ref: ref,
+	}
+}
+
+// Execute executes the request
+//  @return GetContentV2200Response
+func (a *V2APIService) GetContentV2Execute(r ApiGetContentV2Request) (*GetContentV2200Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *GetContentV2200Response
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.GetContentV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{ref}/contents/{key}"
+	localVarPath = strings.Replace(localVarPath, "{"+"key"+"}", url.PathEscape(parameterValueToString(r.key, "key")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"ref"+"}", url.PathEscape(parameterValueToString(r.ref, "ref")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.forWrite != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "for-write", r.forWrite, "form", "")
+	}
+	if r.withDoc != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "with-doc", r.withDoc, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetDiffV2Request struct {
+	ctx context.Context
+	ApiService *V2APIService
+	fromRef string
+	toRef string
+	filter *string
+	key *[]GetMultipleContentsRequest1RequestedKeysInner
+	maxKey *GetMultipleContentsRequest1RequestedKeysInner
+	maxRecords *int32
+	minKey *GetMultipleContentsRequest1RequestedKeysInner
+	pageToken *string
+	prefixKey *GetMultipleContentsRequest1RequestedKeysInner
+}
+
+// A Common Expression Language (CEL) expression. An intro to CEL can be found at https://github.com/google/cel-spec/blob/master/doc/intro.md.  Usable variables within the expression are:  - &#39;key&#39; (string, namespace + table name), &#39;keyElements&#39; (list of strings), &#39;namespace&#39; (string), &#39;namespaceElements&#39; (list of strings) and &#39;name&#39; (string, the \&quot;simple\&quot; table name)
+func (r ApiGetDiffV2Request) Filter(filter string) ApiGetDiffV2Request {
+	r.filter = &filter
+	return r
+}
+
+// Restrict the result to one or more keys.  Can be combined with min/max-key and prefix-key parameters, however both predicates must match. This means that keys specified via this parameter that do not match a given min/max-key or prefix-key will not be returned.  Content key and namespace components are separated by the dot (&#x60;.&#x60;) character. The components itself must be escaped using the rules described in [NESSIE-SPEC-2.0.md in the repository](https://github.com/projectnessie/nessie/blob/main/api/NESSIE-SPEC-2-0.md).
+func (r ApiGetDiffV2Request) Key(key []GetMultipleContentsRequest1RequestedKeysInner) ApiGetDiffV2Request {
+	r.key = &key
+	return r
+}
+
+// The upper bound of the content key range to retrieve (inclusive). The content keys of all returned entries will be less than or equal to the max-value. Content-keys are compared as a &#39;whole&#39;, unlike prefix-keys.  Content key and namespace components are separated by the dot (&#x60;.&#x60;) character. The components itself must be escaped using the rules described in [NESSIE-SPEC-2.0.md in the repository](https://github.com/projectnessie/nessie/blob/main/api/NESSIE-SPEC-2-0.md).
+func (r ApiGetDiffV2Request) MaxKey(maxKey GetMultipleContentsRequest1RequestedKeysInner) ApiGetDiffV2Request {
+	r.maxKey = &maxKey
+	return r
+}
+
+// maximum number of entries to return, just a hint for the server
+func (r ApiGetDiffV2Request) MaxRecords(maxRecords int32) ApiGetDiffV2Request {
+	r.maxRecords = &maxRecords
+	return r
+}
+
+// The lower bound of the content key range to retrieve (inclusive). The content keys of all returned entries will be greater than or equal to the min-value. Content-keys are compared as a &#39;whole&#39;, unlike prefix-keys.  Content key and namespace components are separated by the dot (&#x60;.&#x60;) character. The components itself must be escaped using the rules described in [NESSIE-SPEC-2.0.md in the repository](https://github.com/projectnessie/nessie/blob/main/api/NESSIE-SPEC-2-0.md).
+func (r ApiGetDiffV2Request) MinKey(minKey GetMultipleContentsRequest1RequestedKeysInner) ApiGetDiffV2Request {
+	r.minKey = &minKey
+	return r
+}
+
+// paging continuation token, as returned in the previous value of the field &#39;token&#39; in the corresponding &#39;EntriesResponse&#39; or &#39;LogResponse&#39; or &#39;ReferencesResponse&#39; or &#39;RefLogResponse&#39;.
+func (r ApiGetDiffV2Request) PageToken(pageToken string) ApiGetDiffV2Request {
+	r.pageToken = &pageToken
+	return r
+}
+
+// The content key prefix to retrieve (inclusive). A content key matches a given prefix, a content key&#39;s elements starts with all elements of the prefix-key. Key prefixes exactly match key-element boundaries.  Must not be combined with min/max-key parameters.  Content key and namespace components are separated by the dot (&#x60;.&#x60;) character. The components itself must be escaped using the rules described in [NESSIE-SPEC-2.0.md in the repository](https://github.com/projectnessie/nessie/blob/main/api/NESSIE-SPEC-2-0.md).
+func (r ApiGetDiffV2Request) PrefixKey(prefixKey GetMultipleContentsRequest1RequestedKeysInner) ApiGetDiffV2Request {
+	r.prefixKey = &prefixKey
+	return r
+}
+
+func (r ApiGetDiffV2Request) Execute() (*DiffResponse2, *http.Response, error) {
+	return r.ApiService.GetDiffV2Execute(r)
+}
+
+/*
+GetDiffV2 Get contents that differ in the trees specified by the two given references
+
+The URL pattern is basically 'from' and 'to' reference specs separated by '/diff/'
+
+Examples: 
+- main/diff/myBranch
+- main@1234567890123456/diff/myBranch
+- main@1234567890123456/diff/myBranch@23445678
+- main/diff/myBranch@23445678
+- main/diff/myBranch@23445678
+- my/branch@/diff/main
+- myBranch/diff/-
+
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param fromRef A reference to a particular version of the contents tree (a point in history).  Reference representations consist of: - The reference name. '-' means the default branch name. - A commit hash prefixed with '@'. - A relative commit specification. '~N' means the N-th predecessor commit, '*T' means the commit for which the timestamp T (milliseconds since epoch or ISO-8601 instant) is valid, '^N' means the N-th parentin a commit (N=2 is the merge parent).  If neither the reference name or the default branch name placeholder '-' is specified, the reference type 'DETACHED' will be assumed. If no commit hash is specified, the HEAD of the specified named reference will be used. An empty reference parameter is not valid.  This reference can be specified in these forms: - \\- (literal minus character) - identifies the HEAD of the default branch. - name - Identifies the HEAD commit of a branch or tag. - name@hash - Identifies the 'hash' commit on a branch or tag. - @hash - Identifies the 'hash' commit in an unspecified branch or tag. - -~3 - The 3rd predecessor commit from the HEAD of the default branch. - name~3 - The 3rd predecessor commit from the HEAD of a branch or tag. - @hash~3 - The 3rd predecessor commit of the 'hash' commit. - name@hash^2 - The merge parent of the 'hash' commit of a branch or tag. - @hash^2 - The merge parent of the 'hash' commit. - -*2021-04-07T14:42:25.534748Z - The predecessor commit closest to the HEAD of the default branch for the given ISO-8601 timestamp. - name*2021-04-07T14:42:25.534748Z - The predecessor commit closest to the HEAD of a branch or tag valid for the given ISO-8601 timestamp. - name*1685185847230 - The predecessor commit closest to the HEAD of a branch or tag valid for the given timestamp in milliseconds since epoch.  If both 'name' and 'hash' are given, 'hash' must be reachable from the current HEAD of the branch or tag. If 'name' is omitted, the reference will be of type 'DETACHED' (referencing a specific commit hash without claiming its reachability from any live HEAD). Using references of the last form may have authorization implications when compared to an equivalent reference of the former forms.  An empty reference parameter is invalid.  The 'name@hash' form always refers to the exact commit on a specific named reference. This is the most complete form of a reference. Other forms omit some of the details and require those gaps to be filled by the server at runtime. Although these forms may be convenient to a human-being, they may resolve differently at different times depending on the state of the system. Using the full 'name@hash' form is recommended to avoid ambiguity. 
+ @param toRef Same reference spec as in the 'from-ref' parameter but identifying the other tree for comparison.
+ @return ApiGetDiffV2Request
+*/
+func (a *V2APIService) GetDiffV2(ctx context.Context, fromRef string, toRef string) ApiGetDiffV2Request {
+	return ApiGetDiffV2Request{
+		ApiService: a,
+		ctx: ctx,
+		fromRef: fromRef,
+		toRef: toRef,
+	}
+}
+
+// Execute executes the request
+//  @return DiffResponse2
+func (a *V2APIService) GetDiffV2Execute(r ApiGetDiffV2Request) (*DiffResponse2, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *DiffResponse2
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.GetDiffV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{from-ref}/diff/{to-ref}"
+	localVarPath = strings.Replace(localVarPath, "{"+"from-ref"+"}", url.PathEscape(parameterValueToString(r.fromRef, "fromRef")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"to-ref"+"}", url.PathEscape(parameterValueToString(r.toRef, "toRef")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.filter != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "filter", r.filter, "form", "")
+	}
+	if r.key != nil {
+		t := *r.key
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "key", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "key", t, "form", "multi")
+		}
+	}
+	if r.maxKey != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "max-key", r.maxKey, "form", "")
+	}
+	if r.maxRecords != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "max-records", r.maxRecords, "form", "")
+	}
+	if r.minKey != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "min-key", r.minKey, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page-token", r.pageToken, "form", "")
+	}
+	if r.prefixKey != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "prefix-key", r.prefixKey, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetEntriesV2Request struct {
+	ctx context.Context
+	ApiService *V2APIService
+	ref interface{}
+	content *bool
+	filter *string
+	key *[]GetMultipleContentsRequest1RequestedKeysInner
+	maxKey *GetMultipleContentsRequest1RequestedKeysInner
+	maxRecords *int32
+	minKey *GetMultipleContentsRequest1RequestedKeysInner
+	pageToken *string
+	prefixKey *GetMultipleContentsRequest1RequestedKeysInner
+}
+
+// Optionally request to return &#39;Content&#39; objects for the returned keys.
+func (r ApiGetEntriesV2Request) Content(content bool) ApiGetEntriesV2Request {
+	r.content = &content
+	return r
+}
+
+// A Common Expression Language (CEL) expression. An intro to CEL can be found at https://github.com/google/cel-spec/blob/master/doc/intro.md. Usable variables within the expression are &#39;entry.namespace&#39; (string) &amp; &#39;entry.contentType&#39; (string)
+func (r ApiGetEntriesV2Request) Filter(filter string) ApiGetEntriesV2Request {
+	r.filter = &filter
+	return r
+}
+
+// Restrict the result to one or more keys.  Can be combined with min/max-key and prefix-key parameters, however both predicates must match. This means that keys specified via this parameter that do not match a given min/max-key or prefix-key will not be returned.  Content key and namespace components are separated by the dot (&#x60;.&#x60;) character. The components itself must be escaped using the rules described in [NESSIE-SPEC-2.0.md in the repository](https://github.com/projectnessie/nessie/blob/main/api/NESSIE-SPEC-2-0.md).
+func (r ApiGetEntriesV2Request) Key(key []GetMultipleContentsRequest1RequestedKeysInner) ApiGetEntriesV2Request {
+	r.key = &key
+	return r
+}
+
+// The upper bound of the content key range to retrieve (inclusive). The content keys of all returned entries will be less than or equal to the max-value. Content-keys are compared as a &#39;whole&#39;, unlike prefix-keys.  Content key and namespace components are separated by the dot (&#x60;.&#x60;) character. The components itself must be escaped using the rules described in [NESSIE-SPEC-2.0.md in the repository](https://github.com/projectnessie/nessie/blob/main/api/NESSIE-SPEC-2-0.md).
+func (r ApiGetEntriesV2Request) MaxKey(maxKey GetMultipleContentsRequest1RequestedKeysInner) ApiGetEntriesV2Request {
+	r.maxKey = &maxKey
+	return r
+}
+
+// maximum number of entries to return, just a hint for the server
+func (r ApiGetEntriesV2Request) MaxRecords(maxRecords int32) ApiGetEntriesV2Request {
+	r.maxRecords = &maxRecords
+	return r
+}
+
+// The lower bound of the content key range to retrieve (inclusive). The content keys of all returned entries will be greater than or equal to the min-value. Content-keys are compared as a &#39;whole&#39;, unlike prefix-keys.  Content key and namespace components are separated by the dot (&#x60;.&#x60;) character. The components itself must be escaped using the rules described in [NESSIE-SPEC-2.0.md in the repository](https://github.com/projectnessie/nessie/blob/main/api/NESSIE-SPEC-2-0.md).
+func (r ApiGetEntriesV2Request) MinKey(minKey GetMultipleContentsRequest1RequestedKeysInner) ApiGetEntriesV2Request {
+	r.minKey = &minKey
+	return r
+}
+
+// paging continuation token, as returned in the previous value of the field &#39;token&#39; in the corresponding &#39;EntriesResponse&#39; or &#39;LogResponse&#39; or &#39;ReferencesResponse&#39; or &#39;RefLogResponse&#39;.
+func (r ApiGetEntriesV2Request) PageToken(pageToken string) ApiGetEntriesV2Request {
+	r.pageToken = &pageToken
+	return r
+}
+
+// The content key prefix to retrieve (inclusive). A content key matches a given prefix, a content key&#39;s elements starts with all elements of the prefix-key. Key prefixes exactly match key-element boundaries.  Must not be combined with min/max-key parameters.  Content key and namespace components are separated by the dot (&#x60;.&#x60;) character. The components itself must be escaped using the rules described in [NESSIE-SPEC-2.0.md in the repository](https://github.com/projectnessie/nessie/blob/main/api/NESSIE-SPEC-2-0.md).
+func (r ApiGetEntriesV2Request) PrefixKey(prefixKey GetMultipleContentsRequest1RequestedKeysInner) ApiGetEntriesV2Request {
+	r.prefixKey = &prefixKey
+	return r
+}
+
+func (r ApiGetEntriesV2Request) Execute() (*GetEntriesV2200Response, *http.Response, error) {
+	return r.ApiService.GetEntriesV2Execute(r)
+}
+
+/*
+GetEntriesV2 Fetch all entries for a given reference
+
+Retrieves objects for a ref, potentially truncated by the backend.
+
+Retrieves up to 'maxRecords' entries for the given named reference (tag or branch) or the given hash. The backend may respect the given 'max' records hint, but return less or more entries. Backends may also cap the returned entries at a hard-coded limit, the default REST server implementation has such a hard-coded limit.
+
+To implement paging, check 'hasMore' in the response and, if 'true', pass the value returned as 'token' in the next invocation as the 'pageToken' parameter.
+
+The content and meaning of the returned 'token' is "private" to the implementation,treat is as an opaque value.
+
+It is wrong to assume that invoking this method with a very high 'maxRecords' value will return all available data in one page.
+
+Different pages may have different numbers of log records in them even if they come from another call to this method with the same parameters. Also, pages are not guaranteed to be filled to contain exactly 'maxRecords' even if the total amount of available data allows that. Pages may contain more of less entries at server's discretion.
+
+The 'filter' parameter allows for advanced filtering capabilities using the Common Expression Language (CEL).
+An intro to CEL can be found at https://github.com/google/cel-spec/blob/master/doc/intro.md.
+
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ref A reference to a particular version of the contents tree (a point in history).  Reference representations consist of: - The reference name. '-' means the default branch name. - A commit hash prefixed with '@'. - A relative commit specification. '~N' means the N-th predecessor commit, '*T' means the commit for which the timestamp T (milliseconds since epoch or ISO-8601 instant) is valid, '^N' means the N-th parentin a commit (N=2 is the merge parent).  If neither the reference name or the default branch name placeholder '-' is specified, the reference type 'DETACHED' will be assumed. If no commit hash is specified, the HEAD of the specified named reference will be used. An empty reference parameter is not valid.  This reference can be specified in these forms: - \\- (literal minus character) - identifies the HEAD of the default branch. - name - Identifies the HEAD commit of a branch or tag. - name@hash - Identifies the 'hash' commit on a branch or tag. - @hash - Identifies the 'hash' commit in an unspecified branch or tag. - -~3 - The 3rd predecessor commit from the HEAD of the default branch. - name~3 - The 3rd predecessor commit from the HEAD of a branch or tag. - @hash~3 - The 3rd predecessor commit of the 'hash' commit. - name@hash^2 - The merge parent of the 'hash' commit of a branch or tag. - @hash^2 - The merge parent of the 'hash' commit. - -*2021-04-07T14:42:25.534748Z - The predecessor commit closest to the HEAD of the default branch for the given ISO-8601 timestamp. - name*2021-04-07T14:42:25.534748Z - The predecessor commit closest to the HEAD of a branch or tag valid for the given ISO-8601 timestamp. - name*1685185847230 - The predecessor commit closest to the HEAD of a branch or tag valid for the given timestamp in milliseconds since epoch.  If both 'name' and 'hash' are given, 'hash' must be reachable from the current HEAD of the branch or tag. If 'name' is omitted, the reference will be of type 'DETACHED' (referencing a specific commit hash without claiming its reachability from any live HEAD). Using references of the last form may have authorization implications when compared to an equivalent reference of the former forms.  An empty reference parameter is invalid.  The 'name@hash' form always refers to the exact commit on a specific named reference. This is the most complete form of a reference. Other forms omit some of the details and require those gaps to be filled by the server at runtime. Although these forms may be convenient to a human-being, they may resolve differently at different times depending on the state of the system. Using the full 'name@hash' form is recommended to avoid ambiguity. 
+ @return ApiGetEntriesV2Request
+*/
+func (a *V2APIService) GetEntriesV2(ctx context.Context, ref interface{}) ApiGetEntriesV2Request {
+	return ApiGetEntriesV2Request{
+		ApiService: a,
+		ctx: ctx,
+		ref: ref,
+	}
+}
+
+// Execute executes the request
+//  @return GetEntriesV2200Response
+func (a *V2APIService) GetEntriesV2Execute(r ApiGetEntriesV2Request) (*GetEntriesV2200Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *GetEntriesV2200Response
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.GetEntriesV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{ref}/entries"
+	localVarPath = strings.Replace(localVarPath, "{"+"ref"+"}", url.PathEscape(parameterValueToString(r.ref, "ref")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.content != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "content", r.content, "form", "")
+	}
+	if r.filter != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "filter", r.filter, "form", "")
+	}
+	if r.key != nil {
+		t := *r.key
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "key", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "key", t, "form", "multi")
+		}
+	}
+	if r.maxKey != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "max-key", r.maxKey, "form", "")
+	}
+	if r.maxRecords != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "max-records", r.maxRecords, "form", "")
+	}
+	if r.minKey != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "min-key", r.minKey, "form", "")
+	}
+	if r.pageToken != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page-token", r.pageToken, "form", "")
+	}
+	if r.prefixKey != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "prefix-key", r.prefixKey, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+			var v GetEntriesV2200Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetMultipleContentsV2Request struct {
+	ctx context.Context
+	ApiService *V2APIService
+	ref interface{}
+	getMultipleContentsRequest1 *GetMultipleContentsRequest1
+	forWrite *bool
+	withDoc *bool
+}
+
+// Keys to retrieve.
+func (r ApiGetMultipleContentsV2Request) GetMultipleContentsRequest1(getMultipleContentsRequest1 GetMultipleContentsRequest1) ApiGetMultipleContentsV2Request {
+	r.getMultipleContentsRequest1 = &getMultipleContentsRequest1
+	return r
+}
+
+// If set to &#39;true&#39;, access control checks will check for write/create privilege in addition to read privileges.
+func (r ApiGetMultipleContentsV2Request) ForWrite(forWrite bool) ApiGetMultipleContentsV2Request {
+	r.forWrite = &forWrite
+	return r
+}
+
+// Whether to return the documentation, if it exists. Default is to not return the documentation.
+func (r ApiGetMultipleContentsV2Request) WithDoc(withDoc bool) ApiGetMultipleContentsV2Request {
+	r.withDoc = &withDoc
+	return r
+}
+
+func (r ApiGetMultipleContentsV2Request) Execute() (*GetMultipleContentsResponse2, *http.Response, error) {
+	return r.ApiService.GetMultipleContentsV2Execute(r)
+}
+
+/*
+GetMultipleContentsV2 Get multiple content objects.
+
+Similar to 'GET /trees/{ref}/content/{key}', but takes multiple 'ContentKey's (in the JSON payload) and returns zero or more content objects.
+
+Note that if some keys from the request do not have an associated content object at the point in history defined by the 'ref' parameter, the response will be successful, but no data will be returned for the missing keys.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ref A reference to a particular version of the contents tree (a point in history).  Reference representations consist of: - The reference name. '-' means the default branch name. - A commit hash prefixed with '@'. - A relative commit specification. '~N' means the N-th predecessor commit, '*T' means the commit for which the timestamp T (milliseconds since epoch or ISO-8601 instant) is valid, '^N' means the N-th parentin a commit (N=2 is the merge parent).  If neither the reference name or the default branch name placeholder '-' is specified, the reference type 'DETACHED' will be assumed. If no commit hash is specified, the HEAD of the specified named reference will be used. An empty reference parameter is not valid.  This reference can be specified in these forms: - \\- (literal minus character) - identifies the HEAD of the default branch. - name - Identifies the HEAD commit of a branch or tag. - name@hash - Identifies the 'hash' commit on a branch or tag. - @hash - Identifies the 'hash' commit in an unspecified branch or tag. - -~3 - The 3rd predecessor commit from the HEAD of the default branch. - name~3 - The 3rd predecessor commit from the HEAD of a branch or tag. - @hash~3 - The 3rd predecessor commit of the 'hash' commit. - name@hash^2 - The merge parent of the 'hash' commit of a branch or tag. - @hash^2 - The merge parent of the 'hash' commit. - -*2021-04-07T14:42:25.534748Z - The predecessor commit closest to the HEAD of the default branch for the given ISO-8601 timestamp. - name*2021-04-07T14:42:25.534748Z - The predecessor commit closest to the HEAD of a branch or tag valid for the given ISO-8601 timestamp. - name*1685185847230 - The predecessor commit closest to the HEAD of a branch or tag valid for the given timestamp in milliseconds since epoch.  If both 'name' and 'hash' are given, 'hash' must be reachable from the current HEAD of the branch or tag. If 'name' is omitted, the reference will be of type 'DETACHED' (referencing a specific commit hash without claiming its reachability from any live HEAD). Using references of the last form may have authorization implications when compared to an equivalent reference of the former forms.  An empty reference parameter is invalid.  The 'name@hash' form always refers to the exact commit on a specific named reference. This is the most complete form of a reference. Other forms omit some of the details and require those gaps to be filled by the server at runtime. Although these forms may be convenient to a human-being, they may resolve differently at different times depending on the state of the system. Using the full 'name@hash' form is recommended to avoid ambiguity. 
+ @return ApiGetMultipleContentsV2Request
+*/
+func (a *V2APIService) GetMultipleContentsV2(ctx context.Context, ref interface{}) ApiGetMultipleContentsV2Request {
+	return ApiGetMultipleContentsV2Request{
+		ApiService: a,
+		ctx: ctx,
+		ref: ref,
+	}
+}
+
+// Execute executes the request
+//  @return GetMultipleContentsResponse2
+func (a *V2APIService) GetMultipleContentsV2Execute(r ApiGetMultipleContentsV2Request) (*GetMultipleContentsResponse2, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *GetMultipleContentsResponse2
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.GetMultipleContentsV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{ref}/contents"
+	localVarPath = strings.Replace(localVarPath, "{"+"ref"+"}", url.PathEscape(parameterValueToString(r.ref, "ref")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.getMultipleContentsRequest1 == nil {
+		return localVarReturnValue, nil, reportError("getMultipleContentsRequest1 is required and must be specified")
+	}
+
+	if r.forWrite != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "for-write", r.forWrite, "form", "")
+	}
+	if r.withDoc != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "with-doc", r.withDoc, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.getMultipleContentsRequest1
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetReferenceByNameV2Request struct {
+	ctx context.Context
+	ApiService *V2APIService
+	ref string
+	fetch *string
+}
+
+// Specify how much information to be returned. Will fetch additional metadata for references if set to &#39;ALL&#39;.  A returned Branch instance will have the following information:  - numCommitsAhead (number of commits ahead of the default branch)  - numCommitsBehind (number of commits behind the default branch)  - commitMetaOfHEAD (the commit metadata of the HEAD commit)  - commonAncestorHash (the hash of the common ancestor in relation to the default branch).  - numTotalCommits (the total number of commits in this reference).  A returned Tag instance will only contain the &#39;commitMetaOfHEAD&#39; and &#39;numTotalCommits&#39; fields.  Note that computing &amp; fetching additional metadata might be computationally expensive on the server-side, so this flag should be used with care.
+func (r ApiGetReferenceByNameV2Request) Fetch(fetch string) ApiGetReferenceByNameV2Request {
+	r.fetch = &fetch
+	return r
+}
+
+func (r ApiGetReferenceByNameV2Request) Execute() (*SingleReferenceResponse1, *http.Response, error) {
+	return r.ApiService.GetReferenceByNameV2Execute(r)
+}
+
+/*
+GetReferenceByNameV2 Fetch details of a reference
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ref Specifies a reference to a particular commit history branch or tag.  This reference can be specification in these forms: - \\- (literal minus character) - identifies the default branch. - name - Identifies the named branch or tag. 
+ @return ApiGetReferenceByNameV2Request
+*/
+func (a *V2APIService) GetReferenceByNameV2(ctx context.Context, ref string) ApiGetReferenceByNameV2Request {
+	return ApiGetReferenceByNameV2Request{
+		ApiService: a,
+		ctx: ctx,
+		ref: ref,
+	}
+}
+
+// Execute executes the request
+//  @return SingleReferenceResponse1
+func (a *V2APIService) GetReferenceByNameV2Execute(r ApiGetReferenceByNameV2Request) (*SingleReferenceResponse1, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SingleReferenceResponse1
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.GetReferenceByNameV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{ref}"
+	localVarPath = strings.Replace(localVarPath, "{"+"ref"+"}", url.PathEscape(parameterValueToString(r.ref, "ref")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.fetch != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "fetch", r.fetch, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetReferenceHistoryRequest struct {
+	ctx context.Context
+	ApiService *V2APIService
+	ref string
+	scanCommits *int32
+}
+
+// Optional parameter, specifies the number of commits to scan from the reference&#39;s current HEAD, limited to the given amount of commits. Default is to not scan the commit log. The server may impose a hard limit on the amount of commits from the commit log.
+func (r ApiGetReferenceHistoryRequest) ScanCommits(scanCommits int32) ApiGetReferenceHistoryRequest {
+	r.scanCommits = &scanCommits
+	return r
+}
+
+func (r ApiGetReferenceHistoryRequest) Execute() (*ReferenceHistoryResponse1, *http.Response, error) {
+	return r.ApiService.GetReferenceHistoryExecute(r)
+}
+
+/*
+GetReferenceHistory Fetch recent pointer changes of a reference
+
+Retrieve the recorded recent history of a reference.
+
+A reference's history is a size and time limited record of changes of the reference's current pointer, aka HEAD. The size and time limits are configured in the Nessie server configuration.
+
+This function is only useful for deployments using replicating multi-zone/region database setups. If the "primary write target" fails and cannot be recovered, replicas might not have all written records (data loss scenario). This function helps identifying whether the commits of a reference that were written within the configured "replication lag" are present and consistent. A reference might then be deleted or re-assigned to a consistent commit.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ref Specifies a reference to a particular commit history branch or tag.  This reference can be specification in these forms: - \\- (literal minus character) - identifies the default branch. - name - Identifies the named branch or tag. 
+ @return ApiGetReferenceHistoryRequest
+*/
+func (a *V2APIService) GetReferenceHistory(ctx context.Context, ref string) ApiGetReferenceHistoryRequest {
+	return ApiGetReferenceHistoryRequest{
+		ApiService: a,
+		ctx: ctx,
+		ref: ref,
+	}
+}
+
+// Execute executes the request
+//  @return ReferenceHistoryResponse1
+func (a *V2APIService) GetReferenceHistoryExecute(r ApiGetReferenceHistoryRequest) (*ReferenceHistoryResponse1, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *ReferenceHistoryResponse1
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.GetReferenceHistory")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{ref}/recent-changes"
+	localVarPath = strings.Replace(localVarPath, "{"+"ref"+"}", url.PathEscape(parameterValueToString(r.ref, "ref")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.scanCommits != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "scan-commits", r.scanCommits, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetRepositoryConfigRequest struct {
+	ctx context.Context
+	ApiService *V2APIService
+	type_ *[]string
+}
+
+func (r ApiGetRepositoryConfigRequest) Type_(type_ []string) ApiGetRepositoryConfigRequest {
+	r.type_ = &type_
+	return r
+}
+
+func (r ApiGetRepositoryConfigRequest) Execute() (*RepositoryConfigurationObjectsForTheRequestedTypes, *http.Response, error) {
+	return r.ApiService.GetRepositoryConfigExecute(r)
+}
+
+/*
+GetRepositoryConfig Returns repository configurations of the requested types.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetRepositoryConfigRequest
+*/
+func (a *V2APIService) GetRepositoryConfig(ctx context.Context) ApiGetRepositoryConfigRequest {
+	return ApiGetRepositoryConfigRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return RepositoryConfigurationObjectsForTheRequestedTypes
+func (a *V2APIService) GetRepositoryConfigExecute(r ApiGetRepositoryConfigRequest) (*RepositoryConfigurationObjectsForTheRequestedTypes, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *RepositoryConfigurationObjectsForTheRequestedTypes
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.GetRepositoryConfig")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/config/repository"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.type_ != nil {
+		t := *r.type_
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "type", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "type", t, "form", "multi")
+		}
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetSeveralContentsRequest struct {
+	ctx context.Context
+	ApiService *V2APIService
+	ref interface{}
+	forWrite *bool
+	key *[]string
+	withDoc *bool
+}
+
+// If set to &#39;true&#39;, access control checks will check for write/create privilege in addition to read privileges.
+func (r ApiGetSeveralContentsRequest) ForWrite(forWrite bool) ApiGetSeveralContentsRequest {
+	r.forWrite = &forWrite
+	return r
+}
+
+// The key to a content object.  Content key and namespace components are separated by the dot (&#x60;.&#x60;) character. The components itself must be escaped using the rules described in [NESSIE-SPEC-2.0.md in the repository](https://github.com/projectnessie/nessie/blob/main/api/NESSIE-SPEC-2-0.md).
+func (r ApiGetSeveralContentsRequest) Key(key []string) ApiGetSeveralContentsRequest {
+	r.key = &key
+	return r
+}
+
+// Whether to return the documentation, if it exists. Default is to not return the documentation.
+func (r ApiGetSeveralContentsRequest) WithDoc(withDoc bool) ApiGetSeveralContentsRequest {
+	r.withDoc = &withDoc
+	return r
+}
+
+func (r ApiGetSeveralContentsRequest) Execute() (*GetMultipleContentsResponse2, *http.Response, error) {
+	return r.ApiService.GetSeveralContentsExecute(r)
+}
+
+/*
+GetSeveralContents Get multiple content objects.
+
+Similar to 'GET /trees/{ref}/content/{key}', but takes multiple 'key' query parameters and returns zero or more content values in the same JSON structure as the 'POST /trees/{ref}/content' endpoint.
+
+This is a convenience method for fetching a small number of content objects. It is mostly intended for human use. For automated use cases or when the number of keys is large the 'POST /trees/{ref}/content' method is preferred.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ref A reference to a particular version of the contents tree (a point in history).  Reference representations consist of: - The reference name. '-' means the default branch name. - A commit hash prefixed with '@'. - A relative commit specification. '~N' means the N-th predecessor commit, '*T' means the commit for which the timestamp T (milliseconds since epoch or ISO-8601 instant) is valid, '^N' means the N-th parentin a commit (N=2 is the merge parent).  If neither the reference name or the default branch name placeholder '-' is specified, the reference type 'DETACHED' will be assumed. If no commit hash is specified, the HEAD of the specified named reference will be used. An empty reference parameter is not valid.  This reference can be specified in these forms: - \\- (literal minus character) - identifies the HEAD of the default branch. - name - Identifies the HEAD commit of a branch or tag. - name@hash - Identifies the 'hash' commit on a branch or tag. - @hash - Identifies the 'hash' commit in an unspecified branch or tag. - -~3 - The 3rd predecessor commit from the HEAD of the default branch. - name~3 - The 3rd predecessor commit from the HEAD of a branch or tag. - @hash~3 - The 3rd predecessor commit of the 'hash' commit. - name@hash^2 - The merge parent of the 'hash' commit of a branch or tag. - @hash^2 - The merge parent of the 'hash' commit. - -*2021-04-07T14:42:25.534748Z - The predecessor commit closest to the HEAD of the default branch for the given ISO-8601 timestamp. - name*2021-04-07T14:42:25.534748Z - The predecessor commit closest to the HEAD of a branch or tag valid for the given ISO-8601 timestamp. - name*1685185847230 - The predecessor commit closest to the HEAD of a branch or tag valid for the given timestamp in milliseconds since epoch.  If both 'name' and 'hash' are given, 'hash' must be reachable from the current HEAD of the branch or tag. If 'name' is omitted, the reference will be of type 'DETACHED' (referencing a specific commit hash without claiming its reachability from any live HEAD). Using references of the last form may have authorization implications when compared to an equivalent reference of the former forms.  An empty reference parameter is invalid.  The 'name@hash' form always refers to the exact commit on a specific named reference. This is the most complete form of a reference. Other forms omit some of the details and require those gaps to be filled by the server at runtime. Although these forms may be convenient to a human-being, they may resolve differently at different times depending on the state of the system. Using the full 'name@hash' form is recommended to avoid ambiguity. 
+ @return ApiGetSeveralContentsRequest
+*/
+func (a *V2APIService) GetSeveralContents(ctx context.Context, ref interface{}) ApiGetSeveralContentsRequest {
+	return ApiGetSeveralContentsRequest{
+		ApiService: a,
+		ctx: ctx,
+		ref: ref,
+	}
+}
+
+// Execute executes the request
+//  @return GetMultipleContentsResponse2
+func (a *V2APIService) GetSeveralContentsExecute(r ApiGetSeveralContentsRequest) (*GetMultipleContentsResponse2, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *GetMultipleContentsResponse2
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.GetSeveralContents")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{ref}/contents"
+	localVarPath = strings.Replace(localVarPath, "{"+"ref"+"}", url.PathEscape(parameterValueToString(r.ref, "ref")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.forWrite != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "for-write", r.forWrite, "form", "")
+	}
+	if r.key != nil {
+		t := *r.key
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "key", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "key", t, "form", "multi")
+		}
+	}
+	if r.withDoc != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "with-doc", r.withDoc, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiMergeV2Request struct {
+	ctx context.Context
+	ApiService *V2APIService
+	branch interface{}
+	mergeOperation1 *MergeOperation1
+}
+
+// Merge operation that defines the source reference name and an optional hash. If &#39;fromHash&#39; is not present, the current &#39;sourceRef&#39;s HEAD will be used.
+func (r ApiMergeV2Request) MergeOperation1(mergeOperation1 MergeOperation1) ApiMergeV2Request {
+	r.mergeOperation1 = &mergeOperation1
+	return r
+}
+
+func (r ApiMergeV2Request) Execute() (*MergeResponse1, *http.Response, error) {
+	return r.ApiService.MergeV2Execute(r)
+}
+
+/*
+MergeV2 Merge commits from another reference onto 'branch'.
+
+Merge commits referenced by the 'mergeRefName' and 'fromHash' parameters of the payload object into the requested 'branch'.
+
+The state of contents specified by the 'branch' reference will be used for detecting conflicts with the commits being transplanted.
+
+The merge is committed if it is free from conflicts. The set of commits merged into the target branch will be all of those starting at 'fromHash' on 'mergeRefName' until we arrive at the common ancestor. Depending on the underlying implementation, the number of commits allowed as part of this operation may be limited.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param branch A reference to a specific version of the contents tree (a point in history) on a branch. This reference is specified in this form: - name@hash - Identifies the 'hash' commit on the named branch.  The 'hash' commit must be reachable from the current HEAD of the branch. In this case 'hash' indicates the state of contents known to the client and serves to ensure that the operation is performed on the contents that the client expects. This hash can point to a commit in the middle of the change history, but it should be as recent as possible. 
+ @return ApiMergeV2Request
+*/
+func (a *V2APIService) MergeV2(ctx context.Context, branch interface{}) ApiMergeV2Request {
+	return ApiMergeV2Request{
+		ApiService: a,
+		ctx: ctx,
+		branch: branch,
+	}
+}
+
+// Execute executes the request
+//  @return MergeResponse1
+func (a *V2APIService) MergeV2Execute(r ApiMergeV2Request) (*MergeResponse1, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *MergeResponse1
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.MergeV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{branch}/history/merge"
+	localVarPath = strings.Replace(localVarPath, "{"+"branch"+"}", url.PathEscape(parameterValueToString(r.branch, "branch")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.mergeOperation1 == nil {
+		return localVarReturnValue, nil, reportError("mergeOperation1 is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.mergeOperation1
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 409 {
+			var v MergeResponse1
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiTransplantV2Request struct {
+	ctx context.Context
+	ApiService *V2APIService
+	branch interface{}
+	transplant2 *Transplant2
+}
+
+// Commits to transplant
+func (r ApiTransplantV2Request) Transplant2(transplant2 Transplant2) ApiTransplantV2Request {
+	r.transplant2 = &transplant2
+	return r
+}
+
+func (r ApiTransplantV2Request) Execute() (*MergeResponse1, *http.Response, error) {
+	return r.ApiService.TransplantV2Execute(r)
+}
+
+/*
+TransplantV2 Transplant commits specified by the 'Transplant' payload object onto the given 'branch'
+
+This is done as an atomic operation such that only the last of the sequence is ever visible to concurrent readers/writers. The sequence to transplant must be contiguous and in order.
+
+The state of contents specified by the 'branch' reference will be used for detecting conflicts with the commits being transplanted.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param branch A reference to a specific version of the contents tree (a point in history) on a branch. This reference is specified in this form: - name@hash - Identifies the 'hash' commit on the named branch.  The 'hash' commit must be reachable from the current HEAD of the branch. In this case 'hash' indicates the state of contents known to the client and serves to ensure that the operation is performed on the contents that the client expects. This hash can point to a commit in the middle of the change history, but it should be as recent as possible. 
+ @return ApiTransplantV2Request
+*/
+func (a *V2APIService) TransplantV2(ctx context.Context, branch interface{}) ApiTransplantV2Request {
+	return ApiTransplantV2Request{
+		ApiService: a,
+		ctx: ctx,
+		branch: branch,
+	}
+}
+
+// Execute executes the request
+//  @return MergeResponse1
+func (a *V2APIService) TransplantV2Execute(r ApiTransplantV2Request) (*MergeResponse1, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *MergeResponse1
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.TransplantV2")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/trees/{branch}/history/transplant"
+	localVarPath = strings.Replace(localVarPath, "{"+"branch"+"}", url.PathEscape(parameterValueToString(r.branch, "branch")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.transplant2 == nil {
+		return localVarReturnValue, nil, reportError("transplant2 is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.transplant2
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 409 {
+			var v MergeResponse1
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiUpdateRepositoryConfigRequest struct {
+	ctx context.Context
+	ApiService *V2APIService
+}
+
+func (r ApiUpdateRepositoryConfigRequest) Execute() (*ThePreviousStateOfTheRepositoryConfigurationObject, *http.Response, error) {
+	return r.ApiService.UpdateRepositoryConfigExecute(r)
+}
+
+/*
+UpdateRepositoryConfig Create or update a repository configuration.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiUpdateRepositoryConfigRequest
+*/
+func (a *V2APIService) UpdateRepositoryConfig(ctx context.Context) ApiUpdateRepositoryConfigRequest {
+	return ApiUpdateRepositoryConfigRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return ThePreviousStateOfTheRepositoryConfigurationObject
+func (a *V2APIService) UpdateRepositoryConfigExecute(r ApiUpdateRepositoryConfigRequest) (*ThePreviousStateOfTheRepositoryConfigurationObject, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *ThePreviousStateOfTheRepositoryConfigurationObject
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "V2APIService.UpdateRepositoryConfig")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v2/config/repository"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

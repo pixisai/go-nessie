@@ -22,7 +22,7 @@ var _ MappedNullable = &DetachedV2{}
 // DetachedV2 struct for DetachedV2
 type DetachedV2 struct {
 	Hash string `json:"hash" validate:"regexp=^([0-9a-fA-F]{8,64})?((?:([~*^])([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{1,9}Z|([0-9]+)))*)$"`
-	Metadata *ReferenceMetadata2 `json:"metadata,omitempty"`
+	Metadata *ReferenceMetadata3 `json:"metadata,omitempty"`
 }
 
 type _DetachedV2 DetachedV2
@@ -70,9 +70,9 @@ func (o *DetachedV2) SetHash(v string) {
 }
 
 // GetMetadata returns the Metadata field value if set, zero value otherwise.
-func (o *DetachedV2) GetMetadata() ReferenceMetadata2 {
+func (o *DetachedV2) GetMetadata() ReferenceMetadata3 {
 	if o == nil || IsNil(o.Metadata) {
-		var ret ReferenceMetadata2
+		var ret ReferenceMetadata3
 		return ret
 	}
 	return *o.Metadata
@@ -80,7 +80,7 @@ func (o *DetachedV2) GetMetadata() ReferenceMetadata2 {
 
 // GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DetachedV2) GetMetadataOk() (*ReferenceMetadata2, bool) {
+func (o *DetachedV2) GetMetadataOk() (*ReferenceMetadata3, bool) {
 	if o == nil || IsNil(o.Metadata) {
 		return nil, false
 	}
@@ -96,8 +96,8 @@ func (o *DetachedV2) HasMetadata() bool {
 	return false
 }
 
-// SetMetadata gets a reference to the given ReferenceMetadata2 and assigns it to the Metadata field.
-func (o *DetachedV2) SetMetadata(v ReferenceMetadata2) {
+// SetMetadata gets a reference to the given ReferenceMetadata3 and assigns it to the Metadata field.
+func (o *DetachedV2) SetMetadata(v ReferenceMetadata3) {
 	o.Metadata = &v
 }
 

@@ -23,7 +23,7 @@ var _ MappedNullable = &LogResponseV1{}
 type LogResponseV1 struct {
 	HasMore *bool `json:"hasMore,omitempty"`
 	Token *string `json:"token,omitempty"`
-	LogEntries []LogEntry2 `json:"logEntries"`
+	LogEntries []LogEntry1 `json:"logEntries"`
 }
 
 type _LogResponseV1 LogResponseV1
@@ -32,7 +32,7 @@ type _LogResponseV1 LogResponseV1
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLogResponseV1(logEntries []LogEntry2) *LogResponseV1 {
+func NewLogResponseV1(logEntries []LogEntry1) *LogResponseV1 {
 	this := LogResponseV1{}
 	this.LogEntries = logEntries
 	return &this
@@ -111,9 +111,9 @@ func (o *LogResponseV1) SetToken(v string) {
 }
 
 // GetLogEntries returns the LogEntries field value
-func (o *LogResponseV1) GetLogEntries() []LogEntry2 {
+func (o *LogResponseV1) GetLogEntries() []LogEntry1 {
 	if o == nil {
-		var ret []LogEntry2
+		var ret []LogEntry1
 		return ret
 	}
 
@@ -122,7 +122,7 @@ func (o *LogResponseV1) GetLogEntries() []LogEntry2 {
 
 // GetLogEntriesOk returns a tuple with the LogEntries field value
 // and a boolean to check if the value has been set.
-func (o *LogResponseV1) GetLogEntriesOk() ([]LogEntry2, bool) {
+func (o *LogResponseV1) GetLogEntriesOk() ([]LogEntry1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -130,7 +130,7 @@ func (o *LogResponseV1) GetLogEntriesOk() ([]LogEntry2, bool) {
 }
 
 // SetLogEntries sets field value
-func (o *LogResponseV1) SetLogEntries(v []LogEntry2) {
+func (o *LogResponseV1) SetLogEntries(v []LogEntry1) {
 	o.LogEntries = v
 }
 

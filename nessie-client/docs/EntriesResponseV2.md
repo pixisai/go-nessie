@@ -6,14 +6,14 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **HasMore** | Pointer to **bool** |  | [optional] 
 **Token** | Pointer to **string** |  | [optional] 
-**Entries** | [**[]EntriesResponseV2EntriesInner**](EntriesResponseV2EntriesInner.md) |  | 
-**EffectiveReference** | Pointer to [**Reference2**](Reference2.md) |  | [optional] 
+**Entries** | [**[]GetEntriesV2200ResponseEntriesInner**](GetEntriesV2200ResponseEntriesInner.md) |  | 
+**EffectiveReference** | Pointer to [**Reference3**](Reference3.md) |  | [optional] 
 
 ## Methods
 
 ### NewEntriesResponseV2
 
-`func NewEntriesResponseV2(entries []EntriesResponseV2EntriesInner, ) *EntriesResponseV2`
+`func NewEntriesResponseV2(entries []GetEntriesV2200ResponseEntriesInner, ) *EntriesResponseV2`
 
 NewEntriesResponseV2 instantiates a new EntriesResponseV2 object
 This constructor will assign default values to properties that have it defined,
@@ -80,40 +80,40 @@ HasToken returns a boolean if a field has been set.
 
 ### GetEntries
 
-`func (o *EntriesResponseV2) GetEntries() []EntriesResponseV2EntriesInner`
+`func (o *EntriesResponseV2) GetEntries() []GetEntriesV2200ResponseEntriesInner`
 
 GetEntries returns the Entries field if non-nil, zero value otherwise.
 
 ### GetEntriesOk
 
-`func (o *EntriesResponseV2) GetEntriesOk() (*[]EntriesResponseV2EntriesInner, bool)`
+`func (o *EntriesResponseV2) GetEntriesOk() (*[]GetEntriesV2200ResponseEntriesInner, bool)`
 
 GetEntriesOk returns a tuple with the Entries field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEntries
 
-`func (o *EntriesResponseV2) SetEntries(v []EntriesResponseV2EntriesInner)`
+`func (o *EntriesResponseV2) SetEntries(v []GetEntriesV2200ResponseEntriesInner)`
 
 SetEntries sets Entries field to given value.
 
 
 ### GetEffectiveReference
 
-`func (o *EntriesResponseV2) GetEffectiveReference() Reference2`
+`func (o *EntriesResponseV2) GetEffectiveReference() Reference3`
 
 GetEffectiveReference returns the EffectiveReference field if non-nil, zero value otherwise.
 
 ### GetEffectiveReferenceOk
 
-`func (o *EntriesResponseV2) GetEffectiveReferenceOk() (*Reference2, bool)`
+`func (o *EntriesResponseV2) GetEffectiveReferenceOk() (*Reference3, bool)`
 
 GetEffectiveReferenceOk returns a tuple with the EffectiveReference field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEffectiveReference
 
-`func (o *EntriesResponseV2) SetEffectiveReference(v Reference2)`
+`func (o *EntriesResponseV2) SetEffectiveReference(v Reference3)`
 
 SetEffectiveReference sets EffectiveReference field to given value.
 

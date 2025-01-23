@@ -21,7 +21,7 @@ var _ MappedNullable = &Operations{}
 
 // Operations struct for Operations
 type Operations struct {
-	CommitMeta CommitMeta3 `json:"commitMeta"`
+	CommitMeta CommitMeta2 `json:"commitMeta"`
 	Operations []Operation1 `json:"operations"`
 }
 
@@ -31,7 +31,7 @@ type _Operations Operations
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewOperations(commitMeta CommitMeta3, operations []Operation1) *Operations {
+func NewOperations(commitMeta CommitMeta2, operations []Operation1) *Operations {
 	this := Operations{}
 	this.CommitMeta = commitMeta
 	this.Operations = operations
@@ -47,9 +47,9 @@ func NewOperationsWithDefaults() *Operations {
 }
 
 // GetCommitMeta returns the CommitMeta field value
-func (o *Operations) GetCommitMeta() CommitMeta3 {
+func (o *Operations) GetCommitMeta() CommitMeta2 {
 	if o == nil {
-		var ret CommitMeta3
+		var ret CommitMeta2
 		return ret
 	}
 
@@ -58,7 +58,7 @@ func (o *Operations) GetCommitMeta() CommitMeta3 {
 
 // GetCommitMetaOk returns a tuple with the CommitMeta field value
 // and a boolean to check if the value has been set.
-func (o *Operations) GetCommitMetaOk() (*CommitMeta3, bool) {
+func (o *Operations) GetCommitMetaOk() (*CommitMeta2, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -66,7 +66,7 @@ func (o *Operations) GetCommitMetaOk() (*CommitMeta3, bool) {
 }
 
 // SetCommitMeta sets field value
-func (o *Operations) SetCommitMeta(v CommitMeta3) {
+func (o *Operations) SetCommitMeta(v CommitMeta2) {
 	o.CommitMeta = v
 }
 

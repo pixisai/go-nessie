@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | [**AddedContentKey**](AddedContentKey.md) |  | 
-**Content** | [**Content1**](Content1.md) |  | 
-**Documentation** | Pointer to [**ContentResponseV2Documentation**](ContentResponseV2Documentation.md) |  | [optional] 
+**Key** | [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | 
+**Content** | [**Content5**](Content5.md) |  | 
+**Documentation** | Pointer to [**PutContentOperationForAContentKeyDocumentation**](PutContentOperationForAContentKeyDocumentation.md) |  | [optional] 
 
 ## Methods
 
 ### NewContentWithKeyV2
 
-`func NewContentWithKeyV2(key AddedContentKey, content Content1, ) *ContentWithKeyV2`
+`func NewContentWithKeyV2(key GetMultipleContentsRequest1RequestedKeysInner, content Content5, ) *ContentWithKeyV2`
 
 NewContentWithKeyV2 instantiates a new ContentWithKeyV2 object
 This constructor will assign default values to properties that have it defined,
@@ -29,60 +29,60 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKey
 
-`func (o *ContentWithKeyV2) GetKey() AddedContentKey`
+`func (o *ContentWithKeyV2) GetKey() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetKey returns the Key field if non-nil, zero value otherwise.
 
 ### GetKeyOk
 
-`func (o *ContentWithKeyV2) GetKeyOk() (*AddedContentKey, bool)`
+`func (o *ContentWithKeyV2) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetKeyOk returns a tuple with the Key field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKey
 
-`func (o *ContentWithKeyV2) SetKey(v AddedContentKey)`
+`func (o *ContentWithKeyV2) SetKey(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetKey sets Key field to given value.
 
 
 ### GetContent
 
-`func (o *ContentWithKeyV2) GetContent() Content1`
+`func (o *ContentWithKeyV2) GetContent() Content5`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *ContentWithKeyV2) GetContentOk() (*Content1, bool)`
+`func (o *ContentWithKeyV2) GetContentOk() (*Content5, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *ContentWithKeyV2) SetContent(v Content1)`
+`func (o *ContentWithKeyV2) SetContent(v Content5)`
 
 SetContent sets Content field to given value.
 
 
 ### GetDocumentation
 
-`func (o *ContentWithKeyV2) GetDocumentation() ContentResponseV2Documentation`
+`func (o *ContentWithKeyV2) GetDocumentation() PutContentOperationForAContentKeyDocumentation`
 
 GetDocumentation returns the Documentation field if non-nil, zero value otherwise.
 
 ### GetDocumentationOk
 
-`func (o *ContentWithKeyV2) GetDocumentationOk() (*ContentResponseV2Documentation, bool)`
+`func (o *ContentWithKeyV2) GetDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool)`
 
 GetDocumentationOk returns a tuple with the Documentation field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDocumentation
 
-`func (o *ContentWithKeyV2) SetDocumentation(v ContentResponseV2Documentation)`
+`func (o *ContentWithKeyV2) SetDocumentation(v PutContentOperationForAContentKeyDocumentation)`
 
 SetDocumentation sets Documentation field to given value.
 

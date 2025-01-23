@@ -21,7 +21,7 @@ var _ MappedNullable = &DeleteContentOperationForAContentKey{}
 
 // DeleteContentOperationForAContentKey Used to delete an existing content key.  If the key for a content shall change (aka a rename), then use a `Delete` operation using the current (old) key and a `Put` operation using the new key with the current `Content` in the the `value` field. See `Put` operation.
 type DeleteContentOperationForAContentKey struct {
-	Key AddedContentKey `json:"key"`
+	Key GetMultipleContentsRequest1RequestedKeysInner `json:"key"`
 }
 
 type _DeleteContentOperationForAContentKey DeleteContentOperationForAContentKey
@@ -30,7 +30,7 @@ type _DeleteContentOperationForAContentKey DeleteContentOperationForAContentKey
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeleteContentOperationForAContentKey(key AddedContentKey) *DeleteContentOperationForAContentKey {
+func NewDeleteContentOperationForAContentKey(key GetMultipleContentsRequest1RequestedKeysInner) *DeleteContentOperationForAContentKey {
 	this := DeleteContentOperationForAContentKey{}
 	this.Key = key
 	return &this
@@ -45,9 +45,9 @@ func NewDeleteContentOperationForAContentKeyWithDefaults() *DeleteContentOperati
 }
 
 // GetKey returns the Key field value
-func (o *DeleteContentOperationForAContentKey) GetKey() AddedContentKey {
+func (o *DeleteContentOperationForAContentKey) GetKey() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 
@@ -56,7 +56,7 @@ func (o *DeleteContentOperationForAContentKey) GetKey() AddedContentKey {
 
 // GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
-func (o *DeleteContentOperationForAContentKey) GetKeyOk() (*AddedContentKey, bool) {
+func (o *DeleteContentOperationForAContentKey) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *DeleteContentOperationForAContentKey) GetKeyOk() (*AddedContentKey, boo
 }
 
 // SetKey sets field value
-func (o *DeleteContentOperationForAContentKey) SetKey(v AddedContentKey) {
+func (o *DeleteContentOperationForAContentKey) SetKey(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Key = v
 }
 

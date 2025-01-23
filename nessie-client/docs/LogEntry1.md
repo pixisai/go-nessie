@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CommitMeta** | [**CommitMeta3**](CommitMeta3.md) |  | 
+**CommitMeta** | [**CommitMeta1**](CommitMeta1.md) |  | 
 **AdditionalParents** | Pointer to **[]string** |  | [optional] 
 **ParentCommitHash** | Pointer to **string** |  | [optional] 
-**Operations** | Pointer to [**[]Operation1**](Operation1.md) |  | [optional] 
+**Operations** | Pointer to [**[]Operation2**](Operation2.md) |  | [optional] 
 
 ## Methods
 
 ### NewLogEntry1
 
-`func NewLogEntry1(commitMeta CommitMeta3, ) *LogEntry1`
+`func NewLogEntry1(commitMeta CommitMeta1, ) *LogEntry1`
 
 NewLogEntry1 instantiates a new LogEntry1 object
 This constructor will assign default values to properties that have it defined,
@@ -30,20 +30,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetCommitMeta
 
-`func (o *LogEntry1) GetCommitMeta() CommitMeta3`
+`func (o *LogEntry1) GetCommitMeta() CommitMeta1`
 
 GetCommitMeta returns the CommitMeta field if non-nil, zero value otherwise.
 
 ### GetCommitMetaOk
 
-`func (o *LogEntry1) GetCommitMetaOk() (*CommitMeta3, bool)`
+`func (o *LogEntry1) GetCommitMetaOk() (*CommitMeta1, bool)`
 
 GetCommitMetaOk returns a tuple with the CommitMeta field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCommitMeta
 
-`func (o *LogEntry1) SetCommitMeta(v CommitMeta3)`
+`func (o *LogEntry1) SetCommitMeta(v CommitMeta1)`
 
 SetCommitMeta sets CommitMeta field to given value.
 
@@ -100,20 +100,20 @@ HasParentCommitHash returns a boolean if a field has been set.
 
 ### GetOperations
 
-`func (o *LogEntry1) GetOperations() []Operation1`
+`func (o *LogEntry1) GetOperations() []Operation2`
 
 GetOperations returns the Operations field if non-nil, zero value otherwise.
 
 ### GetOperationsOk
 
-`func (o *LogEntry1) GetOperationsOk() (*[]Operation1, bool)`
+`func (o *LogEntry1) GetOperationsOk() (*[]Operation2, bool)`
 
 GetOperationsOk returns a tuple with the Operations field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOperations
 
-`func (o *LogEntry1) SetOperations(v []Operation1)`
+`func (o *LogEntry1) SetOperations(v []Operation2)`
 
 SetOperations sets Operations field to given value.
 

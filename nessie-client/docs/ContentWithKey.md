@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | [**AddedContentKey**](AddedContentKey.md) |  | 
+**Key** | [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | 
 **Content** | [**Content2**](Content2.md) |  | 
-**Documentation** | Pointer to [**ContentResponseV2Documentation**](ContentResponseV2Documentation.md) |  | [optional] 
+**Documentation** | Pointer to [**PutContentOperationForAContentKeyDocumentation**](PutContentOperationForAContentKeyDocumentation.md) |  | [optional] 
 
 ## Methods
 
 ### NewContentWithKey
 
-`func NewContentWithKey(key AddedContentKey, content Content2, ) *ContentWithKey`
+`func NewContentWithKey(key GetMultipleContentsRequest1RequestedKeysInner, content Content2, ) *ContentWithKey`
 
 NewContentWithKey instantiates a new ContentWithKey object
 This constructor will assign default values to properties that have it defined,
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKey
 
-`func (o *ContentWithKey) GetKey() AddedContentKey`
+`func (o *ContentWithKey) GetKey() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetKey returns the Key field if non-nil, zero value otherwise.
 
 ### GetKeyOk
 
-`func (o *ContentWithKey) GetKeyOk() (*AddedContentKey, bool)`
+`func (o *ContentWithKey) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetKeyOk returns a tuple with the Key field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKey
 
-`func (o *ContentWithKey) SetKey(v AddedContentKey)`
+`func (o *ContentWithKey) SetKey(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetKey sets Key field to given value.
 
@@ -69,20 +69,20 @@ SetContent sets Content field to given value.
 
 ### GetDocumentation
 
-`func (o *ContentWithKey) GetDocumentation() ContentResponseV2Documentation`
+`func (o *ContentWithKey) GetDocumentation() PutContentOperationForAContentKeyDocumentation`
 
 GetDocumentation returns the Documentation field if non-nil, zero value otherwise.
 
 ### GetDocumentationOk
 
-`func (o *ContentWithKey) GetDocumentationOk() (*ContentResponseV2Documentation, bool)`
+`func (o *ContentWithKey) GetDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool)`
 
 GetDocumentationOk returns a tuple with the Documentation field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDocumentation
 
-`func (o *ContentWithKey) SetDocumentation(v ContentResponseV2Documentation)`
+`func (o *ContentWithKey) SetDocumentation(v PutContentOperationForAContentKeyDocumentation)`
 
 SetDocumentation sets Documentation field to given value.
 

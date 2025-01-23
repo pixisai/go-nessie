@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CommitMeta** | [**CommitMeta2**](CommitMeta2.md) |  | 
+**CommitMeta** | [**CommitMeta3**](CommitMeta3.md) |  | 
 **ParentCommitHash** | Pointer to **string** |  | [optional] 
 **Operations** | Pointer to [**[]Operation3**](Operation3.md) |  | [optional] 
 
@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 
 ### NewLogEntryV2
 
-`func NewLogEntryV2(commitMeta CommitMeta2, ) *LogEntryV2`
+`func NewLogEntryV2(commitMeta CommitMeta3, ) *LogEntryV2`
 
 NewLogEntryV2 instantiates a new LogEntryV2 object
 This constructor will assign default values to properties that have it defined,
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetCommitMeta
 
-`func (o *LogEntryV2) GetCommitMeta() CommitMeta2`
+`func (o *LogEntryV2) GetCommitMeta() CommitMeta3`
 
 GetCommitMeta returns the CommitMeta field if non-nil, zero value otherwise.
 
 ### GetCommitMetaOk
 
-`func (o *LogEntryV2) GetCommitMetaOk() (*CommitMeta2, bool)`
+`func (o *LogEntryV2) GetCommitMetaOk() (*CommitMeta3, bool)`
 
 GetCommitMetaOk returns a tuple with the CommitMeta field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCommitMeta
 
-`func (o *LogEntryV2) SetCommitMeta(v CommitMeta2)`
+`func (o *LogEntryV2) SetCommitMeta(v CommitMeta3)`
 
 SetCommitMeta sets CommitMeta field to given value.
 

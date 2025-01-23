@@ -5,15 +5,15 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | Pointer to **string** | Declares the type of a Nessie content object, which is currently one of ICEBERG_TABLE, DELTA_LAKE_TABLE, ICEBERG_VIEW, NAMESPACE or UDF, which are the discriminator mapping values of the &#39;Content&#39; type. | [optional] 
-**Name** | [**AddedContentKey**](AddedContentKey.md) |  | 
+**Name** | [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | 
 **ContentId** | Pointer to **string** |  | [optional] 
-**Content** | Pointer to [**Content1**](Content1.md) |  | [optional] 
+**Content** | Pointer to [**Content5**](Content5.md) |  | [optional] 
 
 ## Methods
 
 ### NewEntryV2
 
-`func NewEntryV2(name AddedContentKey, ) *EntryV2`
+`func NewEntryV2(name GetMultipleContentsRequest1RequestedKeysInner, ) *EntryV2`
 
 NewEntryV2 instantiates a new EntryV2 object
 This constructor will assign default values to properties that have it defined,
@@ -55,20 +55,20 @@ HasType returns a boolean if a field has been set.
 
 ### GetName
 
-`func (o *EntryV2) GetName() AddedContentKey`
+`func (o *EntryV2) GetName() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *EntryV2) GetNameOk() (*AddedContentKey, bool)`
+`func (o *EntryV2) GetNameOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *EntryV2) SetName(v AddedContentKey)`
+`func (o *EntryV2) SetName(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetName sets Name field to given value.
 
@@ -100,20 +100,20 @@ HasContentId returns a boolean if a field has been set.
 
 ### GetContent
 
-`func (o *EntryV2) GetContent() Content1`
+`func (o *EntryV2) GetContent() Content5`
 
 GetContent returns the Content field if non-nil, zero value otherwise.
 
 ### GetContentOk
 
-`func (o *EntryV2) GetContentOk() (*Content1, bool)`
+`func (o *EntryV2) GetContentOk() (*Content5, bool)`
 
 GetContentOk returns a tuple with the Content field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContent
 
-`func (o *EntryV2) SetContent(v Content1)`
+`func (o *EntryV2) SetContent(v Content5)`
 
 SetContent sets Content field to given value.
 

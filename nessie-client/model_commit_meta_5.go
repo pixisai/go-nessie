@@ -24,11 +24,14 @@ var _ MappedNullable = &CommitMeta5{}
 type CommitMeta5 struct {
 	Hash *string `json:"hash,omitempty" validate:"regexp=^[0-9a-fA-F]{8,64}$"`
 	Committer *string `json:"committer,omitempty"`
+	Author *string `json:"author,omitempty"`
 	Authors []string `json:"authors"`
+	SignedOffBy *string `json:"signedOffBy,omitempty"`
 	AllSignedOffBy []string `json:"allSignedOffBy"`
 	Message string `json:"message" validate:"regexp=\\\\S"`
 	CommitTime *time.Time `json:"commitTime,omitempty"`
 	AuthorTime *time.Time `json:"authorTime,omitempty"`
+	Properties map[string]string `json:"properties"`
 	AllProperties map[string][]string `json:"allProperties"`
 	ParentCommitHashes []string `json:"parentCommitHashes"`
 }
@@ -39,11 +42,12 @@ type _CommitMeta5 CommitMeta5
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCommitMeta5(authors []string, allSignedOffBy []string, message string, allProperties map[string][]string, parentCommitHashes []string) *CommitMeta5 {
+func NewCommitMeta5(authors []string, allSignedOffBy []string, message string, properties map[string]string, allProperties map[string][]string, parentCommitHashes []string) *CommitMeta5 {
 	this := CommitMeta5{}
 	this.Authors = authors
 	this.AllSignedOffBy = allSignedOffBy
 	this.Message = message
+	this.Properties = properties
 	this.AllProperties = allProperties
 	this.ParentCommitHashes = parentCommitHashes
 	return &this
@@ -121,6 +125,38 @@ func (o *CommitMeta5) SetCommitter(v string) {
 	o.Committer = &v
 }
 
+// GetAuthor returns the Author field value if set, zero value otherwise.
+func (o *CommitMeta5) GetAuthor() string {
+	if o == nil || IsNil(o.Author) {
+		var ret string
+		return ret
+	}
+	return *o.Author
+}
+
+// GetAuthorOk returns a tuple with the Author field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CommitMeta5) GetAuthorOk() (*string, bool) {
+	if o == nil || IsNil(o.Author) {
+		return nil, false
+	}
+	return o.Author, true
+}
+
+// HasAuthor returns a boolean if a field has been set.
+func (o *CommitMeta5) HasAuthor() bool {
+	if o != nil && !IsNil(o.Author) {
+		return true
+	}
+
+	return false
+}
+
+// SetAuthor gets a reference to the given string and assigns it to the Author field.
+func (o *CommitMeta5) SetAuthor(v string) {
+	o.Author = &v
+}
+
 // GetAuthors returns the Authors field value
 func (o *CommitMeta5) GetAuthors() []string {
 	if o == nil {
@@ -143,6 +179,38 @@ func (o *CommitMeta5) GetAuthorsOk() ([]string, bool) {
 // SetAuthors sets field value
 func (o *CommitMeta5) SetAuthors(v []string) {
 	o.Authors = v
+}
+
+// GetSignedOffBy returns the SignedOffBy field value if set, zero value otherwise.
+func (o *CommitMeta5) GetSignedOffBy() string {
+	if o == nil || IsNil(o.SignedOffBy) {
+		var ret string
+		return ret
+	}
+	return *o.SignedOffBy
+}
+
+// GetSignedOffByOk returns a tuple with the SignedOffBy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CommitMeta5) GetSignedOffByOk() (*string, bool) {
+	if o == nil || IsNil(o.SignedOffBy) {
+		return nil, false
+	}
+	return o.SignedOffBy, true
+}
+
+// HasSignedOffBy returns a boolean if a field has been set.
+func (o *CommitMeta5) HasSignedOffBy() bool {
+	if o != nil && !IsNil(o.SignedOffBy) {
+		return true
+	}
+
+	return false
+}
+
+// SetSignedOffBy gets a reference to the given string and assigns it to the SignedOffBy field.
+func (o *CommitMeta5) SetSignedOffBy(v string) {
+	o.SignedOffBy = &v
 }
 
 // GetAllSignedOffBy returns the AllSignedOffBy field value
@@ -257,6 +325,30 @@ func (o *CommitMeta5) SetAuthorTime(v time.Time) {
 	o.AuthorTime = &v
 }
 
+// GetProperties returns the Properties field value
+func (o *CommitMeta5) GetProperties() map[string]string {
+	if o == nil {
+		var ret map[string]string
+		return ret
+	}
+
+	return o.Properties
+}
+
+// GetPropertiesOk returns a tuple with the Properties field value
+// and a boolean to check if the value has been set.
+func (o *CommitMeta5) GetPropertiesOk() (map[string]string, bool) {
+	if o == nil {
+		return map[string]string{}, false
+	}
+	return o.Properties, true
+}
+
+// SetProperties sets field value
+func (o *CommitMeta5) SetProperties(v map[string]string) {
+	o.Properties = v
+}
+
 // GetAllProperties returns the AllProperties field value
 func (o *CommitMeta5) GetAllProperties() map[string][]string {
 	if o == nil {
@@ -321,7 +413,13 @@ func (o CommitMeta5) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Committer) {
 		toSerialize["committer"] = o.Committer
 	}
+	if !IsNil(o.Author) {
+		toSerialize["author"] = o.Author
+	}
 	toSerialize["authors"] = o.Authors
+	if !IsNil(o.SignedOffBy) {
+		toSerialize["signedOffBy"] = o.SignedOffBy
+	}
 	toSerialize["allSignedOffBy"] = o.AllSignedOffBy
 	toSerialize["message"] = o.Message
 	if !IsNil(o.CommitTime) {
@@ -330,6 +428,7 @@ func (o CommitMeta5) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.AuthorTime) {
 		toSerialize["authorTime"] = o.AuthorTime
 	}
+	toSerialize["properties"] = o.Properties
 	toSerialize["allProperties"] = o.AllProperties
 	toSerialize["parentCommitHashes"] = o.ParentCommitHashes
 	return toSerialize, nil
@@ -343,6 +442,7 @@ func (o *CommitMeta5) UnmarshalJSON(data []byte) (err error) {
 		"authors",
 		"allSignedOffBy",
 		"message",
+		"properties",
 		"allProperties",
 		"parentCommitHashes",
 	}

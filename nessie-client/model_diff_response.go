@@ -22,8 +22,8 @@ type DiffResponse struct {
 	HasMore *bool `json:"hasMore,omitempty"`
 	Token *string `json:"token,omitempty"`
 	Diffs []DiffResponseDiffsInner `json:"diffs,omitempty"`
-	EffectiveFromReference *Reference3 `json:"effectiveFromReference,omitempty"`
-	EffectiveToReference *Reference3 `json:"effectiveToReference,omitempty"`
+	EffectiveFromReference *Reference2 `json:"effectiveFromReference,omitempty"`
+	EffectiveToReference *Reference2 `json:"effectiveToReference,omitempty"`
 }
 
 // NewDiffResponse instantiates a new DiffResponse object
@@ -140,9 +140,9 @@ func (o *DiffResponse) SetDiffs(v []DiffResponseDiffsInner) {
 }
 
 // GetEffectiveFromReference returns the EffectiveFromReference field value if set, zero value otherwise.
-func (o *DiffResponse) GetEffectiveFromReference() Reference3 {
+func (o *DiffResponse) GetEffectiveFromReference() Reference2 {
 	if o == nil || IsNil(o.EffectiveFromReference) {
-		var ret Reference3
+		var ret Reference2
 		return ret
 	}
 	return *o.EffectiveFromReference
@@ -150,7 +150,7 @@ func (o *DiffResponse) GetEffectiveFromReference() Reference3 {
 
 // GetEffectiveFromReferenceOk returns a tuple with the EffectiveFromReference field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DiffResponse) GetEffectiveFromReferenceOk() (*Reference3, bool) {
+func (o *DiffResponse) GetEffectiveFromReferenceOk() (*Reference2, bool) {
 	if o == nil || IsNil(o.EffectiveFromReference) {
 		return nil, false
 	}
@@ -166,15 +166,15 @@ func (o *DiffResponse) HasEffectiveFromReference() bool {
 	return false
 }
 
-// SetEffectiveFromReference gets a reference to the given Reference3 and assigns it to the EffectiveFromReference field.
-func (o *DiffResponse) SetEffectiveFromReference(v Reference3) {
+// SetEffectiveFromReference gets a reference to the given Reference2 and assigns it to the EffectiveFromReference field.
+func (o *DiffResponse) SetEffectiveFromReference(v Reference2) {
 	o.EffectiveFromReference = &v
 }
 
 // GetEffectiveToReference returns the EffectiveToReference field value if set, zero value otherwise.
-func (o *DiffResponse) GetEffectiveToReference() Reference3 {
+func (o *DiffResponse) GetEffectiveToReference() Reference2 {
 	if o == nil || IsNil(o.EffectiveToReference) {
-		var ret Reference3
+		var ret Reference2
 		return ret
 	}
 	return *o.EffectiveToReference
@@ -182,7 +182,7 @@ func (o *DiffResponse) GetEffectiveToReference() Reference3 {
 
 // GetEffectiveToReferenceOk returns a tuple with the EffectiveToReference field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DiffResponse) GetEffectiveToReferenceOk() (*Reference3, bool) {
+func (o *DiffResponse) GetEffectiveToReferenceOk() (*Reference2, bool) {
 	if o == nil || IsNil(o.EffectiveToReference) {
 		return nil, false
 	}
@@ -198,8 +198,8 @@ func (o *DiffResponse) HasEffectiveToReference() bool {
 	return false
 }
 
-// SetEffectiveToReference gets a reference to the given Reference3 and assigns it to the EffectiveToReference field.
-func (o *DiffResponse) SetEffectiveToReference(v Reference3) {
+// SetEffectiveToReference gets a reference to the given Reference2 and assigns it to the EffectiveToReference field.
+func (o *DiffResponse) SetEffectiveToReference(v Reference2) {
 	o.EffectiveToReference = &v
 }
 

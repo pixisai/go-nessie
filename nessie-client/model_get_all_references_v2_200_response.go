@@ -23,7 +23,7 @@ var _ MappedNullable = &GetAllReferencesV2200Response{}
 type GetAllReferencesV2200Response struct {
 	HasMore *bool `json:"hasMore,omitempty"`
 	Token *string `json:"token,omitempty"`
-	References []Reference2 `json:"references"`
+	References []Reference3 `json:"references"`
 }
 
 type _GetAllReferencesV2200Response GetAllReferencesV2200Response
@@ -32,7 +32,7 @@ type _GetAllReferencesV2200Response GetAllReferencesV2200Response
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetAllReferencesV2200Response(references []Reference2) *GetAllReferencesV2200Response {
+func NewGetAllReferencesV2200Response(references []Reference3) *GetAllReferencesV2200Response {
 	this := GetAllReferencesV2200Response{}
 	this.References = references
 	return &this
@@ -111,9 +111,9 @@ func (o *GetAllReferencesV2200Response) SetToken(v string) {
 }
 
 // GetReferences returns the References field value
-func (o *GetAllReferencesV2200Response) GetReferences() []Reference2 {
+func (o *GetAllReferencesV2200Response) GetReferences() []Reference3 {
 	if o == nil {
-		var ret []Reference2
+		var ret []Reference3
 		return ret
 	}
 
@@ -122,7 +122,7 @@ func (o *GetAllReferencesV2200Response) GetReferences() []Reference2 {
 
 // GetReferencesOk returns a tuple with the References field value
 // and a boolean to check if the value has been set.
-func (o *GetAllReferencesV2200Response) GetReferencesOk() ([]Reference2, bool) {
+func (o *GetAllReferencesV2200Response) GetReferencesOk() ([]Reference3, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -130,7 +130,7 @@ func (o *GetAllReferencesV2200Response) GetReferencesOk() ([]Reference2, bool) {
 }
 
 // SetReferences sets field value
-func (o *GetAllReferencesV2200Response) SetReferences(v []Reference2) {
+func (o *GetAllReferencesV2200Response) SetReferences(v []Reference3) {
 	o.References = v
 }
 

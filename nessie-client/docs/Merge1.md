@@ -7,12 +7,12 @@ Name | Type | Description | Notes
 **Message** | Pointer to **string** | Optional commit message for this merge request  If not set, the server will generate a commit message automatically using metadata from the  merged commits. | [optional] 
 **FromHash** | Pointer to **string** | The hash of the last commit to merge.  This commit must be present in the history on &#39;fromRefName&#39; before the first common parent with respect to the target branch. | [optional] 
 **FromRefName** | **string** | The name of the reference that contains the &#39;source&#39; commits for the requested merge or transplant operation.  | 
-**KeyMergeModes** | Pointer to [**[]MergeKeyMergeModesInner**](MergeKeyMergeModesInner.md) | Specific merge behaviour requests by content key.  The default is set by the &#x60;defaultKeyMergeMode&#x60; parameter.  | [optional] 
+**KeyMergeModes** | Pointer to [**[]MergeOperationKeyMergeModesInner**](MergeOperationKeyMergeModesInner.md) | Specific merge behaviour requests by content key.  The default is set by the &#x60;defaultKeyMergeMode&#x60; parameter.  | [optional] 
 **DefaultKeyMergeMode** | Pointer to **string** | The default merge mode. If not set, &#x60;NORMAL&#x60; is assumed.  This settings applies to key thaWhen set to &#39;true&#39; instructs the server to validate the request but to avoid committing any changes.t are not explicitly mentioned in the &#x60;keyMergeModes&#x60; property.  | [optional] 
 **DryRun** | Pointer to **bool** | When set to &#39;true&#39; instructs the server to validate the request but to avoid committing any changes.  | [optional] 
 **FetchAdditionalInfo** | Pointer to **bool** | Whether to provide optional response data.  | [optional] 
 **ReturnConflictAsResult** | Pointer to **bool** | When set to &#39;true&#39; instructs the server to produce normal (non-error) responses in case a conflict is detected and report conflict details in the response payload. | [optional] 
-**CommitMeta** | Pointer to [**CommitMeta3**](CommitMeta3.md) |  | [optional] 
+**CommitMeta** | Pointer to [**CommitMeta2**](CommitMeta2.md) |  | [optional] 
 
 ## Methods
 
@@ -105,20 +105,20 @@ SetFromRefName sets FromRefName field to given value.
 
 ### GetKeyMergeModes
 
-`func (o *Merge1) GetKeyMergeModes() []MergeKeyMergeModesInner`
+`func (o *Merge1) GetKeyMergeModes() []MergeOperationKeyMergeModesInner`
 
 GetKeyMergeModes returns the KeyMergeModes field if non-nil, zero value otherwise.
 
 ### GetKeyMergeModesOk
 
-`func (o *Merge1) GetKeyMergeModesOk() (*[]MergeKeyMergeModesInner, bool)`
+`func (o *Merge1) GetKeyMergeModesOk() (*[]MergeOperationKeyMergeModesInner, bool)`
 
 GetKeyMergeModesOk returns a tuple with the KeyMergeModes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKeyMergeModes
 
-`func (o *Merge1) SetKeyMergeModes(v []MergeKeyMergeModesInner)`
+`func (o *Merge1) SetKeyMergeModes(v []MergeOperationKeyMergeModesInner)`
 
 SetKeyMergeModes sets KeyMergeModes field to given value.
 
@@ -230,20 +230,20 @@ HasReturnConflictAsResult returns a boolean if a field has been set.
 
 ### GetCommitMeta
 
-`func (o *Merge1) GetCommitMeta() CommitMeta3`
+`func (o *Merge1) GetCommitMeta() CommitMeta2`
 
 GetCommitMeta returns the CommitMeta field if non-nil, zero value otherwise.
 
 ### GetCommitMetaOk
 
-`func (o *Merge1) GetCommitMetaOk() (*CommitMeta3, bool)`
+`func (o *Merge1) GetCommitMetaOk() (*CommitMeta2, bool)`
 
 GetCommitMetaOk returns a tuple with the CommitMeta field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCommitMeta
 
-`func (o *Merge1) SetCommitMeta(v CommitMeta3)`
+`func (o *Merge1) SetCommitMeta(v CommitMeta2)`
 
 SetCommitMeta sets CommitMeta field to given value.
 

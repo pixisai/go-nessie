@@ -29,7 +29,7 @@ type Merge1 struct {
 	// The name of the reference that contains the 'source' commits for the requested merge or transplant operation. 
 	FromRefName string `json:"fromRefName" validate:"regexp=^(?:[A-Za-z](?:(?:(?![.][.])[A-Za-z0-9.\\/_-])*[A-Za-z0-9_-])?)|-$"`
 	// Specific merge behaviour requests by content key.  The default is set by the `defaultKeyMergeMode` parameter. 
-	KeyMergeModes []MergeKeyMergeModesInner `json:"keyMergeModes,omitempty"`
+	KeyMergeModes []MergeOperationKeyMergeModesInner `json:"keyMergeModes,omitempty"`
 	// The default merge mode. If not set, `NORMAL` is assumed.  This settings applies to key thaWhen set to 'true' instructs the server to validate the request but to avoid committing any changes.t are not explicitly mentioned in the `keyMergeModes` property. 
 	DefaultKeyMergeMode *string `json:"defaultKeyMergeMode,omitempty"`
 	// When set to 'true' instructs the server to validate the request but to avoid committing any changes. 
@@ -38,7 +38,7 @@ type Merge1 struct {
 	FetchAdditionalInfo *bool `json:"fetchAdditionalInfo,omitempty"`
 	// When set to 'true' instructs the server to produce normal (non-error) responses in case a conflict is detected and report conflict details in the response payload.
 	ReturnConflictAsResult *bool `json:"returnConflictAsResult,omitempty"`
-	CommitMeta *CommitMeta3 `json:"commitMeta,omitempty"`
+	CommitMeta *CommitMeta2 `json:"commitMeta,omitempty"`
 }
 
 type _Merge1 Merge1
@@ -153,9 +153,9 @@ func (o *Merge1) SetFromRefName(v string) {
 }
 
 // GetKeyMergeModes returns the KeyMergeModes field value if set, zero value otherwise.
-func (o *Merge1) GetKeyMergeModes() []MergeKeyMergeModesInner {
+func (o *Merge1) GetKeyMergeModes() []MergeOperationKeyMergeModesInner {
 	if o == nil || IsNil(o.KeyMergeModes) {
-		var ret []MergeKeyMergeModesInner
+		var ret []MergeOperationKeyMergeModesInner
 		return ret
 	}
 	return o.KeyMergeModes
@@ -163,7 +163,7 @@ func (o *Merge1) GetKeyMergeModes() []MergeKeyMergeModesInner {
 
 // GetKeyMergeModesOk returns a tuple with the KeyMergeModes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Merge1) GetKeyMergeModesOk() ([]MergeKeyMergeModesInner, bool) {
+func (o *Merge1) GetKeyMergeModesOk() ([]MergeOperationKeyMergeModesInner, bool) {
 	if o == nil || IsNil(o.KeyMergeModes) {
 		return nil, false
 	}
@@ -179,8 +179,8 @@ func (o *Merge1) HasKeyMergeModes() bool {
 	return false
 }
 
-// SetKeyMergeModes gets a reference to the given []MergeKeyMergeModesInner and assigns it to the KeyMergeModes field.
-func (o *Merge1) SetKeyMergeModes(v []MergeKeyMergeModesInner) {
+// SetKeyMergeModes gets a reference to the given []MergeOperationKeyMergeModesInner and assigns it to the KeyMergeModes field.
+func (o *Merge1) SetKeyMergeModes(v []MergeOperationKeyMergeModesInner) {
 	o.KeyMergeModes = v
 }
 
@@ -313,9 +313,9 @@ func (o *Merge1) SetReturnConflictAsResult(v bool) {
 }
 
 // GetCommitMeta returns the CommitMeta field value if set, zero value otherwise.
-func (o *Merge1) GetCommitMeta() CommitMeta3 {
+func (o *Merge1) GetCommitMeta() CommitMeta2 {
 	if o == nil || IsNil(o.CommitMeta) {
-		var ret CommitMeta3
+		var ret CommitMeta2
 		return ret
 	}
 	return *o.CommitMeta
@@ -323,7 +323,7 @@ func (o *Merge1) GetCommitMeta() CommitMeta3 {
 
 // GetCommitMetaOk returns a tuple with the CommitMeta field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Merge1) GetCommitMetaOk() (*CommitMeta3, bool) {
+func (o *Merge1) GetCommitMetaOk() (*CommitMeta2, bool) {
 	if o == nil || IsNil(o.CommitMeta) {
 		return nil, false
 	}
@@ -339,8 +339,8 @@ func (o *Merge1) HasCommitMeta() bool {
 	return false
 }
 
-// SetCommitMeta gets a reference to the given CommitMeta3 and assigns it to the CommitMeta field.
-func (o *Merge1) SetCommitMeta(v CommitMeta3) {
+// SetCommitMeta gets a reference to the given CommitMeta2 and assigns it to the CommitMeta field.
+func (o *Merge1) SetCommitMeta(v CommitMeta2) {
 	o.CommitMeta = &v
 }
 

@@ -21,8 +21,8 @@ var _ MappedNullable = &ContentWithKeyV1{}
 
 // ContentWithKeyV1 struct for ContentWithKeyV1
 type ContentWithKeyV1 struct {
-	Key AddedContentKey `json:"key"`
-	Content Content3 `json:"content"`
+	Key GetMultipleContentsRequest1RequestedKeysInner `json:"key"`
+	Content Content1 `json:"content"`
 }
 
 type _ContentWithKeyV1 ContentWithKeyV1
@@ -31,7 +31,7 @@ type _ContentWithKeyV1 ContentWithKeyV1
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewContentWithKeyV1(key AddedContentKey, content Content3) *ContentWithKeyV1 {
+func NewContentWithKeyV1(key GetMultipleContentsRequest1RequestedKeysInner, content Content1) *ContentWithKeyV1 {
 	this := ContentWithKeyV1{}
 	this.Key = key
 	this.Content = content
@@ -47,9 +47,9 @@ func NewContentWithKeyV1WithDefaults() *ContentWithKeyV1 {
 }
 
 // GetKey returns the Key field value
-func (o *ContentWithKeyV1) GetKey() AddedContentKey {
+func (o *ContentWithKeyV1) GetKey() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 
@@ -58,7 +58,7 @@ func (o *ContentWithKeyV1) GetKey() AddedContentKey {
 
 // GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
-func (o *ContentWithKeyV1) GetKeyOk() (*AddedContentKey, bool) {
+func (o *ContentWithKeyV1) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -66,14 +66,14 @@ func (o *ContentWithKeyV1) GetKeyOk() (*AddedContentKey, bool) {
 }
 
 // SetKey sets field value
-func (o *ContentWithKeyV1) SetKey(v AddedContentKey) {
+func (o *ContentWithKeyV1) SetKey(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Key = v
 }
 
 // GetContent returns the Content field value
-func (o *ContentWithKeyV1) GetContent() Content3 {
+func (o *ContentWithKeyV1) GetContent() Content1 {
 	if o == nil {
-		var ret Content3
+		var ret Content1
 		return ret
 	}
 
@@ -82,7 +82,7 @@ func (o *ContentWithKeyV1) GetContent() Content3 {
 
 // GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *ContentWithKeyV1) GetContentOk() (*Content3, bool) {
+func (o *ContentWithKeyV1) GetContentOk() (*Content1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -90,7 +90,7 @@ func (o *ContentWithKeyV1) GetContentOk() (*Content3, bool) {
 }
 
 // SetContent sets field value
-func (o *ContentWithKeyV1) SetContent(v Content3) {
+func (o *ContentWithKeyV1) SetContent(v Content1) {
 	o.Content = v
 }
 

@@ -23,9 +23,9 @@ var _ MappedNullable = &EntryV2{}
 type EntryV2 struct {
 	// Declares the type of a Nessie content object, which is currently one of ICEBERG_TABLE, DELTA_LAKE_TABLE, ICEBERG_VIEW, NAMESPACE or UDF, which are the discriminator mapping values of the 'Content' type.
 	Type *string `json:"type,omitempty"`
-	Name AddedContentKey `json:"name"`
+	Name GetMultipleContentsRequest1RequestedKeysInner `json:"name"`
 	ContentId *string `json:"contentId,omitempty"`
-	Content *Content1 `json:"content,omitempty"`
+	Content *Content5 `json:"content,omitempty"`
 }
 
 type _EntryV2 EntryV2
@@ -34,7 +34,7 @@ type _EntryV2 EntryV2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEntryV2(name AddedContentKey) *EntryV2 {
+func NewEntryV2(name GetMultipleContentsRequest1RequestedKeysInner) *EntryV2 {
 	this := EntryV2{}
 	this.Name = name
 	return &this
@@ -81,9 +81,9 @@ func (o *EntryV2) SetType(v string) {
 }
 
 // GetName returns the Name field value
-func (o *EntryV2) GetName() AddedContentKey {
+func (o *EntryV2) GetName() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 
@@ -92,7 +92,7 @@ func (o *EntryV2) GetName() AddedContentKey {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *EntryV2) GetNameOk() (*AddedContentKey, bool) {
+func (o *EntryV2) GetNameOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -100,7 +100,7 @@ func (o *EntryV2) GetNameOk() (*AddedContentKey, bool) {
 }
 
 // SetName sets field value
-func (o *EntryV2) SetName(v AddedContentKey) {
+func (o *EntryV2) SetName(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Name = v
 }
 
@@ -137,9 +137,9 @@ func (o *EntryV2) SetContentId(v string) {
 }
 
 // GetContent returns the Content field value if set, zero value otherwise.
-func (o *EntryV2) GetContent() Content1 {
+func (o *EntryV2) GetContent() Content5 {
 	if o == nil || IsNil(o.Content) {
-		var ret Content1
+		var ret Content5
 		return ret
 	}
 	return *o.Content
@@ -147,7 +147,7 @@ func (o *EntryV2) GetContent() Content1 {
 
 // GetContentOk returns a tuple with the Content field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EntryV2) GetContentOk() (*Content1, bool) {
+func (o *EntryV2) GetContentOk() (*Content5, bool) {
 	if o == nil || IsNil(o.Content) {
 		return nil, false
 	}
@@ -163,8 +163,8 @@ func (o *EntryV2) HasContent() bool {
 	return false
 }
 
-// SetContent gets a reference to the given Content1 and assigns it to the Content field.
-func (o *EntryV2) SetContent(v Content1) {
+// SetContent gets a reference to the given Content5 and assigns it to the Content field.
+func (o *EntryV2) SetContent(v Content5) {
 	o.Content = &v
 }
 

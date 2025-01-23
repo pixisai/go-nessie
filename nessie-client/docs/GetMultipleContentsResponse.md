@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Contents** | [**[]GetMultipleContentsResponseContentsInner**](GetMultipleContentsResponseContentsInner.md) |  | 
-**EffectiveReference** | Pointer to [**Reference3**](Reference3.md) |  | [optional] 
+**EffectiveReference** | Pointer to [**Reference2**](Reference2.md) |  | [optional] 
 
 ## Methods
 
@@ -48,20 +48,20 @@ SetContents sets Contents field to given value.
 
 ### GetEffectiveReference
 
-`func (o *GetMultipleContentsResponse) GetEffectiveReference() Reference3`
+`func (o *GetMultipleContentsResponse) GetEffectiveReference() Reference2`
 
 GetEffectiveReference returns the EffectiveReference field if non-nil, zero value otherwise.
 
 ### GetEffectiveReferenceOk
 
-`func (o *GetMultipleContentsResponse) GetEffectiveReferenceOk() (*Reference3, bool)`
+`func (o *GetMultipleContentsResponse) GetEffectiveReferenceOk() (*Reference2, bool)`
 
 GetEffectiveReferenceOk returns a tuple with the EffectiveReference field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEffectiveReference
 
-`func (o *GetMultipleContentsResponse) SetEffectiveReference(v Reference3)`
+`func (o *GetMultipleContentsResponse) SetEffectiveReference(v Reference2)`
 
 SetEffectiveReference sets EffectiveReference field to given value.
 

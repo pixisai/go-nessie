@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **TargetBranch** | [**Branch3**](Branch3.md) |  | 
-**AddedContents** | Pointer to [**[]CommitResponseAddedContentsInner**](CommitResponseAddedContentsInner.md) |  | [optional] 
+**AddedContents** | Pointer to [**[]Operation1OneOf**](Operation1OneOf.md) |  | [optional] 
 
 ## Methods
 
@@ -48,20 +48,20 @@ SetTargetBranch sets TargetBranch field to given value.
 
 ### GetAddedContents
 
-`func (o *CommitResponse) GetAddedContents() []CommitResponseAddedContentsInner`
+`func (o *CommitResponse) GetAddedContents() []Operation1OneOf`
 
 GetAddedContents returns the AddedContents field if non-nil, zero value otherwise.
 
 ### GetAddedContentsOk
 
-`func (o *CommitResponse) GetAddedContentsOk() (*[]CommitResponseAddedContentsInner, bool)`
+`func (o *CommitResponse) GetAddedContentsOk() (*[]Operation1OneOf, bool)`
 
 GetAddedContentsOk returns a tuple with the AddedContents field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAddedContents
 
-`func (o *CommitResponse) SetAddedContents(v []CommitResponseAddedContentsInner)`
+`func (o *CommitResponse) SetAddedContents(v []Operation1OneOf)`
 
 SetAddedContents sets AddedContents field to given value.
 

@@ -23,7 +23,7 @@ type ReferenceHistoryStateV2 struct {
 	CommitHash *string `json:"commitHash,omitempty"`
 	// Consistency status of the commit.
 	CommitConsistency *string `json:"commitConsistency,omitempty"`
-	Meta *CommitMeta5 `json:"meta,omitempty"`
+	Meta *CommitMeta4 `json:"meta,omitempty"`
 }
 
 // NewReferenceHistoryStateV2 instantiates a new ReferenceHistoryStateV2 object
@@ -108,9 +108,9 @@ func (o *ReferenceHistoryStateV2) SetCommitConsistency(v string) {
 }
 
 // GetMeta returns the Meta field value if set, zero value otherwise.
-func (o *ReferenceHistoryStateV2) GetMeta() CommitMeta5 {
+func (o *ReferenceHistoryStateV2) GetMeta() CommitMeta4 {
 	if o == nil || IsNil(o.Meta) {
-		var ret CommitMeta5
+		var ret CommitMeta4
 		return ret
 	}
 	return *o.Meta
@@ -118,7 +118,7 @@ func (o *ReferenceHistoryStateV2) GetMeta() CommitMeta5 {
 
 // GetMetaOk returns a tuple with the Meta field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ReferenceHistoryStateV2) GetMetaOk() (*CommitMeta5, bool) {
+func (o *ReferenceHistoryStateV2) GetMetaOk() (*CommitMeta4, bool) {
 	if o == nil || IsNil(o.Meta) {
 		return nil, false
 	}
@@ -134,8 +134,8 @@ func (o *ReferenceHistoryStateV2) HasMeta() bool {
 	return false
 }
 
-// SetMeta gets a reference to the given CommitMeta5 and assigns it to the Meta field.
-func (o *ReferenceHistoryStateV2) SetMeta(v CommitMeta5) {
+// SetMeta gets a reference to the given CommitMeta4 and assigns it to the Meta field.
+func (o *ReferenceHistoryStateV2) SetMeta(v CommitMeta4) {
 	o.Meta = &v
 }
 

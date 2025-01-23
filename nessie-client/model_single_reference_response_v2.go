@@ -21,7 +21,7 @@ var _ MappedNullable = &SingleReferenceResponseV2{}
 
 // SingleReferenceResponseV2 struct for SingleReferenceResponseV2
 type SingleReferenceResponseV2 struct {
-	Reference Reference2 `json:"reference"`
+	Reference Reference3 `json:"reference"`
 }
 
 type _SingleReferenceResponseV2 SingleReferenceResponseV2
@@ -30,7 +30,7 @@ type _SingleReferenceResponseV2 SingleReferenceResponseV2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSingleReferenceResponseV2(reference Reference2) *SingleReferenceResponseV2 {
+func NewSingleReferenceResponseV2(reference Reference3) *SingleReferenceResponseV2 {
 	this := SingleReferenceResponseV2{}
 	this.Reference = reference
 	return &this
@@ -45,9 +45,9 @@ func NewSingleReferenceResponseV2WithDefaults() *SingleReferenceResponseV2 {
 }
 
 // GetReference returns the Reference field value
-func (o *SingleReferenceResponseV2) GetReference() Reference2 {
+func (o *SingleReferenceResponseV2) GetReference() Reference3 {
 	if o == nil {
-		var ret Reference2
+		var ret Reference3
 		return ret
 	}
 
@@ -56,7 +56,7 @@ func (o *SingleReferenceResponseV2) GetReference() Reference2 {
 
 // GetReferenceOk returns a tuple with the Reference field value
 // and a boolean to check if the value has been set.
-func (o *SingleReferenceResponseV2) GetReferenceOk() (*Reference2, bool) {
+func (o *SingleReferenceResponseV2) GetReferenceOk() (*Reference3, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *SingleReferenceResponseV2) GetReferenceOk() (*Reference2, bool) {
 }
 
 // SetReference sets field value
-func (o *SingleReferenceResponseV2) SetReference(v Reference2) {
+func (o *SingleReferenceResponseV2) SetReference(v Reference3) {
 	o.Reference = v
 }
 

@@ -21,10 +21,10 @@ var _ MappedNullable = &ReferenceHistoryResponseV2{}
 
 // ReferenceHistoryResponseV2 Describes the consistency status of a named reference.  Possible values of the `CommitConsistency` enum: - `NOT_CHECKED` means: Consistency was not checked. - `COMMIT_CONSISTENT` means: The commit object, its index information and all reachable content is present. - `COMMIT_CONTENT_INCONSISTENT` means: The commit object is present and its index is accessible, but some content reachable from the commit is not present. - `COMMIT_INCONSISTENT` means: The commit is inconsistent in a way that makes it impossible to access the commit, for example if the commit object itself or its index information is missing.
 type ReferenceHistoryResponseV2 struct {
-	Reference Reference2 `json:"reference"`
-	Current ReferenceHistoryState3 `json:"current"`
+	Reference Reference3 `json:"reference"`
+	Current ReferenceHistoryState1 `json:"current"`
 	// Consistency status of the recorded recent HEADs of the reference, including re-assign operations.
-	Previous []ReferenceHistoryState4 `json:"previous"`
+	Previous []ReferenceHistoryState2 `json:"previous"`
 	// Combined consistency status of the commit-log of the reference, if requested by the client.
 	CommitLogConsistency string `json:"commitLogConsistency"`
 }
@@ -35,7 +35,7 @@ type _ReferenceHistoryResponseV2 ReferenceHistoryResponseV2
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewReferenceHistoryResponseV2(reference Reference2, current ReferenceHistoryState3, previous []ReferenceHistoryState4, commitLogConsistency string) *ReferenceHistoryResponseV2 {
+func NewReferenceHistoryResponseV2(reference Reference3, current ReferenceHistoryState1, previous []ReferenceHistoryState2, commitLogConsistency string) *ReferenceHistoryResponseV2 {
 	this := ReferenceHistoryResponseV2{}
 	this.Reference = reference
 	this.Current = current
@@ -53,9 +53,9 @@ func NewReferenceHistoryResponseV2WithDefaults() *ReferenceHistoryResponseV2 {
 }
 
 // GetReference returns the Reference field value
-func (o *ReferenceHistoryResponseV2) GetReference() Reference2 {
+func (o *ReferenceHistoryResponseV2) GetReference() Reference3 {
 	if o == nil {
-		var ret Reference2
+		var ret Reference3
 		return ret
 	}
 
@@ -64,7 +64,7 @@ func (o *ReferenceHistoryResponseV2) GetReference() Reference2 {
 
 // GetReferenceOk returns a tuple with the Reference field value
 // and a boolean to check if the value has been set.
-func (o *ReferenceHistoryResponseV2) GetReferenceOk() (*Reference2, bool) {
+func (o *ReferenceHistoryResponseV2) GetReferenceOk() (*Reference3, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -72,14 +72,14 @@ func (o *ReferenceHistoryResponseV2) GetReferenceOk() (*Reference2, bool) {
 }
 
 // SetReference sets field value
-func (o *ReferenceHistoryResponseV2) SetReference(v Reference2) {
+func (o *ReferenceHistoryResponseV2) SetReference(v Reference3) {
 	o.Reference = v
 }
 
 // GetCurrent returns the Current field value
-func (o *ReferenceHistoryResponseV2) GetCurrent() ReferenceHistoryState3 {
+func (o *ReferenceHistoryResponseV2) GetCurrent() ReferenceHistoryState1 {
 	if o == nil {
-		var ret ReferenceHistoryState3
+		var ret ReferenceHistoryState1
 		return ret
 	}
 
@@ -88,7 +88,7 @@ func (o *ReferenceHistoryResponseV2) GetCurrent() ReferenceHistoryState3 {
 
 // GetCurrentOk returns a tuple with the Current field value
 // and a boolean to check if the value has been set.
-func (o *ReferenceHistoryResponseV2) GetCurrentOk() (*ReferenceHistoryState3, bool) {
+func (o *ReferenceHistoryResponseV2) GetCurrentOk() (*ReferenceHistoryState1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -96,14 +96,14 @@ func (o *ReferenceHistoryResponseV2) GetCurrentOk() (*ReferenceHistoryState3, bo
 }
 
 // SetCurrent sets field value
-func (o *ReferenceHistoryResponseV2) SetCurrent(v ReferenceHistoryState3) {
+func (o *ReferenceHistoryResponseV2) SetCurrent(v ReferenceHistoryState1) {
 	o.Current = v
 }
 
 // GetPrevious returns the Previous field value
-func (o *ReferenceHistoryResponseV2) GetPrevious() []ReferenceHistoryState4 {
+func (o *ReferenceHistoryResponseV2) GetPrevious() []ReferenceHistoryState2 {
 	if o == nil {
-		var ret []ReferenceHistoryState4
+		var ret []ReferenceHistoryState2
 		return ret
 	}
 
@@ -112,7 +112,7 @@ func (o *ReferenceHistoryResponseV2) GetPrevious() []ReferenceHistoryState4 {
 
 // GetPreviousOk returns a tuple with the Previous field value
 // and a boolean to check if the value has been set.
-func (o *ReferenceHistoryResponseV2) GetPreviousOk() ([]ReferenceHistoryState4, bool) {
+func (o *ReferenceHistoryResponseV2) GetPreviousOk() ([]ReferenceHistoryState2, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -120,7 +120,7 @@ func (o *ReferenceHistoryResponseV2) GetPreviousOk() ([]ReferenceHistoryState4, 
 }
 
 // SetPrevious sets field value
-func (o *ReferenceHistoryResponseV2) SetPrevious(v []ReferenceHistoryState4) {
+func (o *ReferenceHistoryResponseV2) SetPrevious(v []ReferenceHistoryState2) {
 	o.Previous = v
 }
 

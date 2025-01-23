@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **TargetBranch** | Pointer to **string** |  | [optional] 
 **EffectiveTargetHash** | Pointer to **string** |  | [optional] 
 **ExpectedHash** | Pointer to **string** |  | [optional] 
-**Details** | Pointer to [**[]MergePerContentKeyDetails1**](MergePerContentKeyDetails1.md) |  | [optional] 
+**Details** | Pointer to [**[]MergePerContentKeyDetails**](MergePerContentKeyDetails.md) |  | [optional] 
 
 ## Methods
 
@@ -157,20 +157,20 @@ HasExpectedHash returns a boolean if a field has been set.
 
 ### GetDetails
 
-`func (o *MergeResponseV1) GetDetails() []MergePerContentKeyDetails1`
+`func (o *MergeResponseV1) GetDetails() []MergePerContentKeyDetails`
 
 GetDetails returns the Details field if non-nil, zero value otherwise.
 
 ### GetDetailsOk
 
-`func (o *MergeResponseV1) GetDetailsOk() (*[]MergePerContentKeyDetails1, bool)`
+`func (o *MergeResponseV1) GetDetailsOk() (*[]MergePerContentKeyDetails, bool)`
 
 GetDetailsOk returns a tuple with the Details field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDetails
 
-`func (o *MergeResponseV1) SetDetails(v []MergePerContentKeyDetails1)`
+`func (o *MergeResponseV1) SetDetails(v []MergePerContentKeyDetails)`
 
 SetDetails sets Details field to given value.
 

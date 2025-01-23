@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **FromRefName** | **string** |  | 
 **FromHash** | **string** |  | 
-**KeyMergeModes** | Pointer to [**[]MergeKeyMergeModesInner**](MergeKeyMergeModesInner.md) |  | [optional] 
+**KeyMergeModes** | Pointer to [**[]MergeOperationKeyMergeModesInner**](MergeOperationKeyMergeModesInner.md) |  | [optional] 
 **DefaultKeyMergeMode** | Pointer to **string** |  | [optional] 
 **DryRun** | Pointer to **bool** |  | [optional] 
 **FetchAdditionalInfo** | Pointer to **bool** |  | [optional] 
@@ -73,20 +73,20 @@ SetFromHash sets FromHash field to given value.
 
 ### GetKeyMergeModes
 
-`func (o *Merge) GetKeyMergeModes() []MergeKeyMergeModesInner`
+`func (o *Merge) GetKeyMergeModes() []MergeOperationKeyMergeModesInner`
 
 GetKeyMergeModes returns the KeyMergeModes field if non-nil, zero value otherwise.
 
 ### GetKeyMergeModesOk
 
-`func (o *Merge) GetKeyMergeModesOk() (*[]MergeKeyMergeModesInner, bool)`
+`func (o *Merge) GetKeyMergeModesOk() (*[]MergeOperationKeyMergeModesInner, bool)`
 
 GetKeyMergeModesOk returns a tuple with the KeyMergeModes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKeyMergeModes
 
-`func (o *Merge) SetKeyMergeModes(v []MergeKeyMergeModesInner)`
+`func (o *Merge) SetKeyMergeModes(v []MergeOperationKeyMergeModesInner)`
 
 SetKeyMergeModes sets KeyMergeModes field to given value.
 

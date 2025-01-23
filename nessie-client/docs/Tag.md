@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** |  | 
-**Metadata** | Pointer to [**ReferenceMetadata3**](ReferenceMetadata3.md) |  | [optional] 
+**Metadata** | Pointer to [**ReferenceMetadata2**](ReferenceMetadata2.md) |  | [optional] 
 **Hash** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -49,20 +49,20 @@ SetName sets Name field to given value.
 
 ### GetMetadata
 
-`func (o *Tag) GetMetadata() ReferenceMetadata3`
+`func (o *Tag) GetMetadata() ReferenceMetadata2`
 
 GetMetadata returns the Metadata field if non-nil, zero value otherwise.
 
 ### GetMetadataOk
 
-`func (o *Tag) GetMetadataOk() (*ReferenceMetadata3, bool)`
+`func (o *Tag) GetMetadataOk() (*ReferenceMetadata2, bool)`
 
 GetMetadataOk returns a tuple with the Metadata field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMetadata
 
-`func (o *Tag) SetMetadata(v ReferenceMetadata3)`
+`func (o *Tag) SetMetadata(v ReferenceMetadata2)`
 
 SetMetadata sets Metadata field to given value.
 

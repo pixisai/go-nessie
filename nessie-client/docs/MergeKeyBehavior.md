@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | Pointer to [**AddedContentKey**](AddedContentKey.md) |  | [optional] 
+**Key** | Pointer to [**GetMultipleContentsRequest1RequestedKeysInner**](GetMultipleContentsRequest1RequestedKeysInner.md) |  | [optional] 
 **MergeBehavior** | Pointer to **string** |  | [optional] 
 **ExpectedTargetContent** | Pointer to [**Content2**](Content2.md) |  | [optional] 
 **ResolvedContent** | Pointer to [**Content2**](Content2.md) |  | [optional] 
-**ExpectedTargetDocumentation** | Pointer to [**ContentResponseV2Documentation**](ContentResponseV2Documentation.md) |  | [optional] 
-**ResolvedDocumentation** | Pointer to [**ContentResponseV2Documentation**](ContentResponseV2Documentation.md) |  | [optional] 
+**ExpectedTargetDocumentation** | Pointer to [**PutContentOperationForAContentKeyDocumentation**](PutContentOperationForAContentKeyDocumentation.md) |  | [optional] 
+**ResolvedDocumentation** | Pointer to [**PutContentOperationForAContentKeyDocumentation**](PutContentOperationForAContentKeyDocumentation.md) |  | [optional] 
 **Metadata** | Pointer to [**[]ContentMetadata1**](ContentMetadata1.md) |  | [optional] 
 
 ## Methods
@@ -33,20 +33,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKey
 
-`func (o *MergeKeyBehavior) GetKey() AddedContentKey`
+`func (o *MergeKeyBehavior) GetKey() GetMultipleContentsRequest1RequestedKeysInner`
 
 GetKey returns the Key field if non-nil, zero value otherwise.
 
 ### GetKeyOk
 
-`func (o *MergeKeyBehavior) GetKeyOk() (*AddedContentKey, bool)`
+`func (o *MergeKeyBehavior) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool)`
 
 GetKeyOk returns a tuple with the Key field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKey
 
-`func (o *MergeKeyBehavior) SetKey(v AddedContentKey)`
+`func (o *MergeKeyBehavior) SetKey(v GetMultipleContentsRequest1RequestedKeysInner)`
 
 SetKey sets Key field to given value.
 
@@ -133,20 +133,20 @@ HasResolvedContent returns a boolean if a field has been set.
 
 ### GetExpectedTargetDocumentation
 
-`func (o *MergeKeyBehavior) GetExpectedTargetDocumentation() ContentResponseV2Documentation`
+`func (o *MergeKeyBehavior) GetExpectedTargetDocumentation() PutContentOperationForAContentKeyDocumentation`
 
 GetExpectedTargetDocumentation returns the ExpectedTargetDocumentation field if non-nil, zero value otherwise.
 
 ### GetExpectedTargetDocumentationOk
 
-`func (o *MergeKeyBehavior) GetExpectedTargetDocumentationOk() (*ContentResponseV2Documentation, bool)`
+`func (o *MergeKeyBehavior) GetExpectedTargetDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool)`
 
 GetExpectedTargetDocumentationOk returns a tuple with the ExpectedTargetDocumentation field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExpectedTargetDocumentation
 
-`func (o *MergeKeyBehavior) SetExpectedTargetDocumentation(v ContentResponseV2Documentation)`
+`func (o *MergeKeyBehavior) SetExpectedTargetDocumentation(v PutContentOperationForAContentKeyDocumentation)`
 
 SetExpectedTargetDocumentation sets ExpectedTargetDocumentation field to given value.
 
@@ -158,20 +158,20 @@ HasExpectedTargetDocumentation returns a boolean if a field has been set.
 
 ### GetResolvedDocumentation
 
-`func (o *MergeKeyBehavior) GetResolvedDocumentation() ContentResponseV2Documentation`
+`func (o *MergeKeyBehavior) GetResolvedDocumentation() PutContentOperationForAContentKeyDocumentation`
 
 GetResolvedDocumentation returns the ResolvedDocumentation field if non-nil, zero value otherwise.
 
 ### GetResolvedDocumentationOk
 
-`func (o *MergeKeyBehavior) GetResolvedDocumentationOk() (*ContentResponseV2Documentation, bool)`
+`func (o *MergeKeyBehavior) GetResolvedDocumentationOk() (*PutContentOperationForAContentKeyDocumentation, bool)`
 
 GetResolvedDocumentationOk returns a tuple with the ResolvedDocumentation field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetResolvedDocumentation
 
-`func (o *MergeKeyBehavior) SetResolvedDocumentation(v ContentResponseV2Documentation)`
+`func (o *MergeKeyBehavior) SetResolvedDocumentation(v PutContentOperationForAContentKeyDocumentation)`
 
 SetResolvedDocumentation sets ResolvedDocumentation field to given value.
 

@@ -19,9 +19,9 @@ var _ MappedNullable = &DiffEntryV2{}
 
 // DiffEntryV2 struct for DiffEntryV2
 type DiffEntryV2 struct {
-	Key *AddedContentKey `json:"key,omitempty"`
-	From *Content1 `json:"from,omitempty"`
-	To *Content1 `json:"to,omitempty"`
+	Key *GetMultipleContentsRequest1RequestedKeysInner `json:"key,omitempty"`
+	From *Content5 `json:"from,omitempty"`
+	To *Content5 `json:"to,omitempty"`
 }
 
 // NewDiffEntryV2 instantiates a new DiffEntryV2 object
@@ -42,9 +42,9 @@ func NewDiffEntryV2WithDefaults() *DiffEntryV2 {
 }
 
 // GetKey returns the Key field value if set, zero value otherwise.
-func (o *DiffEntryV2) GetKey() AddedContentKey {
+func (o *DiffEntryV2) GetKey() GetMultipleContentsRequest1RequestedKeysInner {
 	if o == nil || IsNil(o.Key) {
-		var ret AddedContentKey
+		var ret GetMultipleContentsRequest1RequestedKeysInner
 		return ret
 	}
 	return *o.Key
@@ -52,7 +52,7 @@ func (o *DiffEntryV2) GetKey() AddedContentKey {
 
 // GetKeyOk returns a tuple with the Key field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DiffEntryV2) GetKeyOk() (*AddedContentKey, bool) {
+func (o *DiffEntryV2) GetKeyOk() (*GetMultipleContentsRequest1RequestedKeysInner, bool) {
 	if o == nil || IsNil(o.Key) {
 		return nil, false
 	}
@@ -68,15 +68,15 @@ func (o *DiffEntryV2) HasKey() bool {
 	return false
 }
 
-// SetKey gets a reference to the given AddedContentKey and assigns it to the Key field.
-func (o *DiffEntryV2) SetKey(v AddedContentKey) {
+// SetKey gets a reference to the given GetMultipleContentsRequest1RequestedKeysInner and assigns it to the Key field.
+func (o *DiffEntryV2) SetKey(v GetMultipleContentsRequest1RequestedKeysInner) {
 	o.Key = &v
 }
 
 // GetFrom returns the From field value if set, zero value otherwise.
-func (o *DiffEntryV2) GetFrom() Content1 {
+func (o *DiffEntryV2) GetFrom() Content5 {
 	if o == nil || IsNil(o.From) {
-		var ret Content1
+		var ret Content5
 		return ret
 	}
 	return *o.From
@@ -84,7 +84,7 @@ func (o *DiffEntryV2) GetFrom() Content1 {
 
 // GetFromOk returns a tuple with the From field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DiffEntryV2) GetFromOk() (*Content1, bool) {
+func (o *DiffEntryV2) GetFromOk() (*Content5, bool) {
 	if o == nil || IsNil(o.From) {
 		return nil, false
 	}
@@ -100,15 +100,15 @@ func (o *DiffEntryV2) HasFrom() bool {
 	return false
 }
 
-// SetFrom gets a reference to the given Content1 and assigns it to the From field.
-func (o *DiffEntryV2) SetFrom(v Content1) {
+// SetFrom gets a reference to the given Content5 and assigns it to the From field.
+func (o *DiffEntryV2) SetFrom(v Content5) {
 	o.From = &v
 }
 
 // GetTo returns the To field value if set, zero value otherwise.
-func (o *DiffEntryV2) GetTo() Content1 {
+func (o *DiffEntryV2) GetTo() Content5 {
 	if o == nil || IsNil(o.To) {
-		var ret Content1
+		var ret Content5
 		return ret
 	}
 	return *o.To
@@ -116,7 +116,7 @@ func (o *DiffEntryV2) GetTo() Content1 {
 
 // GetToOk returns a tuple with the To field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DiffEntryV2) GetToOk() (*Content1, bool) {
+func (o *DiffEntryV2) GetToOk() (*Content5, bool) {
 	if o == nil || IsNil(o.To) {
 		return nil, false
 	}
@@ -132,8 +132,8 @@ func (o *DiffEntryV2) HasTo() bool {
 	return false
 }
 
-// SetTo gets a reference to the given Content1 and assigns it to the To field.
-func (o *DiffEntryV2) SetTo(v Content1) {
+// SetTo gets a reference to the given Content5 and assigns it to the To field.
+func (o *DiffEntryV2) SetTo(v Content5) {
 	o.To = &v
 }
 

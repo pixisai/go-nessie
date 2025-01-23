@@ -24,7 +24,7 @@ type MergeResponseV1 struct {
 	TargetBranch *string `json:"targetBranch,omitempty"`
 	EffectiveTargetHash *string `json:"effectiveTargetHash,omitempty"`
 	ExpectedHash *string `json:"expectedHash,omitempty"`
-	Details []MergePerContentKeyDetails1 `json:"details,omitempty"`
+	Details []MergePerContentKeyDetails `json:"details,omitempty"`
 }
 
 // NewMergeResponseV1 instantiates a new MergeResponseV1 object
@@ -205,9 +205,9 @@ func (o *MergeResponseV1) SetExpectedHash(v string) {
 }
 
 // GetDetails returns the Details field value if set, zero value otherwise.
-func (o *MergeResponseV1) GetDetails() []MergePerContentKeyDetails1 {
+func (o *MergeResponseV1) GetDetails() []MergePerContentKeyDetails {
 	if o == nil || IsNil(o.Details) {
-		var ret []MergePerContentKeyDetails1
+		var ret []MergePerContentKeyDetails
 		return ret
 	}
 	return o.Details
@@ -215,7 +215,7 @@ func (o *MergeResponseV1) GetDetails() []MergePerContentKeyDetails1 {
 
 // GetDetailsOk returns a tuple with the Details field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MergeResponseV1) GetDetailsOk() ([]MergePerContentKeyDetails1, bool) {
+func (o *MergeResponseV1) GetDetailsOk() ([]MergePerContentKeyDetails, bool) {
 	if o == nil || IsNil(o.Details) {
 		return nil, false
 	}
@@ -231,8 +231,8 @@ func (o *MergeResponseV1) HasDetails() bool {
 	return false
 }
 
-// SetDetails gets a reference to the given []MergePerContentKeyDetails1 and assigns it to the Details field.
-func (o *MergeResponseV1) SetDetails(v []MergePerContentKeyDetails1) {
+// SetDetails gets a reference to the given []MergePerContentKeyDetails and assigns it to the Details field.
+func (o *MergeResponseV1) SetDetails(v []MergePerContentKeyDetails) {
 	o.Details = v
 }
 

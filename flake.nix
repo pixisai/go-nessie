@@ -21,7 +21,6 @@
           ];
 
           shellHook = ''
-            cd ./nessie-client
             go mod tidy
             echo "Go development environment is ready!"
           '';

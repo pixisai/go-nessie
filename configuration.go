@@ -23,6 +23,10 @@ import (
 
 type contextKey string
 
+func dummyCheck() string {
+	return "go-nessie imported SUCCESS"
+}
+
 func (c contextKey) String() string {
 	return "auth " + string(c)
 }

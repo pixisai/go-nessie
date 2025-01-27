@@ -10,9 +10,8 @@ import (
 )
 
 
-// nessie-client/
-// ├── cmd/
-// │   └── main.go
+// go-nessie/
+// │── main.go
 // ├── pkg/
 // │   ├── api/
 // │   │   ├── branch.go

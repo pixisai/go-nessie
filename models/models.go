@@ -33,3 +33,18 @@ type GetReferencesResponse struct {
 	References []Reference `json:"references"`      // List of references
 	HasMore    bool        `json:"hasMore"`         // Indicates if there are more results
 }
+
+// CreateReferenceRequest represents the request to create a new reference
+type CreateReferenceRequest struct {
+	Type        string   `json:"type"`              // BRANCH or TAG
+	Name        string   `json:"name"`              // Name of the reference to create
+	Reference   string   `json:"reference"`         // Source reference name
+	Hash        string   `json:"hash,omitempty"`    // Hash to create reference at
+	Metadata    Metadata `json:"metadata,omitempty"` // Optional metadata
+}
+
+// DeleteReferenceRequest represents the request to delete a reference
+type DeleteReferenceRequest struct {
+	Name string `json:"name"`           // Name of the reference to delete
+	Hash string `json:"hash,omitempty"` // Expected hash of the reference
+}

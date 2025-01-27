@@ -1,15 +1,16 @@
-package groot
+package api
 
 import (
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"github.com/pixisai/go-nessie/models"
 )
 
 // GetAllTrees returns all trees/branches from the Nessie API
-func (c *Client) GetAllBranches() (*GetReferencesResponse, error) {
-	url := fmt.Sprintf("%s/api/v2/trees", c.baseURL)
+func (c *Client) GetAllBranches() (*models.GetReferencesResponse, error) {
+	url := fmt.Sprintf("%s/api/v2/trees", c.BaseURL())
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
@@ -18,7 +19,7 @@ func (c *Client) GetAllBranches() (*GetReferencesResponse, error) {
 
 	req.Header.Set("Accept", "application/json")
 
-	resp, err := c.httpClient.Do(req)
+	resp, err := c.HTTPClient().Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute request: %w", err)
 	}
@@ -33,7 +34,7 @@ func (c *Client) GetAllBranches() (*GetReferencesResponse, error) {
 		return nil, fmt.Errorf("API error (status %d): %s", resp.StatusCode, string(body))
 	}
 
-	var response GetReferencesResponse
+	var response models.GetReferencesResponse
 	if err := json.Unmarshal(body, &response); err != nil {
 		return nil, fmt.Errorf("failed to parse response: %w", err)
 	}

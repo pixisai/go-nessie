@@ -1,4 +1,4 @@
-package groot
+package models
 
 import "time"
 

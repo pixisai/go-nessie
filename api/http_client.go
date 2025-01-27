@@ -1,4 +1,4 @@
-package groot
+package api
 
 import (
 	"net/http"
@@ -19,4 +19,14 @@ func NewClient(baseURL string) *Client {
 			Timeout: 10 * time.Second,
 		},
 	}
+}
+
+// BaseURL returns the base URL of the client
+func (c *Client) BaseURL() string {
+	return c.baseURL
+}
+
+// HTTPClient returns the HTTP client
+func (c *Client) HTTPClient() *http.Client {
+	return c.httpClient
 }

@@ -1,51 +1,25 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
-	"os"
+	"log"
+	"github.com/pixisai/go-nessie/api"
 )
-
-
-// go-nessie/
-// │── main.go
-// ├── pkg/
-// │   ├── api/
-// │   │   ├── branch.go
-// │   │   ├── delete.go
-// │   │   └── fetch.go
-// │   └── utils/
-// │   │   └── http_client.go
-// │   └── models(types)/
-// │       └── request/
-// │       		└── branch.go
-// │       		└── branch.go
-// │       └── post.go
-// │       └── delete.go
-// ├── config/
-// │   └── config.go
-// ├── go.mod
-// ├── go.sum
-// └── README.md
 
 func main() {
 	fmt.Println("Nessie Started")
 
 	// Create a new Nessie client
-	client := nessie.NewClient("http://0.0.0.0:19120")
+	client := api.NewClient("http://0.0.0.0:19120")
 
-	// Get all trees
-	trees, err := client.GetAllTrees()
+	// Get all branches
+	branches, err := client.GetAllBranches()
 	if err != nil {
-		log.Fatalf("Failed to get trees: %v", err)
+		log.Fatalf("Failed to get branches: %v", err)
 	}
 
-	fmt.Println("All trees:")
-	for _, ref := range trees.References {
+	fmt.Println("All branches:")
+	for _, ref := range branches.References {
 		fmt.Printf("- %s (%s): %s\n", ref.Name, ref.Type, ref.Hash)
 	}
-
 }

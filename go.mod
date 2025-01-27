@@ -1,3 +1,3 @@
-module go-nessie
+module github.com/pixisai/go-nessie
 
-go 1.23.4
+go 1.21

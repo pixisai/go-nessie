@@ -8,13 +8,14 @@ import (
 
 	"github.com/pixisai/go-nessie/api"
 	"github.com/pixisai/go-nessie/models"
+	"github.com/pixisai/go-nessie/utils"
 )
 
 func main() {
 	// Get Nessie server URL from environment variable or use default
 	serverURL := os.Getenv("NESSIE_SERVER_URL")
 	if serverURL == "" {
-		serverURL = "http://localhost:19120"
+		serverURL = utils.LocalHost
 	}
 
 	fmt.Printf("Connecting to Nessie server at %s\n", serverURL)
@@ -30,7 +31,7 @@ func main() {
 
 	// Create a new branch from main
 	sourceBranch := "main"
-	newBranchName := "feature-branch-v1.3"
+	newBranchName := "feature-branch-v1.2"
 
 	fmt.Printf("\nCreating new branch '%s' from '%s'...\n", newBranchName, sourceBranch)
 	newBranch, err := client.CreateBranch(newBranchName, sourceBranch)

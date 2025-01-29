@@ -8,15 +8,16 @@ import (
 	"net/http"
 	"net/url"
 	"github.com/pixisai/go-nessie/models"
+	"github.com/pixisai/go-nessie/utils"
 )
 
 // GetAllBranches returns all trees/branches from the Nessie API
 func (c *Client) GetAllBranches() (*models.GetReferencesResponse, error) {
-	url := fmt.Sprintf("%s/api/v2/trees", c.BaseURL())
+	url := fmt.Sprintf("%s/%s", c.BaseURL(), utils.APIBasePath)
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create GET request for /api/v2/trees: %w", err)
+		return nil, fmt.Errorf("failed to create GET request for /%s: %w", utils.APIBasePath, err)
 	}
 
 	req.Header.Set("Accept", "application/json")
@@ -29,11 +30,11 @@ func (c *Client) GetAllBranches() (*models.GetReferencesResponse, error) {
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read response body from GET /api/v2/trees: %w", err)
+		return nil, fmt.Errorf("failed to read response body from GET /%s: %w", utils.APIBasePath, err)
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("GET /api/v2/trees failed with status %d: %s", resp.StatusCode, string(body))
+		return nil, fmt.Errorf("GET /%s failed with status %d: %s", utils.APIBasePath, resp.StatusCode, string(body))
 	}
 
 	var response models.GetReferencesResponse
@@ -46,11 +47,11 @@ func (c *Client) GetAllBranches() (*models.GetReferencesResponse, error) {
 
 // GetBranch retrieves a specific branch from the Nessie API
 func (c *Client) GetBranch(name string) (*models.Reference, error) {
-	url := fmt.Sprintf("%s/api/v2/trees/%s", c.BaseURL(), name)
+	url := fmt.Sprintf("%s/%s/%s", c.BaseURL(), utils.APIBasePath, name)
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create GET request for /api/v2/trees/%s: %w", name, err)
+		return nil, fmt.Errorf("failed to create GET request for /%s/%s: %w", utils.APIBasePath, name, err)
 	}
 
 	req.Header.Set("Accept", "application/json")
@@ -63,11 +64,11 @@ func (c *Client) GetBranch(name string) (*models.Reference, error) {
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read response body from GET /api/v2/trees/%s: %w", name, err)
+		return nil, fmt.Errorf("failed to read response body from GET /%s/%s: %w", utils.APIBasePath, name, err)
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("GET /api/v2/trees/%s failed with status %d: %s", name, resp.StatusCode, string(body))
+		return nil, fmt.Errorf("GET /%s/%s failed with status %d: %s", utils.APIBasePath, name, resp.StatusCode, string(body))
 	}
 
 	var response struct {
@@ -89,7 +90,7 @@ func (c *Client) CreateBranch(name, sourceRef string) (*models.Reference, error)
 	}
 
 	// Build URL with query parameters
-	baseURL := fmt.Sprintf("%s/api/v2/trees", c.BaseURL())
+	baseURL := fmt.Sprintf("%s/%s", c.BaseURL(), utils.APIBasePath)
 	u, err := url.Parse(baseURL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse base URL: %w", err)
@@ -114,7 +115,7 @@ func (c *Client) CreateBranch(name, sourceRef string) (*models.Reference, error)
 
 	req, err := http.NewRequest(http.MethodPost, u.String(), bytes.NewBuffer(jsonBody))
 	if err != nil {
-		return nil, fmt.Errorf("failed to create POST request for /api/v2/trees: %w", err)
+		return nil, fmt.Errorf("failed to create POST request for /%s: %w", utils.APIBasePath, err)
 	}
 
 	req.Header.Set("Content-Type", "application/json")
@@ -128,7 +129,7 @@ func (c *Client) CreateBranch(name, sourceRef string) (*models.Reference, error)
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read response body from POST /api/v2/trees: %w", err)
+		return nil, fmt.Errorf("failed to read response body from POST /%s: %w", utils.APIBasePath, err)
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
@@ -149,7 +150,7 @@ func (c *Client) CreateBranch(name, sourceRef string) (*models.Reference, error)
 // DeleteBranch deletes a branch from the Nessie repository
 func (c *Client) DeleteBranch(request *models.DeleteReferenceRequest) error {
 	// Build URL with hash
-	baseURL := fmt.Sprintf("%s/api/v2/trees/%s@%s", c.BaseURL(), request.Name, request.Hash)
+	baseURL := fmt.Sprintf("%s/%s/%s@%s", c.BaseURL(), utils.APIBasePath, request.Name, request.Hash)
 	u, err := url.Parse(baseURL)
 	if err != nil {
 		return fmt.Errorf("failed to parse base URL: %w", err)
@@ -162,7 +163,7 @@ func (c *Client) DeleteBranch(request *models.DeleteReferenceRequest) error {
 
 	req, err := http.NewRequest(http.MethodDelete, u.String(), nil)
 	if err != nil {
-		return fmt.Errorf("failed to create DELETE request for /api/v2/trees/%s: %w", request.Name, err)
+		return fmt.Errorf("failed to create DELETE request for /%s/%s: %w", utils.APIBasePath, request.Name, err)
 	}
 
 	req.Header.Set("Content-Type", "application/json")

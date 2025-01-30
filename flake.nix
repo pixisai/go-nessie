@@ -55,7 +55,10 @@
         };
 
         # Expose Nessie as a package
-        packages.default = go-nessie;
+        packages = {
+          go-nessie = go-nessie; # ✅ Ensure go-nessie is available here
+          default = go-nessie;
+        };
 
         # Define apps for nix run
         apps = {

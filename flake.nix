@@ -13,6 +13,13 @@
           inherit system;
         };
 
+        go-nessie = pkgs.buildGoModule {
+          pname = "go-nessie";
+          version = "unstable";
+          src = ./.;
+          vendorHash = null;
+        };
+
         nessie = pkgs.stdenv.mkDerivation {
           pname = "nessie";
           version = "0.102.0";
@@ -39,7 +46,6 @@
             pkgs.go_1_23
             pkgs.gopls
             pkgs.gotools
-            # nessie
           ];
 
           shellHook = ''
@@ -48,7 +54,10 @@
           '';
         };
 
-        # Define apps at the top level for nix run
+        # Expose Nessie as a package
+        packages.default = go-nessie;
+
+        # Define apps for nix run
         apps = {
           nessie = flake-utils.lib.mkApp {
             drv = nessie;

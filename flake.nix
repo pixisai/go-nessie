@@ -18,6 +18,7 @@
           version = "unstable";
           src = ./.;
           vendorHash = null;
+          subPackages = [ "." ];
         };
 
         nessie = pkgs.stdenv.mkDerivation {

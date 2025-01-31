@@ -13,8 +13,8 @@
           inherit system;
         };
 
-        go-nessie = pkgs.buildGoModule {
-          pname = "go-nessie";
+        go-nessie-nix = pkgs.buildGoModule {
+          pname = "go-nessie-nix";
           version = "unstable";
           src = ./.;
           vendorHash = null;
@@ -56,8 +56,8 @@
 
         # Expose Nessie as a package
         packages = {
-          go-nessie = go-nessie;
-          default = go-nessie;
+          go-nessie-nix = go-nessie-nix;
+          default = go-nessie-nix;
         };
 
         # Define apps for nix run

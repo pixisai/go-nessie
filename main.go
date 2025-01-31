@@ -140,6 +140,8 @@ func main() {
 	// if err := listBranches(client); err != nil {
 	// 	log.Fatalf("Failed to list branches: %v", err)
 	// }
+	res := api.Dummy()
+	fmt.Println(res)
 }
 
 func listBranches(client *api.Client) error {

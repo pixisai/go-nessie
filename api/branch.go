@@ -27,7 +27,7 @@ func (c *Client) GetAllBranches() (*models.GetReferencesResponse, error) {
 
 	resp, err := c.HTTPClient().Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("failed to execute GET request to %s: %w", url, err)
+		return nil, fmt.Errorf("failed to execute GEEEEEET request to %s: %w", url, err)
 	}
 	defer resp.Body.Close()
 

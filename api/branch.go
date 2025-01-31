@@ -16,6 +16,7 @@ import (
 // GetAllBranches returns all trees/branches from the Nessie API
 func (c *Client) GetAllBranches() (*models.GetReferencesResponse, error) {
 	url := fmt.Sprintf("%s/%s", c.BaseURL(), utils.APIBasePath)
+	fmt.Println("Hello, from Nessie - nix flake update success")
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {

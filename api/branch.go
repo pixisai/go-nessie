@@ -287,3 +287,7 @@ func (c *Client) GetContent(branchName, hash string, key models.ContentKey) (*mo
 
 	return &content, nil
 }
+
+func dummy() string {
+	return "Dummy reached"
+}

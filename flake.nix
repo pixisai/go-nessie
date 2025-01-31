@@ -56,7 +56,7 @@
 
         # Expose Nessie as a package
         packages = {
-          go-nessie = go-nessie; # ✅ Ensure go-nessie is available here
+          go-nessie = go-nessie;
           default = go-nessie;
         };
 

@@ -30,3 +30,8 @@ func (c *Client) BaseURL() string {
 func (c *Client) HTTPClient() *http.Client {
 	return c.httpClient
 }
+
+// Dummy is a test function to verify client functionality
+func (c *Client) Dummy() string {
+	return "Dummy reached"
+}

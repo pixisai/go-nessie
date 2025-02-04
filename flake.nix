@@ -80,6 +80,58 @@
           '';
         };
 
+        dremio = pkgs.stdenv.mkDerivation {
+          pname = "dremio";
+          version = "24.3.0";
+          src = pkgs.fetchurl {
+            url = "https://download.dremio.com/community-server/24.3.0-202312190021150029-52db2faf/dremio-community-24.3.0-202312190021150029-52db2faf.tar.gz";
+            sha256 = "sha256-zw4ajgXSBkrdEdkkI/9PY5AAUwwn5IaSjEAmE8I6r+Y=";
+          };
+          nativeBuildInputs = [ pkgs.jdk11 ];
+          phases = [ "unpackPhase" "installPhase" ];
+          
+          unpackPhase = ''
+            tar -xvzf $src
+            mv dremio-community-* dremio
+          '';
+
+          installPhase = ''
+            mkdir -p $out
+            cp -r dremio/* $out/
+
+            # Wrapper script to configure and start Dremio with correct writable paths
+            cat > $out/bin/dremio-start <<EOF
+            #!${pkgs.runtimeShell}
+
+            # Set Dremio home in a writable directory
+            export DREMIO_HOME="\$HOME/.dremio"
+            export DREMIO_LOG_DIR="\$DREMIO_HOME/log"
+            export DREMIO_RUN_DIR="\$DREMIO_HOME/run"
+            export DREMIO_LOCAL_PATH="\$DREMIO_HOME/data"
+
+            # Create writable directories
+            mkdir -p \$DREMIO_HOME
+            mkdir -p \$DREMIO_LOG_DIR \$DREMIO_RUN_DIR \$DREMIO_LOCAL_PATH
+
+            # Ensure correct configuration
+            cat > \$DREMIO_HOME/dremio.conf <<EOC
+            paths: {
+              local: "\$DREMIO_LOCAL_PATH"
+            }
+            services: {
+              coordinator.enabled: true,
+              executor.enabled: false
+            }
+            EOC
+
+            # Start Dremio
+            exec $out/bin/dremio "\$@"
+            EOF
+
+            chmod +x $out/bin/dremio-start
+          '';
+        };
+
       in {
         devShell = pkgs.mkShell {
           buildInputs = [
@@ -100,11 +152,15 @@
           default = go-nessie-nix;
         };
 
-        # Define apps for nix run
         apps = {
           nessie = flake-utils.lib.mkApp {
             drv = nessie;
             name = "nessie";
+          };
+
+          dremio = flake-utils.lib.mkApp {
+            drv = dremio;
+            name = "dremio";
           };
           
           nessie-cli = flake-utils.lib.mkApp {

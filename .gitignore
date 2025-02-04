@@ -21,6 +21,7 @@ openapitools.json
 # Go workspace file
 go.work
 go.work.sum
+go-nessie-bin
 
 # env file
 .env

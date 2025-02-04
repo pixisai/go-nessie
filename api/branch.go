@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"strings"
 	"time"
+
 	"github.com/pixisai/go-nessie/models"
 	"github.com/pixisai/go-nessie/utils"
 )
@@ -16,7 +17,6 @@ import (
 // GetAllBranches returns all trees/branches from the Nessie API
 func (c *Client) GetAllBranches() (*models.GetReferencesResponse, error) {
 	url := fmt.Sprintf("%s/%s", c.BaseURL(), utils.APIBasePath)
-	fmt.Println("Hello, from Nessie - nix flake update success")
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
@@ -27,7 +27,7 @@ func (c *Client) GetAllBranches() (*models.GetReferencesResponse, error) {
 
 	resp, err := c.HTTPClient().Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("failed to execute GEEEEEET request to %s: %w", url, err)
+		return nil, fmt.Errorf("failed to execute GET request to %s: %w", url, err)
 	}
 	defer resp.Body.Close()
 
@@ -136,7 +136,7 @@ func (c *Client) CreateBranch(name, sourceRef string) (*models.Reference, error)
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
-		return nil, fmt.Errorf("POST /api/v2/trees failed with status %d: %s\nRequest body: %s", 
+		return nil, fmt.Errorf("POST /api/v2/trees failed with status %d: %s\nRequest body: %s",
 			resp.StatusCode, string(body), string(jsonBody))
 	}
 
@@ -179,7 +179,7 @@ func (c *Client) DeleteBranch(request *models.DeleteReferenceRequest) error {
 
 	if resp.StatusCode != http.StatusNoContent && resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
-		return fmt.Errorf("DELETE %s failed with status %d: %s", 
+		return fmt.Errorf("DELETE %s failed with status %d: %s",
 			u.String(), resp.StatusCode, string(body))
 	}
 
@@ -189,7 +189,7 @@ func (c *Client) DeleteBranch(request *models.DeleteReferenceRequest) error {
 // CommitChange commits a change to a branch
 func (c *Client) CommitChange(branchName, hash string, operations []models.Operation, message string) (*models.CommitResponse, error) {
 	// Build URL with branch and hash
-	baseURL := fmt.Sprintf("%s/api/v2/trees/%s@%s/history/commit", 
+	baseURL := fmt.Sprintf("%s/api/v2/trees/%s@%s/history/commit",
 		c.BaseURL(), branchName, hash)
 
 	// Create commit request with metadata
@@ -217,7 +217,7 @@ func (c *Client) CommitChange(branchName, hash string, operations []models.Opera
 
 	resp, err := c.HTTPClient().Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("failed to execute POST request to %s: %w\nRequest body: %s", 
+		return nil, fmt.Errorf("failed to execute POST request to %s: %w\nRequest body: %s",
 			baseURL, err, string(jsonBody))
 	}
 	defer resp.Body.Close()
@@ -228,7 +228,7 @@ func (c *Client) CommitChange(branchName, hash string, operations []models.Opera
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("commit failed with status %d: %s\nRequest body: %s", 
+		return nil, fmt.Errorf("commit failed with status %d: %s\nRequest body: %s",
 			resp.StatusCode, string(body), string(jsonBody))
 	}
 
@@ -238,7 +238,7 @@ func (c *Client) CommitChange(branchName, hash string, operations []models.Opera
 	// Parse the full commit response
 	var response models.CommitResponse
 	if err := json.Unmarshal(body, &response); err != nil {
-		return nil, fmt.Errorf("failed to parse commit response: %w\nResponse body: %s", 
+		return nil, fmt.Errorf("failed to parse commit response: %w\nResponse body: %s",
 			err, string(body))
 	}
 
@@ -250,12 +250,70 @@ func (c *Client) CommitChange(branchName, hash string, operations []models.Opera
 	return &response, nil
 }
 
-// GetContent retrieves content at a specific key in a branch
-func (c *Client) GetContent(branchName, hash string, key models.ContentKey) (*models.Content, error) {
+// getTableMetadataLocation fetches the metadata location for a table in Nessie
+func (c *Client) GetTableMetadata(branch string, namespace string, table string) (*models.TableMeatadata, error) {
+	
+	apiURL := fmt.Sprintf("%s/api/v2/trees/%s/contents/%s.%s", c.BaseURL(), branch, namespace, table)
+
+	// Send a GET request to Nessie
+	resp, err := http.Get(apiURL)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch table metadata: %w", err)
+	}
+	defer resp.Body.Close()
+
+	// Read raw response body for debugging
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read response body: %w", err)
+	}
+
+	var response models.TableMeatadata
+	if err := json.Unmarshal(body, &response); err != nil {
+		return nil, fmt.Errorf("failed to parse commit response: %w\nResponse body: %s",
+			err, string(body))
+	}
+
+	return &response, nil
+}
+
+// GetTableDetails retrieves detailed information about a table, including its metadata and latest snapshot
+func (c *Client) GetTableDetails(branch, namespace, table string) (*models.TableDetails, error) {
+	// Create content key for the table
+	key := models.ContentKey{
+		Elements: strings.Split(table, "/"),
+	}
+
+	// Get the content from the branch
+	content, err := c.GetContent(branch, namespace, key)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get table content: %w", err)
+	}
+
+	// Check if the content is an Iceberg table
+	if content.IcebergTable == nil {
+		return nil, fmt.Errorf("content at path %s is not an Iceberg table", table)
+	}
+
+	// Get the branch reference
+	var ref *models.Reference
+	ref, err = c.GetBranch(branch)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get branch details: %w", err)
+	}
+
+	// Return table details
+	return &models.TableDetails{
+		Table:     content.IcebergTable,
+		Reference: ref,
+	}, nil
+}
+
+func (c *Client) GetContent(branchName, namespace string, key models.ContentKey) (*models.Content, error) {
 	// Build URL with branch, hash, and key
 	elements := strings.Join(key.Elements, "/")
-	baseURL := fmt.Sprintf("%s/api/v2/trees/%s@%s/contents/%s", 
-		c.BaseURL(), branchName, hash, elements)
+	baseURL := fmt.Sprintf("%s/api/v2/trees/%s/contents/%s",
+		c.BaseURL(), branchName, elements)
 
 	req, err := http.NewRequest(http.MethodGet, baseURL, nil)
 	if err != nil {
@@ -276,13 +334,13 @@ func (c *Client) GetContent(branchName, hash string, key models.ContentKey) (*mo
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("get content failed with status %d: %s", 
+		return nil, fmt.Errorf("get content failed with status %d: %s",
 			resp.StatusCode, string(body))
 	}
 
 	var content models.Content
 	if err := json.Unmarshal(body, &content); err != nil {
-		return nil, fmt.Errorf("failed to parse content response: %w\nResponse body: %s", 
+		return nil, fmt.Errorf("failed to parse content response: %w\nResponse body: %s",
 			err, string(body))
 	}
 
